@@ -1,4 +1,4 @@
-import { Client, ClientType } from '@src/domain/models/client';
+import { Client } from '@src/domain/models/client';
 import { ClientSignUpService } from '@src/domain/services/client-signup-service';
 import {
   DomainError,
@@ -22,16 +22,6 @@ export class SignUpController implements Controller {
         }
       }
       const { type, email, password, name } = request.body;
-      const isValidClientType = Boolean(
-        ClientType.macapa === type || ClientType.varejao === type
-      );
-      if (!isValidClientType) {
-        return badRequest(
-          new DomainError(
-            `Invalid client type: ${type}. Must be "varejao" or "macapa"`
-          )
-        );
-      }
       if (!email.includes('@')) {
         return badRequest(new InvalidParamError('email'));
       }
