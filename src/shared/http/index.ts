@@ -9,6 +9,15 @@ export const badRequest = (body: Error): Response => {
   };
 };
 
+export const internalServerError = (): Response => {
+  return {
+    statusCode: 500,
+    body: {
+      error: 'Internal server error',
+    },
+  };
+};
+
 export const created = (body: any): Response => {
   return {
     statusCode: 201,

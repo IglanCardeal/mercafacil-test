@@ -5,7 +5,7 @@ import {
   InvalidParamError,
   MissingParamError,
 } from '@src/shared/errors';
-import { badRequest, created } from '@src/shared/http';
+import { badRequest, created, internalServerError } from '@src/shared/http';
 import { Controller } from '@src/shared/ports/controller-port';
 import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
@@ -46,7 +46,7 @@ export class SignUpController implements Controller {
       }
       return created({});
     } catch (error) {
-      return { statusCode: 500, body: { error: 'Internal server error' } };
+      return internalServerError()
     }
   }
 }
