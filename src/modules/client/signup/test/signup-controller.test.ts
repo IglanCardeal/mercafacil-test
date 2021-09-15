@@ -1,4 +1,4 @@
-import { SignUpController } from "../signup-controller";
+import { SignUpController } from '../signup-controller';
 
 const sutFactory = () => {
   return { sut: new SignUpController() };
@@ -12,8 +12,8 @@ describe('Client SignUp Controller', () => {
         name: '',
         type: 'varejao',
         password: 'any_pass',
-        email: 'any@email.com'
-      }
+        email: 'any@email.com',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
@@ -27,8 +27,8 @@ describe('Client SignUp Controller', () => {
         name: 'any name',
         type: '',
         password: 'any_pass',
-        email: 'any@email.com'
-      }
+        email: 'any@email.com',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
@@ -42,8 +42,8 @@ describe('Client SignUp Controller', () => {
         name: 'any name',
         type: 'varejao',
         password: '',
-        email: 'any@email.com'
-      }
+        email: 'any@email.com',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
@@ -57,8 +57,8 @@ describe('Client SignUp Controller', () => {
         name: 'any name',
         type: 'varejao',
         password: 'any_pass',
-        email: ''
-      }
+        email: '',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
@@ -72,8 +72,8 @@ describe('Client SignUp Controller', () => {
         name: 'any name',
         type: 'varejao',
         password: 'any_pass',
-        email: 'anyemail.com'
-      }
+        email: 'anyemail.com',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
@@ -87,11 +87,13 @@ describe('Client SignUp Controller', () => {
         name: 'any name',
         type: 'vareja',
         password: 'any_pass',
-        email: 'any@email.com'
-      }
+        email: 'any@email.com',
+      },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
-    expect(response.body).toBe(`Invalid client type: ${request.body.type}. Must be "varejao" or "macapa"`);
+    expect(response.body).toBe(
+      `Invalid client type: ${request.body.type}. Must be "varejao" or "macapa"`
+    );
   });
 });
