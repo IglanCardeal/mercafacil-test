@@ -107,6 +107,21 @@ describe('Client SignUp Controller', () => {
     );
   });
 
+  it('Should call signup service with correct values', async () => {
+    const { sut, signupService } = sutFactory();
+    const request = {
+      body: {
+        name: 'any name',
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const signupServiceSpy = jest.spyOn(signupService, 'execute');
+    await sut.handle(request);
+    expect(signupServiceSpy).toHaveBeenCalledWith(request.body)
+  });
+
   it('Should return 400 when signup service returns a failure', async () => {
     const { sut, signupService } = sutFactory();
     jest
