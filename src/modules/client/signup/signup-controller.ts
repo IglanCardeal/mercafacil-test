@@ -1,3 +1,4 @@
+import { ClientType } from "@src/domain/models/client";
 import { MissingParamError } from "@src/shared/errors/missing-param-error";
 import { badRequest } from "@src/shared/http";
 import { Controller } from "@src/shared/ports/controller-port";
@@ -11,6 +12,13 @@ export class SignUpController implements Controller {
       if (!request.body[field]) {
         return badRequest(new MissingParamError(field));
       }
+    }
+    const { type } = request.body;
+    const isValidClientType = Boolean(
+      ClientType.macapa === type || ClientType.varejao === type
+    );
+    if (!isValidClientType) {
+      return badRequest(new Error(`Invalid client type: ${type}. Must be "varejao" or "macapa"`));
     }
     return {
       statusCode: 201,
