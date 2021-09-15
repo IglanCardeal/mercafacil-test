@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SignUpService } from '@src/domain/services/signup-service';
 import { Result } from '@src/shared/result/result';
 import { SignUpController } from '../signup-controller';
 
 class SignUpServiceStub implements SignUpService {
-  async execute(_data: any): Promise<any> {
-    return Result.ok({ key: 'unique_key' });
+  async execute(data: any): Promise<any> {
+    return Result.ok<any>({ key: 'unique_key', id: 'unique_id', ...data });
   }
 }
 
@@ -119,7 +118,7 @@ describe('Client SignUp Controller', () => {
     };
     const signupServiceSpy = jest.spyOn(signupService, 'execute');
     await sut.handle(request);
-    expect(signupServiceSpy).toHaveBeenCalledWith(request.body)
+    expect(signupServiceSpy).toHaveBeenCalledWith(request.body);
   });
 
   it('Should return 400 when signup service returns a failure', async () => {
@@ -156,5 +155,24 @@ describe('Client SignUp Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(500);
     expect(response.body.error).toBe('Internal server error');
+  });
+
+  it('Should return 201 with correct client data when signup success', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        name: 'any name',
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toEqual({
+      ...request.body,
+      key: 'unique_key',
+      id: 'unique_id',
+    });
   });
 });
