@@ -1,6 +1,6 @@
 import { ClientType } from "@src/domain/models/client";
 import { DomainError, InvalidParamError, MissingParamError } from "@src/shared/errors";
-import { badRequest } from "@src/shared/http";
+import { badRequest, created } from "@src/shared/http";
 import { Controller } from "@src/shared/ports/controller-port";
 import { Request, Response } from "@src/shared/ports/http-port";
 
@@ -23,11 +23,6 @@ export class SignUpController implements Controller {
       return badRequest(new InvalidParamError('email'));
     }
 
-    return {
-      statusCode: 201,
-      body: {
-        message: 'Client signup success'
-      }
-    };
+    return created({});
   }
 }
