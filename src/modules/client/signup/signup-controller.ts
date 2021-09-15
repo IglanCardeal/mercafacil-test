@@ -1,24 +1,8 @@
 import { ClientType } from "@src/domain/models/client";
-import { MissingParamError } from "@src/shared/errors/missing-param-error";
+import { DomainError, InvalidParamError, MissingParamError } from "@src/shared/errors";
 import { badRequest } from "@src/shared/http";
 import { Controller } from "@src/shared/ports/controller-port";
 import { Request, Response } from "@src/shared/ports/http-port";
-
-export class DomainError extends Error {
-  constructor (msg: string) {
-    super();
-    this.message = msg;
-    this.name = 'DomainError';
-  }
-}
-
-export class InvalidParamError extends Error {
-  constructor (param: string) {
-    super();
-    this.message = `Invalid param: ${param}`;
-    this.name = 'InvalidParamError';
-  }
-}
 
 export class SignUpController implements Controller {
   async handle (request: Request): Promise<Response> {
@@ -38,6 +22,7 @@ export class SignUpController implements Controller {
     if (!email.includes('@')) {
       return badRequest(new InvalidParamError('email'));
     }
+
     return {
       statusCode: 201,
       body: {
