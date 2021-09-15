@@ -23,7 +23,7 @@
     "test:u:w": "yarn test:unit:watch",
     "test:staged": "yarn test",
     "test:verbose": "jest --passWithNoTests --verbose",
-    "test:verbose:watch": "jest --passWithNoTests --verbose"
+    "test:verbose:watch": "jest --passWithNoTests --verbose --watch"
   },
   "lint-staged": {
     "*.ts": [
