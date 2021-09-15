@@ -6,6 +6,9 @@
   "keywords": [],
   "author": "Iglan Cardeal",
   "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
