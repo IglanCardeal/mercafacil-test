@@ -124,4 +124,22 @@ describe('Client SignUp Controller', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Random domain error');
   });
+
+  it('Should return 500 if signup service throws exception', async () => {
+    const { sut, signupService } = sutFactory();
+    jest.spyOn(signupService, 'execute').mockImplementationOnce(async () => {
+      throw new Error();
+    });
+    const request = {
+      body: {
+        name: 'any name',
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(500);
+    expect(response.body.error).toBe('Internal server error');
+  });
 });
