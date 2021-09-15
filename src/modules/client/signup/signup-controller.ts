@@ -1,5 +1,5 @@
 import { Client, ClientType } from '@src/domain/models/client';
-import { SignUpService } from '@src/domain/services/signup-service';
+import { ClientSignUpService } from '@src/domain/services/client-signup-service';
 import {
   DomainError,
   InvalidParamError,
@@ -11,7 +11,7 @@ import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
 
 export class SignUpController implements Controller {
-  constructor(private readonly signupService: SignUpService) {}
+  constructor(private readonly signupService: ClientSignUpService) {}
 
   async handle(request: Request): Promise<Response> {
     try {

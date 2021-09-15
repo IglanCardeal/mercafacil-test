@@ -1,3 +1,3 @@
-export interface SignUpService {
+export interface ClientSignUpService {
   execute: (data: any) => Promise<any>;
 }

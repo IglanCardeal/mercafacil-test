@@ -1,8 +1,8 @@
-import { SignUpService } from '@src/domain/services/signup-service';
+import { ClientSignUpService } from '@src/domain/services/client-signup-service';
 import { Result } from '@src/shared/result/result';
 import { SignUpController } from '../signup-controller';
 
-class SignUpServiceStub implements SignUpService {
+class SignUpServiceStub implements ClientSignUpService {
   async execute(data: any): Promise<any> {
     return Result.ok<any>({ key: 'unique_key', id: 'unique_id', ...data });
   }
@@ -87,23 +87,6 @@ describe('Client SignUp Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Invalid param: email');
-  });
-
-  it('Should return 400 if the type of client is not allowed', async () => {
-    const { sut } = sutFactory();
-    const request = {
-      body: {
-        name: 'any name',
-        type: 'vareja',
-        password: 'any_pass',
-        email: 'any@email.com',
-      },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe(
-      `Invalid client type: ${request.body.type}. Must be "varejao" or "macapa"`
-    );
   });
 
   it('Should call signup service with correct values', async () => {
