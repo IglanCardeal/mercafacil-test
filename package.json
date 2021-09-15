@@ -14,15 +14,16 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --silent",
-    "test:verbose": "jest --passWithNoTests --verbose",
-    "test:verbose:watch": "jest --passWithNoTests --verbose",
+    "test:ci": "yarn test:unit --coverage",
     "test:v": "yarn test:verbose",
     "test:v:w": "yarn test:verbose:watch",
     "test:unit": "yarn test",
     "test:unit:watch": "yarn test --watch",
     "test:u": "yarn test:unit",
     "test:u:w": "yarn test:unit:watch",
-    "test:ci": "yarn test:unit --coverage"
+    "test:staged": "yarn test",
+    "test:verbose": "jest --passWithNoTests --verbose",
+    "test:verbose:watch": "jest --passWithNoTests --verbose"
   },
   "lint-staged": {
     "*.ts": [
