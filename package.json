@@ -14,7 +14,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --silent",
-    "test:ci": "yarn test:unit --coverage",
+    "test:ci": "yarn test:unit --coverage --ci --updateSnapshot",
     "test:v": "yarn test:verbose",
     "test:v:w": "yarn test:verbose:watch",
     "test:unit": "yarn test",
