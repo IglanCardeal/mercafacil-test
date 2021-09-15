@@ -1,0 +1,44 @@
+{
+  "name": "mercafacil-backend-api-test",
+  "version": "1.0.0",
+  "description": "API Backend feita em Node.js para cadastro de contatos de clientes.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Iglan Cardeal",
+  "license": "ISC",
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "eslint --ignore-path .gitignore --ext .ts src/",
+    "lint:fix": "yarn lint --fix",
+    "test": "jest --passWithNoTests --silent",
+    "test:verbose": "jest --passWithNoTests --verbose",
+    "test:unit": "yarn test",
+    "test:unit:watch": "yarn test --watch",
+    "test:u": "yarn test:unit",
+    "test:u:w": "yarn test:unit:watch",
+    "test:ci": "yarn test:unit --coverage"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "yarn lint",
+      "yarn test:staged"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.21",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-security": "^1.4.0",
+    "git-commit-msg-linter": "^3.2.8",
+    "husky": "^7.0.2",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.4",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.3"
+  }
+}
