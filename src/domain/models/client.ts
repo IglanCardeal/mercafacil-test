@@ -1,4 +1,4 @@
-export enum ClientType {
+export enum ClientTypes {
   'varejao' = 'varejao',
   'macapa' = 'macapa'
 }
@@ -7,7 +7,7 @@ export interface Client {
   id: string,
   key: string,
   name: string,
-  type: ClientType,
+  type: ClientTypes,
   password: string;
   email: string;
 }
