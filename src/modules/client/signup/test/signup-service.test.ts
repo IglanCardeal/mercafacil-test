@@ -1,10 +1,31 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Client, ClientTypes } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientDTO } from '../client-dto';
+import { ClientSignUpRepository } from '../ports';
 import { SignUpService } from '../signup-service';
 
+class ClientSignUpRepositoryStub implements ClientSignUpRepository {
+  async findClientByEmailAndType(
+    email: string,
+    clientType: string
+  ): Promise<Client> {
+    return {
+      name: 'any name',
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+      id: 'any_id',
+      key: 'any_key',
+    };
+  }
+}
+
 const sutFactory = () => {
+  const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
   return {
-    sut: new SignUpService(),
+    sut: new SignUpService(clientSignUpRepositoryStub),
+    clientSignUpRepositoryStub,
   };
 };
 
