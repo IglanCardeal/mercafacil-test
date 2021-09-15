@@ -5,8 +5,8 @@ export enum ClientType {
 
 export interface Client {
   id: string,
-  name: string,
   key: string,
+  name: string,
   type: ClientType,
   password: string;
 }
