@@ -4,10 +4,17 @@ import { badRequest } from "@src/shared/http";
 import { Controller } from "@src/shared/ports/controller-port";
 import { Request, Response } from "@src/shared/ports/http-port";
 
+export class DomainError extends Error {
+  constructor (msg: string) {
+    super();
+    this.message = msg;
+    this.name = 'DomainError';
+  }
+}
 
 export class SignUpController implements Controller {
   async handle (request: Request): Promise<Response> {
-    const requiredFields = ['name', 'type', 'password'];
+    const requiredFields = ['name', 'type', 'password', 'email'];
     for (const field of requiredFields) {
       if (!request.body[field]) {
         return badRequest(new MissingParamError(field));
@@ -18,7 +25,7 @@ export class SignUpController implements Controller {
       ClientType.macapa === type || ClientType.varejao === type
     );
     if (!isValidClientType) {
-      return badRequest(new Error(`Invalid client type: ${type}. Must be "varejao" or "macapa"`));
+      return badRequest(new DomainError(`Invalid client type: ${type}. Must be "varejao" or "macapa"`));
     }
     return {
       statusCode: 201,
