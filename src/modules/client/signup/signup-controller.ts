@@ -44,7 +44,7 @@ export class SignUpController implements Controller {
       if (client.isFailure) {
         return badRequest(new DomainError(client.error));
       }
-      return created({});
+      return created(client.getValue());
     } catch (error) {
       return internalServerError()
     }

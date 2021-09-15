@@ -9,4 +9,5 @@ export interface Client {
   name: string,
   type: ClientType,
   password: string;
+  email: string;
 }
