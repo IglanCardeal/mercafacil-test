@@ -12,7 +12,7 @@ export class CreateService implements CreateContactService {
   ) {}
 
   async execute(data: CreateContactDTO): Promise<Result<Contact[]>> {
-    const { type, key } = data;
+    const { type, key, contacts } = data;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
       return Result.fail(
@@ -33,6 +33,48 @@ export class CreateService implements CreateContactService {
         'unauthorized'
       );
     }
-    return Result.ok([] as Contact[]);
+    const formatedContact = this.domainFormater[type](contacts);
+    const contactsCreated = await this.contactRepository[type].createContact(
+      formatedContact
+    );
+    return Result.ok(contactsCreated as Contact[]);
   }
+
+  private domainFormater = {
+    ['macapa' as string]: (contacts: Omit<Contact, 'id'>[]) => {
+      const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
+        ({ name, cellphone }: Omit<Contact, 'id'>) => {
+          return {
+            name: name.trim().toUpperCase(),
+            cellphone: cellphone
+              .replace(/\D/g, '')
+              .replace(/(\d{2})(\d{2})(\d{5})(\d)/, '+($1) $2 $3-$4'),
+          };
+        }
+      );
+      return formatedContact;
+    },
+
+    ['varejao' as string]: (contacts: Omit<Contact, 'id'>[]) => {
+      const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
+        ({ name, cellphone }: Omit<Contact, 'id'>) => {
+          return {
+            name: name
+              .replace(/\s\s+/g, ' ')
+              .split(' ')
+              .map((word) => {
+                if (word.length > 2)
+                  return (
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                  );
+                return word.toLowerCase();
+              })
+              .join(' '),
+            cellphone: cellphone.replace(/\D/g, ''),
+          };
+        }
+      );
+      return formatedContact;
+    },
+  };
 }
