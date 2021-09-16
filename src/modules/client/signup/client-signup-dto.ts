@@ -1,6 +1,6 @@
 import { ClientTypes } from '@src/domain/models/client';
 
-export interface ClientDTO {
+export interface ClientSignUpDTO {
   name: string;
   email: string;
   password: string;

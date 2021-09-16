@@ -5,7 +5,7 @@ import {
   clientTypesArray,
 } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
-import { ClientDTO } from '../client-dto';
+import { ClientSignUpDTO } from '../client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from '../ports';
 import { SignUpService } from '../signup-service';
 
@@ -89,7 +89,7 @@ const sutFactory = () => {
 describe('Client SignUp Service', () => {
   it('Should return an error if the type of client is not allowed', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientDTO = {
+    const clientData: ClientSignUpDTO = {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',
@@ -113,7 +113,7 @@ describe('Client SignUp Service', () => {
       encrypterStub,
       uuidGeneratorStub
     );
-    const clientData: ClientDTO = {
+    const clientData: ClientSignUpDTO = {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',
@@ -126,7 +126,7 @@ describe('Client SignUp Service', () => {
 
   it('Should return an error if the email already exist', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientDTO = {
+    const clientData: ClientSignUpDTO = {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',
@@ -141,7 +141,7 @@ describe('Client SignUp Service', () => {
     jest
       .spyOn(clientSignUpRepositoryStub.macapa, 'findClientByEmailAndType')
       .mockResolvedValueOnce(null);
-    const clientData: ClientDTO = {
+    const clientData: ClientSignUpDTO = {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',
@@ -165,7 +165,7 @@ describe('Client SignUp Service', () => {
     jest
       .spyOn(clientSignUpRepositoryStub.varejao, 'findClientByEmailAndType')
       .mockResolvedValueOnce(null);
-    const clientData: ClientDTO = {
+    const clientData: ClientSignUpDTO = {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',

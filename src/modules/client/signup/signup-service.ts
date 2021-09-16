@@ -1,7 +1,7 @@
 import { Client } from '@src/domain/models/client';
 import { ClientSignUpService } from '@src/domain/services/client-signup-service';
 import { Result } from '@src/shared/result/result';
-import { ClientDTO } from './client-dto';
+import { ClientSignUpDTO } from './client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from './ports';
 
 export class SignUpService implements ClientSignUpService {
@@ -12,7 +12,7 @@ export class SignUpService implements ClientSignUpService {
     private readonly uuidGenerator: UUIDGenerator
   ) {}
 
-  async execute(clientData: ClientDTO): Promise<Result<Client>> {
+  async execute(clientData: ClientSignUpDTO): Promise<Result<Client>> {
     const { type, email, name, password } = clientData;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
