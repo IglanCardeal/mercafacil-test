@@ -9,6 +9,15 @@ export const badRequest = (body: Error): Response => {
   };
 };
 
+export const unauthorized = (body: Error): Response => {
+  return {
+    statusCode: 401,
+    body: {
+      error: body.message,
+    },
+  };
+};
+
 export const internalServerError = (): Response => {
   return {
     statusCode: 500,

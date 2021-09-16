@@ -1,7 +1,7 @@
-export interface CreateContact {
+export interface CreateContactService {
   execute: (data: any) => Promise<any>;
 }
 
-export interface GetContact {
+export interface GetContactService {
   execute: (data: any) => Promise<any>;
 }

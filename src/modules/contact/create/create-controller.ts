@@ -1,11 +1,20 @@
-import { InvalidParamError, MissingParamError } from '@src/shared/errors';
-import { badRequest, created } from '@src/shared/http';
+import { Contact } from '@src/domain/models/contact';
+import { CreateContactService } from '@src/domain/services/contact';
+import {
+  DomainError,
+  InvalidParamError,
+  MissingParamError,
+} from '@src/shared/errors';
+import { badRequest, created, unauthorized } from '@src/shared/http';
 import { Controller } from '@src/shared/ports/controller-port';
 import { Request, Response } from '@src/shared/ports/http-port';
+import { Result } from '@src/shared/result/result';
 
 export class CreateController implements Controller {
+  constructor(private readonly createService: CreateContactService) {}
+
   async handle(request: Request): Promise<Response> {
-    const { contacts } = request.body;
+    const { contacts, type, key } = request.body;
     if (!contacts) {
       return badRequest(new MissingParamError('contacts'));
     }
@@ -21,6 +30,21 @@ export class CreateController implements Controller {
         return badRequest(new MissingParamError('contact cellphone'));
       }
     }
-    return created({});
+    const contactsCreated: Result<Contact[]> = await this.createService.execute(
+      {
+        contacts,
+        type,
+        key,
+      }
+    );
+    if (contactsCreated.isFailure) {
+      const domainErrorType = contactsCreated.type;
+      const domainError = contactsCreated.error;
+      if (domainErrorType === 'unauthorized') {
+        return unauthorized(new DomainError(domainError));
+      }
+      return badRequest(new DomainError(domainError));
+    }
+    return created(contactsCreated);
   }
 }
