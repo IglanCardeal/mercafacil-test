@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { CreateContactService } from '@src/domain/services/contact';
+import { Result } from '@src/shared/result/result';
 import { CreateController } from '../create-controller';
 
+class CreateServiceStub implements CreateContactService {
+  async execute(data: any): Promise<Result<any>> {
+    return Result.ok();
+  }
+}
+
 const sutFactory = () => {
+  const createServiceStub = new CreateServiceStub();
   return {
-    sut: new CreateController(),
+    sut: new CreateController(createServiceStub),
+    createServiceStub,
   };
 };
 
@@ -65,5 +76,30 @@ describe('Create Contact Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing param: contact cellphone');
+  });
+
+  it('Should return 401 when user key is not found', async () => {
+    const { sut, createServiceStub } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '5541999999999',
+          },
+        ],
+      },
+    };
+    jest
+      .spyOn(createServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        return Result.fail(
+          'Client not found. Action not authorized',
+          'unauthorized'
+        );
+      });
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(401);
+    expect(response.body.error).toBe('Client not found. Action not authorized');
   });
 });
