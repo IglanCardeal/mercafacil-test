@@ -45,10 +45,10 @@ export class CreateService implements CreateContactService {
       const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
         ({ name, cellphone }: Omit<Contact, 'id'>) => {
           return {
-            name: name.trim().toUpperCase(),
+            name: name.trim().replace(/\s\s+/g, ' ').toUpperCase(),
             cellphone: cellphone
               .replace(/\D/g, '')
-              .replace(/(\d{2})(\d{2})(\d{5})(\d)/, '+($1) $2 $3-$4'),
+              .replace(/(\d{2})(\d{2})(\d{5})(\d)/, '+$1 ($2) $3-$4'),
           };
         }
       );
