@@ -81,7 +81,7 @@ describe('Client SignUp Service', () => {
     await expect(sut.execute(clientData)).rejects.toThrow();
   });
 
-  it.skip('Should return an error if the email already exist', async () => {
+  it('Should return an error if the email already exist', async () => {
     const { sut } = sutFactory();
     const clientData: ClientDTO = {
       name: 'any name',
