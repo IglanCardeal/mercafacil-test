@@ -2,7 +2,11 @@
 import { Client } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from '../client-signin-dto';
-import { ClientSignInRepository, PasswordCompare } from '../ports';
+import {
+  ClientSignInRepository,
+  PasswordCompare,
+  TokenGenerator,
+} from '../ports';
 import { SignInService } from '../singin-service';
 
 class SignInRepositoryStub implements ClientSignInRepository {
@@ -39,13 +43,25 @@ class PasswordCompareStub implements PasswordCompare {
   }
 }
 
+class TokenGeneratorStub implements TokenGenerator {
+  generate(payload: string): string {
+    return 'generated_token';
+  }
+}
+
 const sutFactory = () => {
   const signInRepositoryStub = new SignInRepositoryStub();
   const passwordCompareStub = new PasswordCompareStub();
+  const tokenGeneratorStub = new TokenGeneratorStub();
   return {
-    sut: new SignInService(signInRepositoryStub, passwordCompareStub),
+    sut: new SignInService(
+      signInRepositoryStub,
+      passwordCompareStub,
+      tokenGeneratorStub
+    ),
     signInRepositoryStub,
     passwordCompareStub,
+    tokenGeneratorStub,
   };
 };
 
@@ -93,5 +109,18 @@ describe('Client SignIn Service', () => {
     expect(response.error).toBe(
       'Invalid param: email or password is incorrect'
     );
+  });
+
+  it('Should return client token when signin succcess', async () => {
+    const { sut } = sutFactory();
+    const clientData: ClientSignInDTO = {
+      email: 'ane@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+    };
+    const response: Result<Client> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(false);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()).toEqual({ token: 'generated_token' });
   });
 });
