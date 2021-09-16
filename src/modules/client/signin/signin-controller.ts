@@ -1,5 +1,5 @@
 import { Client } from '@src/domain/models/client';
-import { ClientSignInService } from '@src/domain/services/client-signin-service';
+import { ClientSignInService } from '@src/domain/services/client/client-signin-service';
 import {
   DomainError,
   InvalidParamError,

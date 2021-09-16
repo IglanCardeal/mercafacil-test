@@ -1,5 +1,5 @@
 import { Client } from '@src/domain/models/client';
-import { ClientSignUpService } from '@src/domain/services/client-signup-service';
+import { ClientSignUpService } from '@src/domain/services/client/client-signup-service';
 import {
   DomainError,
   InvalidParamError,
@@ -36,7 +36,7 @@ export class SignUpController implements Controller {
       }
       return created(client.getValue());
     } catch (error) {
-      return internalServerError()
+      return internalServerError();
     }
   }
 }

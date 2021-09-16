@@ -1,5 +1,5 @@
 import { Client } from '@src/domain/models/client';
-import { ClientSignInService } from '@src/domain/services/client-signin-service';
+import { ClientSignInService } from '@src/domain/services/client/client-signin-service';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from './client-signin-dto';
 import {
