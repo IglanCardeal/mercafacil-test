@@ -84,6 +84,27 @@ describe('Create Contact Controller', () => {
     expect(response.body.error).toBe('Missing param: contact cellphone');
   });
 
+  it('Should return 400 when create service returns any domain error', async () => {
+    const { sut, createServiceStub } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '',
+          },
+        ],
+      },
+    };
+    jest
+      .spyOn(createServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        return Result.fail('any error');
+      });
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+  });
+
   it('Should return 401 when user key is not found', async () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
