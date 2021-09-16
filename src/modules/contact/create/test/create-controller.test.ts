@@ -121,4 +121,25 @@ describe('Create Contact Controller', () => {
     await sut.handle(request);
     expect(executeSpy).toHaveBeenCalledWith(request.body);
   });
+
+  it('Should return 500 when create service throws', async () => {
+    const { sut, createServiceStub } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '5541999999999',
+          },
+        ],
+      },
+    };
+    jest
+      .spyOn(createServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(500);
+  });
 });
