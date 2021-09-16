@@ -49,4 +49,21 @@ describe('Create Contact Controller', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing param: contact name');
   });
+
+  it('Should return 400 when contact cellphone is not provided', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '',
+          },
+        ],
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: contact cellphone');
+  });
 });
