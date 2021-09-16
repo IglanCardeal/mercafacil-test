@@ -5,7 +5,13 @@ import { CreateController } from '../create-controller';
 
 class CreateServiceStub implements CreateContactService {
   async execute(data: any): Promise<Result<any>> {
-    return Result.ok();
+    return Result.ok([
+      {
+        name: 'Any Name',
+        cellphone: '5541999999999',
+        id: 'any_id',
+      },
+    ]);
   }
 }
 
@@ -141,5 +147,27 @@ describe('Create Contact Controller', () => {
       });
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(500);
+  });
+
+  it('Should return 201 when contact creation success', async () => {
+    const { sut, createServiceStub } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '5541999999999',
+          },
+        ],
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(201);
+    expect(response.body.contacts[0]).toEqual(
+      expect.objectContaining({
+        ...request.body.contacts[0],
+        id: expect.any(String),
+      })
+    );
   });
 });
