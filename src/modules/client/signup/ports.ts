@@ -2,13 +2,13 @@ import { Client } from '@src/domain/models/client';
 
 export interface ClientSignUpRepository {
   varejao: {
-    findClientByEmailAndType: (email: string) => Promise<Client | null>;
+    findClientByEmail: (email: string) => Promise<Client | null>;
 
     createClient: (client: any) => Promise<Client>;
   };
 
   macapa: {
-    findClientByEmailAndType: (email: string) => Promise<Client | null>;
+    findClientByEmail: (email: string) => Promise<Client | null>;
 
     createClient: (client: any) => Promise<Client>;
   };

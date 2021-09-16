@@ -2,16 +2,17 @@ import { Contact } from '@src/domain/models/contact';
 import { CreateContactService } from '@src/domain/services/contact';
 import { Result } from '@src/shared/result/result';
 import { CreateContactDTO } from './create-contact-dto';
-import { CreateContactRepository } from './ports';
+import { ClientRepository, CreateContactRepository } from './ports';
 
 export class CreateService implements CreateContactService {
   constructor(
     private readonly clientTypes: readonly string[],
-    private readonly contactRepository: CreateContactRepository
+    private readonly contactRepository: CreateContactRepository,
+    private readonly clientRepository: ClientRepository
   ) {}
 
   async execute(data: CreateContactDTO): Promise<Result<Contact[]>> {
-    const { type } = data;
+    const { type, key } = data;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
       return Result.fail(
@@ -24,6 +25,13 @@ export class CreateService implements CreateContactService {
       typeof this.contactRepository[type].createContact !== 'function'
     ) {
       throw new Error(`Client repository not found for type: ${type}`);
+    }
+    const clientFound = await this.clientRepository[type].findClientByKey(key);
+    if (!clientFound) {
+      return Result.fail(
+        'Client not found. Action not authorized',
+        'unauthorized'
+      );
     }
     return Result.ok([] as Contact[]);
   }
