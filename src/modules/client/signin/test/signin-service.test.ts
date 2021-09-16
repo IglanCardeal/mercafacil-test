@@ -2,7 +2,7 @@
 import { Client } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from '../client-signin-dto';
-import { ClientSignInRepository } from '../ports';
+import { ClientSignInRepository, PasswordCompare } from '../ports';
 import { SignInService } from '../singin-service';
 
 class SignInRepositoryStub implements ClientSignInRepository {
@@ -33,11 +33,19 @@ class SignInRepositoryStub implements ClientSignInRepository {
   };
 }
 
+class PasswordCompareStub implements PasswordCompare {
+  async compare(password: string, hash: string): Promise<boolean> {
+    return true;
+  }
+}
+
 const sutFactory = () => {
   const signInRepositoryStub = new SignInRepositoryStub();
+  const passwordCompareStub = new PasswordCompareStub();
   return {
-    sut: new SignInService(signInRepositoryStub),
+    sut: new SignInService(signInRepositoryStub, passwordCompareStub),
     signInRepositoryStub,
+    passwordCompareStub,
   };
 };
 
@@ -65,6 +73,21 @@ describe('Client SignIn Service', () => {
       password: 'any_pass',
       type: 'macapa',
     };
+    const response: Result<Client> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(true);
+    expect(response.error).toBe(
+      'Invalid param: email or password is incorrect'
+    );
+  });
+
+  it('Should return failure when password does not match', async () => {
+    const { sut, passwordCompareStub } = sutFactory();
+    const clientData: ClientSignInDTO = {
+      email: 'ane@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+    };
+    jest.spyOn(passwordCompareStub, 'compare').mockResolvedValueOnce(false);
     const response: Result<Client> = await sut.execute(clientData);
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe(
