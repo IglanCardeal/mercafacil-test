@@ -16,5 +16,6 @@ describe('Create Contact Controller', () => {
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: contacts');
   });
 });
