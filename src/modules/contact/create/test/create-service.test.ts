@@ -9,13 +9,19 @@ import { ClientRepository, CreateContactRepository } from '../ports';
 class CreateContactRepositoryStub implements CreateContactRepository {
   public varejao = {
     async createContact(contacts: any): Promise<Contact[]> {
-      return [] as any;
+      return contacts.map((contact: any) => ({
+        ...contact,
+        id: 'any_id',
+      })) as Contact[];
     },
   };
 
   public macapa = {
     async createContact(contacts: any): Promise<Contact[]> {
-      return [] as any;
+      return contacts.map((contact: any) => ({
+        ...contact,
+        id: 'any_id',
+      })) as Contact[];
     },
   };
 }
@@ -87,5 +93,21 @@ describe('Create Contact Service', () => {
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe('Client not found. Action not authorized');
     expect(response.type).toBe('unauthorized');
+  });
+
+  it('Should return contact data when creation service success', async () => {
+    const { sut } = sutFactory();
+    const data: CreateContactDTO = {
+      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
+      key: 'dont_exist_client_key',
+      type: 'macapa',
+    };
+    const response: Result<Contact[]> = await sut.execute(data);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()[0]).toEqual({
+      name: expect.any(String),
+      cellphone: expect.any(String),
+      id: expect.any(String),
+    });
   });
 });
