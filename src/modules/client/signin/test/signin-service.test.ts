@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client } from '@src/domain/models/client';
+import { Client, clientTypesArray } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from '../client-signin-dto';
 import {
@@ -55,6 +55,7 @@ const sutFactory = () => {
   const tokenGeneratorStub = new TokenGeneratorStub();
   return {
     sut: new SignInService(
+      clientTypesArray,
       signInRepositoryStub,
       passwordCompareStub,
       tokenGeneratorStub
@@ -66,6 +67,20 @@ const sutFactory = () => {
 };
 
 describe('Client SignIn Service', () => {
+  it('Should return an error if the type of client is not allowed', async () => {
+    const { sut } = sutFactory();
+    const clientData: ClientSignInDTO = {
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'incorrect type' as any,
+    };
+    const response: Result<any> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(true);
+    expect(response.error).toBe(
+      `Invalid client type: ${clientData.type}. Must be "varejao" or "macapa"`
+    );
+  });
+
   it('Should throw if the repository does not exist for the client type', async () => {
     const { sut, signInRepositoryStub } = sutFactory();
     signInRepositoryStub.macapa = {} as any;

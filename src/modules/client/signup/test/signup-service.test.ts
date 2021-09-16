@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Client,
-  ClientTypes,
-  clientTypesArray,
-} from '@src/domain/models/client';
+import { Client, clientTypesArray } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignUpDTO } from '../client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from '../ports';
@@ -93,7 +89,7 @@ describe('Client SignUp Service', () => {
       name: 'any name',
       email: 'any@email.com',
       password: 'any_pass',
-      type: 'incorrect type' as ClientTypes,
+      type: 'incorrect type' as any,
     };
     const response: Result<any> = await sut.execute(clientData);
     expect(response.isFailure).toBe(true);
