@@ -34,4 +34,18 @@ describe('Client SignIn Controller', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing param: email');
   });
+
+  it('Should return 400 if no email is invalid', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'anyemail.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Invalid param: email');
+  });
 });
