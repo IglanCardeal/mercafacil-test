@@ -32,4 +32,21 @@ describe('Create Contact Controller', () => {
       'Invalid param: contacts must be an array'
     );
   });
+
+  it('Should return 400 when contact name is not provided', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: '',
+            cellphone: '5541999999999',
+          },
+        ],
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: contact name');
+  });
 });
