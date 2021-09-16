@@ -2,12 +2,17 @@ import { Client } from '@src/domain/models/client';
 import { ClientSignInService } from '@src/domain/services/client-signin-service';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from './client-signin-dto';
-import { ClientSignInRepository, PasswordCompare } from './ports';
+import {
+  ClientSignInRepository,
+  PasswordCompare,
+  TokenGenerator,
+} from './ports';
 
 export class SignInService implements ClientSignInService {
   constructor(
     private readonly clientRepository: ClientSignInRepository,
-    private readonly passwordCompare: PasswordCompare
+    private readonly passwordCompare: PasswordCompare,
+    private readonly tokenGenerator: TokenGenerator
   ) {}
 
   async execute(clientData: ClientSignInDTO): Promise<Result<Client>> {
@@ -32,6 +37,7 @@ export class SignInService implements ClientSignInService {
     if (!isValidPassword) {
       return Result.fail('Invalid param: email or password is incorrect');
     }
-    return Result.ok({} as Client);
+    const token = this.tokenGenerator.generate({ key: clientFound.key });
+    return Result.ok({ token } as any);
   }
 }

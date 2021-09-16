@@ -13,3 +13,7 @@ export interface ClientSignInRepository {
 export interface PasswordCompare {
   compare: (password: string, hash: string) => Promise<boolean>;
 }
+
+export interface TokenGenerator {
+  generate: (payload: any) => string;
+}
