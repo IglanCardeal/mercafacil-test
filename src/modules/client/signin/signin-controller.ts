@@ -5,7 +5,7 @@ import {
   InvalidParamError,
   MissingParamError,
 } from '@src/shared/errors';
-import { badRequest, created, internalServerError } from '@src/shared/http';
+import { badRequest, internalServerError, ok } from '@src/shared/http';
 import { Controller } from '@src/shared/ports/controller-port';
 import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
@@ -34,7 +34,7 @@ export class SignInController implements Controller {
       if (client.isFailure) {
         return badRequest(new DomainError(client.error));
       }
-      return created({});
+      return ok({ token: client.getValue().key });
     } catch (error) {
       return internalServerError();
     }

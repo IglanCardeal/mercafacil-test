@@ -24,3 +24,10 @@ export const created = (body: any): Response => {
     body: body,
   };
 };
+
+export const ok = (body: any): Response => {
+  return {
+    statusCode: 200,
+    body: body,
+  };
+};
