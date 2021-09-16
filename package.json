@@ -15,7 +15,7 @@
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --silent",
     "test:coverage": "yarn test:unit --coverage",
-    "test:ci": "yarn test:unit --coverageProvider=babel --coverage --ci --updateSnapshot",
+    "test:ci": "yarn test:unit --coverage --ci --updateSnapshot",
     "test:v": "yarn test:verbose",
     "test:v:w": "yarn test:verbose:watch",
     "test:unit": "yarn test",
