@@ -1,4 +1,4 @@
-import { ClientSignUpService } from '@src/domain/services/client/client-signup-service';
+import { ClientSignUpService } from '@src/domain/services/client';
 import { Result } from '@src/shared/result/result';
 import { SignUpController } from '../signup-controller';
 

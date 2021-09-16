@@ -1,5 +1,5 @@
 import { Client } from '@src/domain/models/client';
-import { ClientSignUpService } from '@src/domain/services/client/client-signup-service';
+import { ClientSignUpService } from '@src/domain/services/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignUpDTO } from './client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from './ports';
