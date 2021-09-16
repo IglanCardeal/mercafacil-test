@@ -110,4 +110,20 @@ describe('Create Contact Service', () => {
       id: expect.any(String),
     });
   });
+
+  it('Should return contact data with correct "macapa" domain format', async () => {
+    const { sut } = sutFactory();
+    const data: CreateContactDTO = {
+      contacts: [{ name: '   Any       Name   ', cellphone: '5541999999999' }],
+      key: 'dont_exist_client_key',
+      type: 'macapa',
+    };
+    const response: Result<Contact[]> = await sut.execute(data);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()[0]).toEqual({
+      name: 'ANY NAME',
+      cellphone: '+55 (41) 99999-9999',
+      id: expect.any(String),
+    });
+  });
 });
