@@ -79,4 +79,23 @@ describe('Client SignIn Controller', () => {
       'Invalid param: email or password is incorrect'
     );
   });
+
+  it('Should return 500 if singin service throws', async () => {
+    const { sut, signInServiceStub } = sutFactory();
+    jest
+      .spyOn(signInServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+    const request = {
+      body: {
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(500);
+    expect(response.body.error).toBe('Internal server error');
+  });
 });
