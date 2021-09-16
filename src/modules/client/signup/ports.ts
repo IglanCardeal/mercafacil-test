@@ -6,6 +6,8 @@ export interface ClientSignUpRepository {
       email: string,
       clientType: string
     ) => Promise<Client | null>;
+
+    createClient: (client: any) => Promise<Client>;
   };
 
   macapa: {
@@ -13,5 +15,7 @@ export interface ClientSignUpRepository {
       email: string,
       clientType: string
     ) => Promise<Client | null>;
+
+    createClient: (client: any) => Promise<Client>;
   };
 }

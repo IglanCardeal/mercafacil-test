@@ -31,6 +31,7 @@ export class SignUpService implements ClientSignUpService {
     if (emailAlreadyExist) {
       return Result.fail(`Client email ${email} already exist`);
     }
-    return Result.ok({} as Client);
+    const client = await this.clientRepository[type].createClient(clientData);
+    return Result.ok(client);
   }
 }
