@@ -6,7 +6,7 @@ import {
 } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientDTO } from '../client-dto';
-import { ClientSignUpRepository } from '../ports';
+import { ClientSignUpRepository, Encrypter, UUIDGenerator } from '../ports';
 import { SignUpService } from '../signup-service';
 
 class ClientSignUpRepositoryStub implements ClientSignUpRepository {
@@ -27,12 +27,8 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
 
     async createClient(client: any): Promise<Client> {
       return {
-        name: 'any name',
-        email: 'any@email.com',
-        password: 'any_pass',
-        type: 'macapa',
+        ...client,
         id: 'any_id',
-        key: 'any_key',
       };
     },
   };
@@ -54,22 +50,39 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
 
     async createClient(client: any): Promise<Client> {
       return {
-        name: 'any name',
-        email: 'any@email.com',
-        password: 'any_pass',
-        type: 'varejao',
+        ...client,
         id: 'any_id',
-        key: 'any_key',
       };
     },
   };
 }
 
+class EncrypterStub implements Encrypter {
+  async encrypt(value: any): Promise<string> {
+    return 'hashed_password';
+  }
+}
+
+class UUIDGeneratorStub implements UUIDGenerator {
+  generate(): string {
+    return 'generated key';
+  }
+}
+
 const sutFactory = () => {
   const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
+  const encrypterStub = new EncrypterStub();
+  const uuidGeneratorStub = new UUIDGeneratorStub();
   return {
-    sut: new SignUpService(clientTypesArray, clientSignUpRepositoryStub),
+    sut: new SignUpService(
+      clientTypesArray,
+      clientSignUpRepositoryStub,
+      encrypterStub,
+      uuidGeneratorStub
+    ),
     clientSignUpRepositoryStub,
+    encrypterStub,
+    uuidGeneratorStub,
   };
 };
 
@@ -92,8 +105,14 @@ describe('Client SignUp Service', () => {
   it('Should an throw if the repository does not exist for the type of client', async () => {
     const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
     const clientTypes = ['verejao', 'macapa'];
+    const { encrypterStub, uuidGeneratorStub } = sutFactory();
     clientSignUpRepositoryStub.macapa = {} as any;
-    const sut = new SignUpService(clientTypes, clientSignUpRepositoryStub);
+    const sut = new SignUpService(
+      clientTypes,
+      clientSignUpRepositoryStub,
+      encrypterStub,
+      uuidGeneratorStub
+    );
     const clientData: ClientDTO = {
       name: 'any name',
       email: 'any@email.com',
@@ -134,10 +153,10 @@ describe('Client SignUp Service', () => {
     expect(response.getValue()).toEqual({
       name: 'any name',
       email: 'any@email.com',
-      password: 'any_pass',
+      password: 'hashed_password',
       type: 'macapa',
       id: 'any_id',
-      key: 'any_key',
+      key: 'generated key',
     });
   });
 
@@ -158,10 +177,10 @@ describe('Client SignUp Service', () => {
     expect(response.getValue()).toEqual({
       name: 'any name',
       email: 'any@email.com',
-      password: 'any_pass',
+      password: 'hashed_password',
       type: 'varejao',
       id: 'any_id',
-      key: 'any_key',
+      key: 'generated key',
     });
   });
 });
