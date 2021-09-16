@@ -14,7 +14,18 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
     async findClientByEmailAndType(
       email: string,
       clientType: string
-    ): Promise<Client> {
+    ): Promise<Client | null> {
+      return {
+        name: 'any name',
+        email: 'any@email.com',
+        password: 'any_pass',
+        type: 'macapa',
+        id: 'any_id',
+        key: 'any_key',
+      };
+    },
+
+    async createClient(client: any): Promise<Client> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -30,12 +41,23 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
     async findClientByEmailAndType(
       email: string,
       clientType: string
-    ): Promise<Client> {
+    ): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
         password: 'any_pass',
-        type: 'macapa',
+        type: 'varejao',
+        id: 'any_id',
+        key: 'any_key',
+      };
+    },
+
+    async createClient(client: any): Promise<Client> {
+      return {
+        name: 'any name',
+        email: 'any@email.com',
+        password: 'any_pass',
+        type: 'varejao',
         id: 'any_id',
         key: 'any_key',
       };
@@ -93,5 +115,53 @@ describe('Client SignUp Service', () => {
     };
     const response: Result<any> = await sut.execute(clientData);
     expect(response.isFailure).toBe(true);
+  });
+
+  it('Should return "macapa" client data correctly when signup success', async () => {
+    const { sut, clientSignUpRepositoryStub } = sutFactory();
+    jest
+      .spyOn(clientSignUpRepositoryStub.macapa, 'findClientByEmailAndType')
+      .mockResolvedValueOnce(null);
+    const clientData: ClientDTO = {
+      name: 'any name',
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+    };
+    const response: Result<any> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(false);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()).toEqual({
+      name: 'any name',
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+      id: 'any_id',
+      key: 'any_key',
+    });
+  });
+
+  it('Should return "varejao" client data correctly when signup success', async () => {
+    const { sut, clientSignUpRepositoryStub } = sutFactory();
+    jest
+      .spyOn(clientSignUpRepositoryStub.varejao, 'findClientByEmailAndType')
+      .mockResolvedValueOnce(null);
+    const clientData: ClientDTO = {
+      name: 'any name',
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'varejao',
+    };
+    const response: Result<any> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(false);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()).toEqual({
+      name: 'any name',
+      email: 'any@email.com',
+      password: 'any_pass',
+      type: 'varejao',
+      id: 'any_id',
+      key: 'any_key',
+    });
   });
 });
