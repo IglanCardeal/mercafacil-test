@@ -126,4 +126,22 @@ describe('Create Contact Service', () => {
       id: expect.any(String),
     });
   });
+
+  it('Should return contact data with correct "varejao" domain format', async () => {
+    const { sut } = sutFactory();
+    const data: CreateContactDTO = {
+      contacts: [
+        { name: '   ANY    of   name   ', cellphone: '55419 99999999' },
+      ],
+      key: 'dont_exist_client_key',
+      type: 'varejao',
+    };
+    const response: Result<Contact[]> = await sut.execute(data);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()[0]).toEqual({
+      name: 'Any of Name',
+      cellphone: '5541999999999',
+      id: expect.any(String),
+    });
+  });
 });
