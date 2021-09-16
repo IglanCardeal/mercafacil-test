@@ -8,7 +8,7 @@ export class SignInController implements Controller {
 
   async handle(request: Request): Promise<Response> {
     try {
-      const requiredFields = ['name', 'type', 'password', 'email'];
+      const requiredFields = ['type', 'password', 'email'];
       for (const field of requiredFields) {
         if (!request.body[field]) {
           return badRequest(new MissingParamError(field));

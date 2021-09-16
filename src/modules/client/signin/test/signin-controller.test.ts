@@ -11,7 +11,6 @@ describe('Client SignIn Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        name: 'any name',
         type: 'varejao',
         password: '',
         email: 'any@email.com',
@@ -22,18 +21,17 @@ describe('Client SignIn Controller', () => {
     expect(response.body.error).toBe('Missing param: password');
   });
 
-  // it('Should return 400 if no email is provided', async () => {
-  //   const { sut } = sutFactory();
-  //   const request = {
-  //     body: {
-  //       name: 'any name',
-  //       type: 'varejao',
-  //       password: 'any_pass',
-  //       email: '',
-  //     },
-  //   };
-  //   const response = await sut.handle(request);
-  //   expect(response.statusCode).toBe(400);
-  //   expect(response.body.error).toBe('Missing param: email');
-  // });
+  it('Should return 400 if no email is provided', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        password: 'any_pass',
+        email: '',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: email');
+  });
 });
