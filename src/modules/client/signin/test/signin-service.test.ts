@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Client } from '@src/domain/models/client';
+import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from '../client-signin-dto';
 import { ClientSignInRepository } from '../ports';
 import { SignInService } from '../singin-service';
@@ -54,7 +55,20 @@ describe('Client SignIn Service', () => {
     );
   });
 
-  it.skip('Should return failure when email was not found', async () => {
-    expect(1).toBe(1);
+  it('Should return failure when email was not found', async () => {
+    const { sut, signInRepositoryStub } = sutFactory();
+    jest
+      .spyOn(signInRepositoryStub.macapa, 'findClientByEmailAndType')
+      .mockResolvedValueOnce(null);
+    const clientData: ClientSignInDTO = {
+      email: 'ane@email.com',
+      password: 'any_pass',
+      type: 'macapa',
+    };
+    const response: Result<Client> = await sut.execute(clientData);
+    expect(response.isFailure).toBe(true);
+    expect(response.error).toBe(
+      'Invalid param: email or password is incorrect'
+    );
   });
 });
