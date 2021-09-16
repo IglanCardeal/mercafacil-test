@@ -1,8 +1,18 @@
+import { ClientSignInService } from '@src/domain/services/client-signin-service';
+import { Result } from '@src/shared/result/result';
 import { SignInController } from '../signin-controller';
 
+class SignInServiceStub implements ClientSignInService {
+  async execute(data: any): Promise<any> {
+    return Result.ok<any>({ key: 'unique_key', id: 'unique_id', ...data });
+  }
+}
+
 const sutFactory = () => {
+  const signInServiceStub = new SignInServiceStub();
   return {
-    sut: new SignInController(),
+    sut: new SignInController(signInServiceStub),
+    signInServiceStub,
   };
 };
 
@@ -47,5 +57,26 @@ describe('Client SignIn Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Invalid param: email');
+  });
+
+  it('Should return 400 if no email was found', async () => {
+    const { sut, signInServiceStub } = sutFactory();
+    jest
+      .spyOn(signInServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        return Result.fail('Invalid param: email or password is incorrect');
+      });
+    const request = {
+      body: {
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe(
+      'Invalid param: email or password is incorrect'
+    );
   });
 });
