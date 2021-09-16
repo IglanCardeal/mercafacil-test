@@ -1,3 +1,4 @@
+import { ClientSignInRepository } from '@src/modules/client/signin/ports';
 import { ClientSignUpRepository } from '@src/modules/client/signup/ports';
 
-export type ClientRepository = ClientSignUpRepository;
+export { ClientSignUpRepository, ClientSignInRepository };
