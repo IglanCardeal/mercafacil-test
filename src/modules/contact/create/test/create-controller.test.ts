@@ -91,7 +91,7 @@ describe('Create Contact Controller', () => {
         contacts: [
           {
             name: 'Any Name',
-            cellphone: '',
+            cellphone: '5541999999999',
           },
         ],
       },
@@ -103,6 +103,7 @@ describe('Create Contact Controller', () => {
       });
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('any error');
   });
 
   it('Should return 401 when user key is not found', async () => {
