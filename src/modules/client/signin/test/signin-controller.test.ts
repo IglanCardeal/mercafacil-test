@@ -98,4 +98,18 @@ describe('Client SignIn Controller', () => {
     expect(response.statusCode).toBe(500);
     expect(response.body.error).toBe('Internal server error');
   });
+
+  it('Should return 200 if singin success', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        password: 'any_pass',
+        email: 'any@email.com',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({ token: expect.any(String) });
+  });
 });
