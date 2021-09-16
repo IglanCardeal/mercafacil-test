@@ -67,7 +67,7 @@ describe('Client SignUp Service', () => {
     );
   });
 
-  it.skip('Should an throw if the repository does not exist for the type of client', async () => {
+  it('Should an throw if the repository does not exist for the type of client', async () => {
     const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
     const clientTypes = ['verejao', 'macapa'];
     clientSignUpRepositoryStub.macapa = {} as any;
@@ -78,7 +78,9 @@ describe('Client SignUp Service', () => {
       password: 'any_pass',
       type: 'macapa',
     };
-    await expect(sut.execute(clientData)).rejects.toThrow();
+    await expect(sut.execute(clientData)).rejects.toThrowError(
+      `Client repository not found for type: ${clientData.type}`
+    );
   });
 
   it('Should return an error if the email already exist', async () => {
