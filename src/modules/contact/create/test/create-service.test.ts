@@ -40,7 +40,7 @@ describe('Create Contact Service', () => {
     expect(response.isFailure).toBe(true);
   });
 
-  it('Should return failure when client type repository does not exist', async () => {
+  it('Should throws when client type repository does not exist', async () => {
     const { sut, createContactRepositoryStub } = sutFactory();
     createContactRepositoryStub.macapa = {} as any;
     const data: CreateContactDTO = {
