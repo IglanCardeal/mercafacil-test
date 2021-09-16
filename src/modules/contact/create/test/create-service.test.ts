@@ -4,7 +4,7 @@ import { Contact } from '@src/domain/models/contact';
 import { Result } from '@src/shared/result/result';
 import { CreateContactDTO } from '../create-contact-dto';
 import { CreateService } from '../create-service';
-import { CreateContactRepository } from '../ports';
+import { ClientRepository, CreateContactRepository } from '../ports';
 
 class CreateContactRepositoryStub implements CreateContactRepository {
   public varejao = {
@@ -20,11 +20,31 @@ class CreateContactRepositoryStub implements CreateContactRepository {
   };
 }
 
+class ClientRepositoryStub implements ClientRepository {
+  public varejao = {
+    async findClientByKey(key: string): Promise<any> {
+      return {};
+    },
+  };
+
+  public macapa = {
+    async findClientByKey(key: string): Promise<any> {
+      return {};
+    },
+  };
+}
+
 const sutFactory = () => {
   const createContactRepositoryStub = new CreateContactRepositoryStub();
+  const clientRepositoryStub = new ClientRepositoryStub();
   return {
-    sut: new CreateService(clientTypesArray, createContactRepositoryStub),
+    sut: new CreateService(
+      clientTypesArray,
+      createContactRepositoryStub,
+      clientRepositoryStub
+    ),
     createContactRepositoryStub,
+    clientRepositoryStub,
   };
 };
 
@@ -51,5 +71,21 @@ describe('Create Contact Service', () => {
     await expect(sut.execute(data)).rejects.toThrowError(
       `Client repository not found for type: ${data.type}`
     );
+  });
+
+  it('Should return failure when the client key does not exist', async () => {
+    const { sut, clientRepositoryStub } = sutFactory();
+    const data: CreateContactDTO = {
+      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
+      key: 'dont_exist_client_key',
+      type: 'macapa',
+    };
+    jest
+      .spyOn(clientRepositoryStub.macapa, 'findClientByKey')
+      .mockResolvedValueOnce(null);
+    const response: Result<Contact[]> = await sut.execute(data);
+    expect(response.isFailure).toBe(true);
+    expect(response.error).toBe('Client not found. Action not authorized');
+    expect(response.type).toBe('unauthorized');
   });
 });
