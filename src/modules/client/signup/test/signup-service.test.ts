@@ -7,7 +7,7 @@ import { SignUpService } from '../signup-service';
 
 class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   public macapa = {
-    async findClientByEmailAndType(email: string): Promise<Client | null> {
+    async findClientByEmail(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -27,7 +27,7 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   };
 
   public varejao = {
-    async findClientByEmailAndType(email: string): Promise<Client | null> {
+    async findClientByEmail(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -129,7 +129,7 @@ describe('Client SignUp Service', () => {
   it('Should return "macapa" client data correctly when signup success', async () => {
     const { sut, clientSignUpRepositoryStub } = sutFactory();
     jest
-      .spyOn(clientSignUpRepositoryStub.macapa, 'findClientByEmailAndType')
+      .spyOn(clientSignUpRepositoryStub.macapa, 'findClientByEmail')
       .mockResolvedValueOnce(null);
     const clientData: ClientSignUpDTO = {
       name: 'any name',
@@ -153,7 +153,7 @@ describe('Client SignUp Service', () => {
   it('Should return "varejao" client data correctly when signup success', async () => {
     const { sut, clientSignUpRepositoryStub } = sutFactory();
     jest
-      .spyOn(clientSignUpRepositoryStub.varejao, 'findClientByEmailAndType')
+      .spyOn(clientSignUpRepositoryStub.varejao, 'findClientByEmail')
       .mockResolvedValueOnce(null);
     const clientData: ClientSignUpDTO = {
       name: 'any name',

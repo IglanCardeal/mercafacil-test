@@ -23,13 +23,13 @@ export class SignUpService implements ClientSignUpService {
     // verificação de segurança para garantir que o repositório existe
     if (
       !this.clientRepository[type] ||
-      typeof this.clientRepository[type].findClientByEmailAndType !== 'function'
+      typeof this.clientRepository[type].findClientByEmail !== 'function'
     ) {
       throw new Error(`Client repository not found for type: ${type}`);
     }
     const emailAlreadyExist = await this.clientRepository[
       type
-    ].findClientByEmailAndType(email);
+    ].findClientByEmail(email);
     if (emailAlreadyExist) {
       return Result.fail(`Client email ${email} already exist`);
     }
