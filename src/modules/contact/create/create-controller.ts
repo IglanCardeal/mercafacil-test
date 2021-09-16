@@ -50,7 +50,7 @@ export class CreateController implements Controller {
         }
         return badRequest(new DomainError(domainError));
       }
-      return created(contactsCreated);
+      return created({ contacts: contactsCreated.getValue() });
     } catch (error) {
       return internalServerError();
     }
