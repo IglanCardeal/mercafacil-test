@@ -5,12 +5,21 @@ import { Request, Response } from '@src/shared/ports/http-port';
 
 export class CreateController implements Controller {
   async handle(request: Request): Promise<Response> {
-    if (!request.body.contacts) {
+    const { contacts } = request.body;
+    if (!contacts) {
       return badRequest(new MissingParamError('contacts'));
     }
     const isArrayOfContacts = Boolean(request.body.contacts instanceof Array);
     if (!isArrayOfContacts) {
       return badRequest(new InvalidParamError('contacts must be an array'));
+    }
+    for (const contact of contacts) {
+      if (!contact.name) {
+        return badRequest(new MissingParamError('contact name'));
+      }
+      if (!contact.cellphone) {
+        return badRequest(new MissingParamError('contact cellphone'));
+      }
     }
     return created({});
   }
