@@ -102,4 +102,23 @@ describe('Create Contact Controller', () => {
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Client not found. Action not authorized');
   });
+
+  it('Should call create service with correct values', async () => {
+    const { sut, createServiceStub } = sutFactory();
+    const request = {
+      body: {
+        contacts: [
+          {
+            name: 'Any Name',
+            cellphone: '5541999999999',
+          },
+        ],
+        key: 'unique_key',
+        type: 'varejao',
+      },
+    };
+    const executeSpy = jest.spyOn(createServiceStub, 'execute');
+    await sut.handle(request);
+    expect(executeSpy).toHaveBeenCalledWith(request.body);
+  });
 });
