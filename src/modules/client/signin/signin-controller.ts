@@ -1,4 +1,4 @@
-import { MissingParamError } from '@src/shared/errors';
+import { InvalidParamError, MissingParamError } from '@src/shared/errors';
 import { badRequest, created, internalServerError } from '@src/shared/http';
 import { Controller } from '@src/shared/ports/controller-port';
 import { Request, Response } from '@src/shared/ports/http-port';
@@ -13,6 +13,11 @@ export class SignInController implements Controller {
         if (!request.body[field]) {
           return badRequest(new MissingParamError(field));
         }
+      }
+      const { email } = request.body;
+      // simples validação de email
+      if (!email.includes('@')) {
+        return badRequest(new InvalidParamError('email'));
       }
       return created({});
     } catch (error) {
