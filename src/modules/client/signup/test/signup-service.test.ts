@@ -7,10 +7,7 @@ import { SignUpService } from '../signup-service';
 
 class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   public macapa = {
-    async findClientByEmailAndType(
-      email: string,
-      clientType: string
-    ): Promise<Client | null> {
+    async findClientByEmailAndType(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -30,10 +27,7 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   };
 
   public varejao = {
-    async findClientByEmailAndType(
-      email: string,
-      clientType: string
-    ): Promise<Client | null> {
+    async findClientByEmailAndType(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',

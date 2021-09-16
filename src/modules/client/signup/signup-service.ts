@@ -29,7 +29,7 @@ export class SignUpService implements ClientSignUpService {
     }
     const emailAlreadyExist = await this.clientRepository[
       type
-    ].findClientByEmailAndType(email, type);
+    ].findClientByEmailAndType(email);
     if (emailAlreadyExist) {
       return Result.fail(`Client email ${email} already exist`);
     }
