@@ -60,6 +60,7 @@ export class CreateService implements CreateContactService {
         ({ name, cellphone }: Omit<Contact, 'id'>) => {
           return {
             name: name
+              .trim()
               .replace(/\s\s+/g, ' ')
               .split(' ')
               .map((word) => {
