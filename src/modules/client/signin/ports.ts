@@ -9,3 +9,7 @@ export interface ClientSignInRepository {
     findClientByEmailAndType: (email: string) => Promise<Client | null>;
   };
 }
+
+export interface PasswordCompare {
+  compare: (password: string, hash: string) => Promise<boolean>;
+}

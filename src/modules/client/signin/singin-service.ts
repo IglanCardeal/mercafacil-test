@@ -2,13 +2,16 @@ import { Client } from '@src/domain/models/client';
 import { ClientSignInService } from '@src/domain/services/client-signin-service';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from './client-signin-dto';
-import { ClientSignInRepository } from './ports';
+import { ClientSignInRepository, PasswordCompare } from './ports';
 
 export class SignInService implements ClientSignInService {
-  constructor(private readonly clientRepository: ClientSignInRepository) {}
+  constructor(
+    private readonly clientRepository: ClientSignInRepository,
+    private readonly passwordCompare: PasswordCompare
+  ) {}
 
   async execute(clientData: ClientSignInDTO): Promise<Result<Client>> {
-    const { email, type } = clientData;
+    const { email, type, password } = clientData;
     // verificação de segurança para garantir que o repositório existe
     if (
       !this.clientRepository[type] ||
@@ -20,6 +23,13 @@ export class SignInService implements ClientSignInService {
       type
     ].findClientByEmailAndType(email);
     if (!clientFound) {
+      return Result.fail('Invalid param: email or password is incorrect');
+    }
+    const isValidPassword = await this.passwordCompare.compare(
+      password,
+      clientFound.password
+    );
+    if (!isValidPassword) {
       return Result.fail('Invalid param: email or password is incorrect');
     }
     return Result.ok({} as Client);
