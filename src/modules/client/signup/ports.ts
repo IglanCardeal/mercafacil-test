@@ -19,3 +19,11 @@ export interface ClientSignUpRepository {
     createClient: (client: any) => Promise<Client>;
   };
 }
+
+export interface Encrypter {
+  encrypt: (value: string) => Promise<string>;
+}
+
+export interface UUIDGenerator {
+  generate: () => string;
+}

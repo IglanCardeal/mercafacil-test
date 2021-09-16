@@ -2,16 +2,18 @@ import { Client } from '@src/domain/models/client';
 import { ClientSignUpService } from '@src/domain/services/client-signup-service';
 import { Result } from '@src/shared/result/result';
 import { ClientDTO } from './client-dto';
-import { ClientSignUpRepository } from './ports';
+import { ClientSignUpRepository, Encrypter, UUIDGenerator } from './ports';
 
 export class SignUpService implements ClientSignUpService {
   constructor(
     private readonly clientTypes: readonly string[],
-    private readonly clientRepository: ClientSignUpRepository
+    private readonly clientRepository: ClientSignUpRepository,
+    private readonly encrypter: Encrypter,
+    private readonly uuidGenerator: UUIDGenerator
   ) {}
 
   async execute(clientData: ClientDTO): Promise<Result<Client>> {
-    const { type, email } = clientData;
+    const { type, email, name, password } = clientData;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
       return Result.fail(
@@ -31,7 +33,16 @@ export class SignUpService implements ClientSignUpService {
     if (emailAlreadyExist) {
       return Result.fail(`Client email ${email} already exist`);
     }
-    const client = await this.clientRepository[type].createClient(clientData);
+    const uniqueKey = this.uuidGenerator.generate();
+    const hashedPassword = await this.encrypter.encrypt(password);
+    const data = {
+      key: uniqueKey,
+      password: hashedPassword,
+      name,
+      type,
+      email,
+    };
+    const client = await this.clientRepository[type].createClient(data);
     return Result.ok(client);
   }
 }
