@@ -2,7 +2,9 @@ version: '3'
 
 services:
   mysql:
+    container_name: mercafacil-api-mysql
     image: mysql
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=admin
@@ -16,7 +18,9 @@ services:
       - ./docker-volumes/mercafacil-api/mysql:/data/dbc
 
   postgresql:
+    container_name: mercafacil-api-postgres
     image: postgres
+    restart: always
     ports:
       - '5432:5432'
     environment:
