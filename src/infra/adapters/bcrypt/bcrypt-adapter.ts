@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
-import { Encrypter } from '@src/modules/client/signup/ports';
-import { PasswordCompare } from '@src/modules/client/signin/ports';
+import { Encrypter } from '@src/services/client/signup/ports';
+import { PasswordCompare } from '@src/services/client/signin/ports';
 
 export const SALT = 12;
 

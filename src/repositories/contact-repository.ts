@@ -1,6 +1,6 @@
 import {
   ClientRepository,
   CreateContactRepository,
-} from '@src/modules/contact/create/ports';
+} from '@src/services/contact/create/ports';
 
 export { ClientRepository, CreateContactRepository };

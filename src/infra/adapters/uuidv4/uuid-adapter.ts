@@ -1,4 +1,4 @@
-import { UUIDGenerator } from '@src/modules/client/signup/ports';
+import { UUIDGenerator } from '@src/services/client/signup/ports';
 import * as uuid from 'uuid';
 
 export class UuidAdapter implements UUIDGenerator {
