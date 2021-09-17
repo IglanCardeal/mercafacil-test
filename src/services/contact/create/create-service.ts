@@ -1,3 +1,4 @@
+import { clientTypesArray } from '@src/domain/models/client';
 import { Contact } from '@src/domain/models/contact';
 import { CreateContactsService } from '@src/domain/services/contact';
 import { Result } from '@src/shared/result/result';
@@ -5,8 +6,9 @@ import { CreateContactDTO } from './create-contact-dto';
 import { ClientRepository, CreateContactRepository } from './ports';
 
 export class CreateService implements CreateContactsService {
+  private readonly clientTypes = clientTypesArray;
+
   constructor(
-    private readonly clientTypes: readonly string[],
     private readonly contactRepository: CreateContactRepository,
     private readonly clientRepository: ClientRepository
   ) {}

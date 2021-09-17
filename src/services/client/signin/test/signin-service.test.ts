@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client, clientTypesArray } from '@src/domain/models/client';
+import { Client } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from '../client-signin-dto';
 import {
@@ -55,7 +55,6 @@ const sutFactory = () => {
   const tokenGeneratorStub = new TokenGeneratorStub();
   return {
     sut: new SignInService(
-      clientTypesArray,
       signInRepositoryStub,
       passwordCompareStub,
       tokenGeneratorStub

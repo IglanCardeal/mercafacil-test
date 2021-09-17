@@ -1,12 +1,13 @@
-import { Client } from '@src/domain/models/client';
+import { Client, clientTypesArray } from '@src/domain/models/client';
 import { ClientSignUpService } from '@src/domain/services/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignUpDTO } from './client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from './ports';
 
 export class SignUpService implements ClientSignUpService {
+  private readonly clientTypes = clientTypesArray;
+
   constructor(
-    private readonly clientTypes: readonly string[],
     private readonly clientRepository: ClientSignUpRepository,
     private readonly encrypter: Encrypter,
     private readonly uuidGenerator: UUIDGenerator

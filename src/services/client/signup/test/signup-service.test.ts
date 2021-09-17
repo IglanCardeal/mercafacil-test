@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client, clientTypesArray } from '@src/domain/models/client';
+import { Client } from '@src/domain/models/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignUpDTO } from '../client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from '../ports';
@@ -65,7 +65,6 @@ const sutFactory = () => {
   const uuidGeneratorStub = new UUIDGeneratorStub();
   return {
     sut: new SignUpService(
-      clientTypesArray,
       clientSignUpRepositoryStub,
       encrypterStub,
       uuidGeneratorStub
@@ -94,11 +93,9 @@ describe('Client SignUp Service', () => {
 
   it('Should an throw if the repository does not exist for the type of client', async () => {
     const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
-    const clientTypes = ['verejao', 'macapa'];
     const { encrypterStub, uuidGeneratorStub } = sutFactory();
     clientSignUpRepositoryStub.macapa = {} as any;
     const sut = new SignUpService(
-      clientTypes,
       clientSignUpRepositoryStub,
       encrypterStub,
       uuidGeneratorStub

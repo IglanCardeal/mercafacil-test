@@ -1,4 +1,4 @@
-import { Client } from '@src/domain/models/client';
+import { Client, clientTypesArray } from '@src/domain/models/client';
 import { ClientSignInService } from '@src/domain/services/client';
 import { Result } from '@src/shared/result/result';
 import { ClientSignInDTO } from './client-signin-dto';
@@ -9,8 +9,9 @@ import {
 } from './ports';
 
 export class SignInService implements ClientSignInService {
+  private readonly clientTypes = clientTypesArray;
+
   constructor(
-    private readonly clientTypes: readonly string[],
     private readonly clientRepository: ClientSignInRepository,
     private readonly passwordCompare: PasswordCompare,
     private readonly tokenGenerator: TokenGenerator

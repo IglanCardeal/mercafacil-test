@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { clientTypesArray } from '@src/domain/models/client';
 import { Contact } from '@src/domain/models/contact';
 import { Result } from '@src/shared/result/result';
 import { CreateContactDTO } from '../create-contact-dto';
@@ -44,11 +43,7 @@ const sutFactory = () => {
   const createContactRepositoryStub = new CreateContactRepositoryStub();
   const clientRepositoryStub = new ClientRepositoryStub();
   return {
-    sut: new CreateService(
-      clientTypesArray,
-      createContactRepositoryStub,
-      clientRepositoryStub
-    ),
+    sut: new CreateService(createContactRepositoryStub, clientRepositoryStub),
     createContactRepositoryStub,
     clientRepositoryStub,
   };
