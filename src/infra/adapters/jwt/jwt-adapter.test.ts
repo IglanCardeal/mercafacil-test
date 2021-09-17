@@ -29,11 +29,15 @@ describe('JWT Adapter', () => {
     expect(token).toBe('generate-token');
   });
 
-  // it('Should throw if jwt throws', () => {
-  //   const sut = makeSut();
-  //   jest.spyOn(JWTAdapter, 'generate').mockRestore();
-  //   expect(sut.generate(null)).rejects.toThrow();
-  // });
+  it('Should throw if jwt throws', () => {
+    const sut = makeSut();
+    jest
+      .spyOn(jsonwebtoken, 'sign')
+      .mockImplementation((payload: any): string => {
+        throw new Error();
+      });
+    expect(() => sut.generate(null)).toThrow();
+  });
 
   // it('Should return a production token', () => {
   //   const sut = makeSut();
