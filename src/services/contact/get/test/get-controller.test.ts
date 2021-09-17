@@ -67,6 +67,24 @@ describe('Get Contact Controller', () => {
     expect(response.body.error).toBe(`Client not found. Action not authorized`);
   });
 
+  it('Should return 400 when get service returns any domain error', async () => {
+    const { sut, getContactServiceStub } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        key: 'key_not_exist',
+      },
+    };
+    jest
+      .spyOn(getContactServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        return Result.fail('any domain error');
+      });
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('any domain error');
+  });
+
   it('Should return 200 when get contacts success', async () => {
     const { sut } = sutFactory();
     const request = {
