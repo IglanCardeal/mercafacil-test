@@ -23,11 +23,11 @@ describe('JWT Adapter', () => {
     expect(signSpy).toHaveBeenCalled();
   });
 
-  // it('Should return a token', () => {
-  //   const sut = makeSut();
-  //   const token = sut.generate('any data');
-  //   expect(token).toBe('generate-token');
-  // });
+  it('Should return a token', () => {
+    const sut = makeSut();
+    const token = sut.generate('any data');
+    expect(token).toBe('generate-token');
+  });
 
   // it('Should throw if jwt throws', () => {
   //   const sut = makeSut();
