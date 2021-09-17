@@ -16,8 +16,6 @@
     "test": "jest --passWithNoTests --silent",
     "test:coverage": "yarn test:unit --coverage",
     "test:ci": "yarn test:unit --coverage --ci --updateSnapshot",
-    "test:v": "yarn test:verbose",
-    "test:v:w": "yarn test:verbose:watch",
     "test:unit": "yarn test",
     "test:unit:watch": "yarn test --watch",
     "test:u": "yarn test:unit",
@@ -25,6 +23,8 @@
     "test:staged": "yarn test",
     "test:verbose": "jest --passWithNoTests --verbose",
     "test:verbose:watch": "jest --passWithNoTests --verbose --watch",
+    "test:v": "yarn test:verbose",
+    "test:v:w": "yarn test:verbose:watch",
     "prepare": "husky install"
   },
   "lint-staged": {
