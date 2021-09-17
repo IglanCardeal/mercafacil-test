@@ -4,19 +4,23 @@ services:
   mysql:
     image: mysql
     environment:
-    - MYSQL_ROOT_PASSWORD=admin
-    - MYSQL_DATABASE=admin
-    - MYSQL_USER=admin
-    - MYSQL_PASSWORD=admin
-    - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_HOST=%
     ports:
-      - "3306:3306"
+      - '3306:3306'
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker-volumes/mercafacil-api/mysql:/data/dbc
 
   postgresql:
     image: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
-      POSTGRES_PASSWORD: "admin"
-      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: 'admin'
+      POSTGRES_USER: 'admin'
+    volumes:
+      - ./docker-volumes/mercafacil-api/postgres:/data/dbc
