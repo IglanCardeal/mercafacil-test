@@ -152,7 +152,7 @@ Ou:
 
 Caso queira saber os scripts de teste unitário, consulte a secão [Scripts](#scripts). um script exemplo de destaque é o `test:coverage` (execute `yarn test:coverage`) que irá executar os testes e ainda mostrar no terminal a cobertura de testes unitários da aplicação. Será mostrado algo como:
 
-![test-coverage](./docs/test-coverage.png)
+![test-coverage](./docs/assets/test-coverage.png)
 
 <div id="scripts"></div>
 
