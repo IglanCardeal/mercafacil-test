@@ -1,9 +1,10 @@
-/* eslint-disable no-console */
 import { ENV } from './config/env';
+import { Databases } from './database/sequelize';
 import { app } from './fastify/app';
+import { Logger } from './utils/logger';
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error(
+  Logger.error(
     `App exiting due unhandled promise: ${promise} with error: ${reason}`
   );
 
@@ -11,7 +12,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 process.on('uncaughtException', (error) => {
-  console.error(`App exiting due uncaught handled error: ${error}`);
+  Logger.error(`App exiting due uncaught handled error: ${error}`);
 
   process.exit(ExitCode.Failure);
 });
@@ -24,22 +25,28 @@ enum ExitCode {
 const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
 (async () => {
   try {
+    await Databases.mysqlConnect();
+    await Databases.postgresConnect();
+
     await app.listen(ENV.PORT as string);
-    console.info('Server started success');
+    Logger.info('[SERVER]: Server started success');
 
     exitSignals.map((signal) => {
       process.on(signal, async () => {
         try {
-          console.info('Server stopped with success');
+          await Databases.mysqlDisconnect();
+          await Databases.postgresDisconnect();
+
+          Logger.info('[SERVER]: Server stopped with success');
           process.exit(ExitCode.Success);
         } catch (err) {
-          console.error(`Server stopper with failure. Error: ${err}`);
+          Logger.error(`[SERVER]: Server stopper with failure. Error: ${err}`);
           process.exit(ExitCode.Failure);
         }
       });
     });
   } catch (err) {
-    console.error(`Server exit with error: ${err}`);
+    Logger.error(`[SERVER]: Server exit with error: ${err}`);
     process.exit(ExitCode.Failure);
   }
 })();

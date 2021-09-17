@@ -14,6 +14,11 @@ const ENV = {
   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
   MYSQL_PORT: process.env.MYSQL_PORT,
   MYSQL_ROOT_HOST: process.env.MYSQL_ROOT_HOST,
+  // Postgres
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_PORT: process.env.POSTGRES_PORT,
+  POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
 };
 
 Object.freeze(ENV);

@@ -10,7 +10,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development ts-node-dev src/infra/server.ts",
+    "dev": "NODE_ENV=development ts-node-dev src/infra/server.ts | pino-pretty -c -l",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --silent",
@@ -37,6 +37,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^26.0.21",
     "@types/jsonwebtoken": "^8.5.5",
+    "@types/pino": "^6.3.11",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
