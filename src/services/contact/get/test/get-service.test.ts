@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ClientRepository } from '@src/repositories/contact-repository';
 import { GetContacts } from '../get-service';
-import { GetContactsDTO } from '../ports';
+import { GetContactsDTO, GetContactsRepository } from '../ports';
 
 class ClientRepositoryStub implements ClientRepository {
   public varejao = {
@@ -17,10 +17,25 @@ class ClientRepositoryStub implements ClientRepository {
   };
 }
 
+class GetContactsRepositoryStub implements GetContactsRepository {
+  public varejao = {
+    async getContacts(): Promise<any> {
+      return [{}];
+    },
+  };
+
+  public macapa = {
+    async getContacts(): Promise<any> {
+      return [{}];
+    },
+  };
+}
+
 const sutFactory = () => {
   const clientRepositoryStub = new ClientRepositoryStub();
+  const getContactsRepositoryStub = new GetContactsRepositoryStub();
   return {
-    sut: new GetContacts(clientRepositoryStub),
+    sut: new GetContacts(clientRepositoryStub, getContactsRepositoryStub),
     clientRepositoryStub,
   };
 };
@@ -52,5 +67,17 @@ describe('Get Client Contacts', () => {
     expect(response.isFailure).toBe(true);
     expect(response.type).toBe('unauthorized');
     expect(response.error).toBe('Client not found. Action not authorized');
+  });
+
+  it('Should return client contacts when success', async () => {
+    const { sut } = sutFactory();
+    const data: GetContactsDTO = {
+      key: 'unique_key',
+      type: 'macapa',
+    };
+    const response = await sut.execute(data);
+    expect(response.isFailure).toBe(false);
+    expect(response.isSuccess).toBe(true);
+    expect(response.getValue()).toEqual(expect.any(Array));
   });
 });
