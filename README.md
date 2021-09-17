@@ -19,23 +19,36 @@ Finalizando...
 # Tabela de conteúdos
 
 1. [Funcionalidades](#funcionalidades)
-2. [Pré-requisitos](#prerequisitos)
-   2.1 [Docker compose](#dockercompose)
-   2.2 [Makefile](#makefile)
-   2.2 [Arquivo `.env`](#env)
-3. [Como executar localmente](#comotestar)
-4. [Arquitetura do sistema](#arquitetura)
-5. [Testes](#testes)
-   5.1 [Testes unitários](#unitarios)
-6. CI - GitHub Actions
-7. [Scripts](#scripts)
-8. Autor
+1. [Pré-requisitos](#prerequisitos)
+   - [Docker compose](#dockercompose)
+   - [Makefile](#makefile)
+   - [Arquivo `.env`](#env)
+1. [Como executar localmente](#comotestar)
+   - [API](#api)
+1. [Arquitetura do sistema](#arquitetura)
+1. [Testes](#testes)
+   - [Testes unitários](#unitarios)
+1. CI - GitHub Actions
+1. [Scripts](#scripts)
+1. Autor
 
 <div id="funcionalidades"></div>
 
 ## Funcionalidades
 
-Este projeto consiste em uma API para cadastro de clientes dos tipos `macapá` e `varejâo` e estes podem cadastrar contatos de telefone em bases de dados diferentes.
+Este projeto consiste em uma API para cadastro de clientes dos tipos `macapá` e `varejâo` e estes podem cadastrar contatos de telefone em bases de dados diferentes usando o mesmo _endpoint_.
+
+Clientes não cadastrados:
+
+- [x] Se cadastrar informando nome, email, senha e tipo (varejão ou macapá).
+- [x] Realizar o login na aplicação informando email, senha e tipo.
+
+Clientes cadastrados:
+
+- [x] Salvar seus contatos informando nome e telefone.
+- [x] Recuperar seus contatos.
+
+Todos os clientes podem realizar chamadas HTTP para os mesmos endpoints da aplicação
 
 <div id="prerequisitos"></div>
 
@@ -63,31 +76,34 @@ Os valores informados e sua motivação são explicadas a seguir:
 
 No mesmo, também, devem ser informadas as credenciais para acesso a banco de dados que serão acessados pela aplicação:
 
-1) credenciais para conexão com banco MySQL:
+1. credenciais para conexão com banco MySQL:
 
-    ```none
-    MYSQL_ROOT_PASSWORD=
-    MYSQL_DATABASE=
-    MYSQL_USER=
-    MYSQL_PASSWORD=
-    MYSQL_PORT=3306 # porta padrão
-    MYSQL_ROOT_HOST= 127.0.0.1 # host padrão
-    ```
+   ```none
+   MYSQL_ROOT_PASSWORD=
+   MYSQL_DATABASE=
+   MYSQL_USER=
+   MYSQL_PASSWORD=
+   MYSQL_PORT=3306 # porta padrão
+   MYSQL_ROOT_HOST= 127.0.0.1 # host padrão
+   ```
 
-2) credenciais para conexão com banco Postgres:
+2. credenciais para conexão com banco Postgres:
 
-    ```none
-    POSTGRES_PASSWORD=
-    POSTGRES_USER=
-    POSTGRES_PORT= 5432 # porta padrão
-    POSTGRES_ROOT_HOST= 127.0.0.1 # host padrão
-    ```
-
-
+   ```none
+   POSTGRES_PASSWORD=
+   POSTGRES_USER=
+   POSTGRES_PORT= 5432 # porta padrão
+   POSTGRES_ROOT_HOST= 127.0.0.1 # host padrão
+   ```
 
 <div id="comotestar"></div>
 
 ## Como executar localmente
+
+<div id="api"></div>
+
+### API
+
 
 <div id="arquitetura"></div>
 
