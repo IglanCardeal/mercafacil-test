@@ -5,7 +5,9 @@ import { GetController } from '../get-controller';
 
 class GetContactServiceStub implements GetContactService {
   async execute(data: any): Promise<any> {
-    return Result.ok();
+    return Result.ok([
+      { id: 'any_id', name: 'Any Name', cellphone: '5541999999999' },
+    ]);
   }
 }
 
@@ -63,5 +65,20 @@ describe('Get Contact Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe(`Client not found. Action not authorized`);
+  });
+
+  it('Should return 200 when get contacts success', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        key: 'key_not_exist',
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.contacts).toEqual([
+      { id: 'any_id', name: 'Any Name', cellphone: '5541999999999' },
+    ]);
   });
 });
