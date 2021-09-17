@@ -28,9 +28,9 @@ Finalizando...
 1. [Arquitetura do sistema](#arquitetura)
 1. [Testes](#testes)
    - [Testes unitários](#unitarios)
-1. CI - GitHub Actions
+1. [CI - GitHub Actions](#githubactions)
 1. [Scripts](#scripts)
-1. Autor
+1. [Autor](#autor)
 
 <div id="funcionalidades"></div>
 
@@ -104,7 +104,6 @@ No mesmo, também, devem ser informadas as credenciais para acesso a banco de da
 
 ### API
 
-
 <div id="arquitetura"></div>
 
 ## Arquitetura do sistema
@@ -166,3 +165,23 @@ Dentro do arquivo `package.json`, temos os scripts que podem ser executados no p
 - `test:unit` -> `yarn test:unit` - (Alias: `test:u`) executa os testes unitários.
 - `test:unit:watch` -> `yarn test:unit:watch` - (Alias: `test:u:w`) executa os testes unitários em modo `--watch`, ou seja, cada alteração em arquivo de teste/produção irá executar os testes novamentes automaticamentes.
 - `test:verbose` -> `yarn test:verbose` - (Alias: `test:v`) executa os testes unitários em modo `--verbose`, ou seja, irá exibir todas as informações dos testes executados.
+
+<div id="githubactions"></div>
+
+## CI GitHub Actions
+
+<div id="autor"></div>
+
+## Sobre mim
+
+Eu sou Iglan Cardeal, desenvolvedor Node.js, apaixonado por programação, café e aviação. Atualmente meus estudos e práticas estão focados mais em Node.js, mas estou estudando Python (menos do que gostaria) e em breve vou retornar meus estudos para React Native.
+
+Estou na busca por desafios e resolvê-los através dos meus conhecimentos e teimosia. Procuro ajudar os outros e com isso me ajudar a aprender mais, a conhecer pessoas, suas histórias e um pouco mais... **Não acredita?** Então veja meu [perfil](https://pt.stackoverflow.com/users/95771/cmte-cardeal) no StackOverflowPT. Sempre que posso, tentou ajudar e ensinar outros desenvolvedores com suas dúvidas e problemas. Pergunte alguma coisa lá, quem sabe eu consiga ajudar você :D... Ou me chame no Discord: `Cardeal#0563` e vamos bater um papo por lá ;).
+
+---
+
+<div align="center">
+
+Projeto feito com :heart:, dedicação e profissionalismo. Gostou? então deixe uma :star: neste repositório :).
+
+</div>
