@@ -32,4 +32,12 @@ describe('Bcrypt Adapter', () => {
     const promise = sut.encrypt('any_values');
     await expect(promise).rejects.toThrow();
   });
+
+  it('Shoud return false when password is incorrect', async () => {
+    const sut = makeSut();
+    const hash = await sut.encrypt('any_password');
+    jest.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => false);
+    const result = await sut.compare('incorrect_password', hash);
+    expect(result).toBe(false);
+  });
 });
