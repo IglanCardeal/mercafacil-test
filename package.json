@@ -10,7 +10,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "prepare": "husky install",
+    "dev": "NODE_ENV=development ts-node-dev src/infra/server.ts",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --silent",
@@ -24,7 +24,8 @@
     "test:u:w": "yarn test:unit:watch",
     "test:staged": "yarn test",
     "test:verbose": "jest --passWithNoTests --verbose",
-    "test:verbose:watch": "jest --passWithNoTests --verbose --watch"
+    "test:verbose:watch": "jest --passWithNoTests --verbose --watch",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.ts": [
@@ -55,10 +56,13 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "fastify": "^3.21.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
+    "pino": "^6.13.2",
+    "pino-pretty": "^7.0.1",
     "sequelize": "^6.6.5",
     "uuid": "^8.3.2"
   }
