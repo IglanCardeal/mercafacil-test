@@ -90,11 +90,14 @@ No mesmo, também, devem ser informadas as credenciais para acesso a banco de da
 2. credenciais para conexão com banco Postgres:
 
    ```none
+   POSTGRES_DATABASE=
    POSTGRES_PASSWORD=
    POSTGRES_USER=
    POSTGRES_PORT= 5432 # porta padrão
    POSTGRES_ROOT_HOST= 127.0.0.1 # host padrão
    ```
+
+Recomendo que você use as credenciais que já estão no arquivo de exemplo, mas caso queira alterá-las, não esqueça de fazer os ajustes no arquivo do [`docker-compose.yml`](#dockercompose).
 
 <div id="comotestar"></div>
 
@@ -158,7 +161,7 @@ Caso queira saber os scripts de teste unitário, consulte a secão [Scripts](#sc
 
 ## Scripts
 
-Dentro do arquivo `package.json`, temos os scripts que podem ser executados no projeto. Os principais serão destacados a seguir com o comando de execução:
+Dentro do arquivo `package.json`, temos os scripts que podem ser executados no projeto. Os principais serão destacados a seguir com o comando de execução, utilizando o gerenciador `yarn`:
 
 - `dev` -> `yarn dev` - inicia o servidor do projeto em modo de desenvolvimento.
 - `lint` -> `yarn lint` - usa as regras do arquivo `.eslintrc` para análise de estilo do código.

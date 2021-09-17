@@ -19,6 +19,7 @@ const ENV = {
   POSTGRES_USER: process.env.POSTGRES_USER,
   POSTGRES_PORT: process.env.POSTGRES_PORT,
   POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
+  POSTGRES_ROOT_HOST: process.env.POSTGRES_ROOT_HOST,
 };
 
 Object.freeze(ENV);
