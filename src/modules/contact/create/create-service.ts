@@ -40,6 +40,10 @@ export class CreateService implements CreateContactService {
     return Result.ok(contactsCreated as Contact[]);
   }
 
+  /**
+   * Os formatos de nome e telefone são regras de domínio, então eu decidi deixá-los
+   * na camada de serviço pois não estou usando entidades para realizar esta tarefa.
+   */
   private domainFormater = {
     ['macapa' as string]: (contacts: Omit<Contact, 'id'>[]) => {
       const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
@@ -71,7 +75,7 @@ export class CreateService implements CreateContactService {
   };
 
   /**
-   * Retorna o nome do contato capitalizado e o telefone apenas com números
+   * Retorna o nome do contato capitalizado e o telefone apenas com números.
    */
   private varejoFormatNameAndCellPhone(name: string, cellphone: string) {
     return {
