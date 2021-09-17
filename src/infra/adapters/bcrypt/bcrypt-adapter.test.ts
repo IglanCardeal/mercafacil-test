@@ -17,4 +17,10 @@ describe('Bcrypt Adapter', () => {
     await sut.encrypt('any_value');
     expect(hashSpy).toHaveBeenCalledWith('any_value', SALT);
   });
+
+  it('Shoud returns hashed password for a correct value', async () => {
+    const sut = makeSut();
+    const hashedPassword = await sut.encrypt('any_values');
+    expect(hashedPassword).toBe('hashed password');
+  });
 });
