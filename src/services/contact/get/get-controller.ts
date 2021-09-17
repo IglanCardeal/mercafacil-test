@@ -22,10 +22,12 @@ export class GetController implements Controller {
       key,
     });
     if (contacts.isFailure) {
-      if (contacts.type === 'unauthorized') {
-        return unauthorized(new DomainError(contacts.error));
+      const domainErrorType = contacts.type;
+      const domainError = contacts.error;
+      if (domainErrorType === 'unauthorized') {
+        return unauthorized(new DomainError(domainError));
       }
     }
-    return ok({});
+    return ok({ contacts: contacts.getValue() });
   }
 }
