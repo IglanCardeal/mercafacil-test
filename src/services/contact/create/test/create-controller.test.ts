@@ -24,10 +24,40 @@ const sutFactory = () => {
 };
 
 describe('Create Contact Controller', () => {
+  it('Should return 400 when no client key is provided', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        key: '',
+        type: 'macapa',
+        contacts: [{}],
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: key');
+  });
+
+  it('Should return 400 when no client type is provided', async () => {
+    const { sut } = sutFactory();
+    const request = {
+      body: {
+        key: 'unique_key',
+        type: '',
+        contacts: [{}],
+      },
+    };
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing param: type');
+  });
+
   it('Should return 400 when no contacts is provided', async () => {
     const { sut } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: '',
       },
     };
@@ -40,6 +70,8 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: {},
       },
     };
@@ -54,6 +86,8 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: '',
@@ -71,6 +105,8 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
@@ -88,6 +124,8 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
@@ -110,6 +148,8 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
@@ -135,14 +175,14 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
             cellphone: '5541999999999',
           },
         ],
-        key: 'unique_key',
-        type: 'varejao',
       },
     };
     const executeSpy = jest.spyOn(createServiceStub, 'execute');
@@ -154,6 +194,8 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
@@ -175,6 +217,8 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
+        key: 'unique_key',
+        type: 'macapa',
         contacts: [
           {
             name: 'Any Name',
