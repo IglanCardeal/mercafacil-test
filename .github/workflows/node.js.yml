@@ -22,9 +22,9 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-        run: touch .env
-          echo PRIVATE_KEY =${{ secrets.PRIVATE_KEY }} >> .env
-          echo PUBLIC_KEY =${{ secrets.PUBLIC_KEY }} >> .env
+        run: |
+          touch .env
+          echo PRIVATE_KEY =${{ secrets.PRIVATE_KEY }} >> .env PUBLIC_KEY =${{ secrets.PUBLIC_KEY }} >> .env
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
