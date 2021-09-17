@@ -5,10 +5,13 @@ import { Request, Response } from '@src/shared/ports/http-port';
 
 export class GetController implements Controller {
   async handle(request: Request): Promise<Response> {
-    const { type } = request.body;
-    if (!type) {
-      return badRequest(new MissingParamError('type'));
+    const requiredParams = ['key', 'type'];
+    for (const param of requiredParams) {
+      if (!request.body[param]) {
+        return badRequest(new MissingParamError(param));
+      }
     }
+    // const { type, key } = request.body;
     return ok({});
   }
 }

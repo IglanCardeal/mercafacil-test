@@ -12,9 +12,11 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: '',
+        key: 'unique_key',
       },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe(`Missing param: type`);
   });
 });
