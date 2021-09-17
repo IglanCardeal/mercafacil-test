@@ -27,6 +27,7 @@ export class GetController implements Controller {
       if (domainErrorType === 'unauthorized') {
         return unauthorized(new DomainError(domainError));
       }
+      return badRequest(new DomainError(domainError));
     }
     return ok({ contacts: contacts.getValue() });
   }
