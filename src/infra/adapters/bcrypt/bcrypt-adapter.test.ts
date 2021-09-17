@@ -8,7 +8,7 @@ jest.mock('bcrypt', () => ({
   compare: async () => true,
 }));
 
-const makeSut = () => new BcryptAdapter(SALT);
+const makeSut = () => new BcryptAdapter();
 
 describe('Bcrypt Adapter', () => {
   it('Shoud call bcrypt with correct value', async () => {

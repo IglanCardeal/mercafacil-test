@@ -6,10 +6,8 @@ import { PasswordCompare } from '@src/modules/client/signin/ports';
 export const SALT = 12;
 
 export class BcryptAdapter implements Encrypter, PasswordCompare {
-  constructor(private readonly salt: number = SALT) {}
-
   async encrypt(password: string): Promise<string> {
-    const hashedPassword = await bcrypt.hash(password, this.salt);
+    const hashedPassword = await bcrypt.hash(password, SALT);
     return hashedPassword;
   }
 
