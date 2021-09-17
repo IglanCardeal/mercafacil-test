@@ -85,12 +85,30 @@ describe('Get Contact Controller', () => {
     expect(response.body.error).toBe('any domain error');
   });
 
+  it('Should return 500 when get service throws', async () => {
+    const { sut, getContactServiceStub } = sutFactory();
+    const request = {
+      body: {
+        type: 'varejao',
+        key: 'client_key',
+      },
+    };
+    jest
+      .spyOn(getContactServiceStub, 'execute')
+      .mockImplementationOnce(async () => {
+        throw new Error();
+      });
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(500);
+    expect(response.body.error).toBe('Internal server error');
+  });
+
   it('Should return 200 when get contacts success', async () => {
     const { sut } = sutFactory();
     const request = {
       body: {
         type: 'varejao',
-        key: 'key_not_exist',
+        key: 'client_key',
       },
     };
     const response = await sut.handle(request);
