@@ -19,13 +19,13 @@ const makeSut = () => {
 describe('JWT Adapter', () => {
   it('Should call jwt sign', () => {
     const sut = makeSut();
-    sut.generate('any data');
+    sut.generate({ key: 'any data' });
     expect(signSpy).toHaveBeenCalled();
   });
 
   it('Should return a token', () => {
     const sut = makeSut();
-    const token = sut.generate('any data');
+    const token = sut.generate({ key: 'any data' });
     expect(token).toBe('generate-token');
   });
 
@@ -33,22 +33,9 @@ describe('JWT Adapter', () => {
     const sut = makeSut();
     jest
       .spyOn(jsonwebtoken, 'sign')
-      .mockImplementation((payload: any): string => {
+      .mockImplementationOnce((payload: any): string => {
         throw new Error();
       });
     expect(() => sut.generate(null)).toThrow();
   });
-
-  // it('Should return a production token', () => {
-  //   const sut = makeSut();
-  //   const token = sut.generate('any data');
-  //   expect(token).toBeTruthy();
-  // });
-
-  // it('Should validate the production token and return correct data', () => {
-  //   const sut = makeSut();
-  //   const token = sut.generate('any data');
-  //   const data = jsonwebtoken.verify(token, 'jest_any_secret');
-  //   expect(data).toBe('any data');
-  // });
 });
