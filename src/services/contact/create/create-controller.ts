@@ -20,14 +20,17 @@ export class CreateController implements Controller {
 
   async handle(request: Request): Promise<Response> {
     try {
-      const { contacts, type, key } = request.body;
-      if (!contacts) {
-        return badRequest(new MissingParamError('contacts'));
+      const requiredParams = ['contacts', 'type', 'key'];
+      for (const param of requiredParams) {
+        if (!request.body[param]) {
+          return badRequest(new MissingParamError(param));
+        }
       }
       const isArrayOfContacts = Boolean(request.body.contacts instanceof Array);
       if (!isArrayOfContacts) {
         return badRequest(new InvalidParamError('contacts must be an array'));
       }
+      const { contacts, type, key } = request.body;
       for (const contact of contacts) {
         if (!contact.name) {
           return badRequest(new MissingParamError('contact name'));
