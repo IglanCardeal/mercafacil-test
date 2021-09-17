@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^26.0.21",
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
@@ -53,6 +54,8 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
     "uuid": "^8.3.2"
   }
 }
