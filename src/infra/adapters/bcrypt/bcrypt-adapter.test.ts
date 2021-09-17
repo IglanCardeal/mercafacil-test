@@ -40,4 +40,11 @@ describe('Bcrypt Adapter', () => {
     const result = await sut.compare('incorrect_password', hash);
     expect(result).toBe(false);
   });
+
+  it('Shoud return true if password is correct', async () => {
+    const sut = makeSut();
+    const hash = await sut.encrypt('any_password');
+    const result = await sut.compare('any_password', hash);
+    expect(result).toBe(true);
+  });
 });
