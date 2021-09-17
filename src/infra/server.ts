@@ -5,14 +5,14 @@ import { Logger } from './utils/logger';
 
 process.on('unhandledRejection', (reason, promise) => {
   Logger.error(
-    `App exiting due unhandled promise: ${promise} with error: ${reason}`
+    `[ERROR]: App exiting due unhandled promise: ${promise} with error: ${reason}`
   );
 
   throw reason;
 });
 
 process.on('uncaughtException', (error) => {
-  Logger.error(`App exiting due uncaught handled error: ${error}`);
+  Logger.error(`[ERROR]: App exiting due uncaught handled error: ${error}`);
 
   process.exit(ExitCode.Failure);
 });
