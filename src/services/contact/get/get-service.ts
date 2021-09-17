@@ -3,12 +3,19 @@ import { Contact } from '@src/domain/models/contact';
 import { GetContactsService } from '@src/domain/services/contact';
 
 import { Result } from '@src/shared/result/result';
-import { ClientRepository, GetContactsDTO } from './ports';
+import {
+  ClientRepository,
+  GetContactsDTO,
+  GetContactsRepository,
+} from './ports';
 
 export class GetContacts implements GetContactsService {
   private readonly clientTypes = clientTypesArray;
 
-  constructor(private readonly clientRepository: ClientRepository) {}
+  constructor(
+    private readonly clientRepository: ClientRepository,
+    private readonly contactsRepository: GetContactsRepository
+  ) {}
 
   async execute(data: GetContactsDTO): Promise<Result<Contact[]>> {
     const { type, key } = data;
@@ -25,6 +32,7 @@ export class GetContacts implements GetContactsService {
         'unauthorized'
       );
     }
-    return Result.ok([]);
+    const clientContacts = await this.contactsRepository[type].getContacts();
+    return Result.ok(clientContacts);
   }
 }

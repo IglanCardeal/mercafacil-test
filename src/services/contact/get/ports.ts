@@ -1,4 +1,5 @@
 import { Client, ClientTypes } from '@src/domain/models/client';
+import { Contact } from '@src/domain/models/contact';
 
 export interface GetContactsDTO {
   type: ClientTypes;
@@ -12,5 +13,15 @@ export interface ClientRepository {
 
   macapa: {
     findClientByKey: (key: string) => Promise<Client | null>;
+  };
+}
+
+export interface GetContactsRepository {
+  varejao: {
+    getContacts: () => Promise<Contact[]>;
+  };
+
+  macapa: {
+    getContacts: () => Promise<Contact[]>;
   };
 }
