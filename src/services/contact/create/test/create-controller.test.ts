@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CreateContactService } from '@src/domain/services/contact';
+import { CreateContactsService } from '@src/domain/services/contact';
 import { Result } from '@src/shared/result/result';
 import { CreateController } from '../create-controller';
 
-class CreateServiceStub implements CreateContactService {
+class CreateServiceStub implements CreateContactsService {
   async execute(data: any): Promise<Result<any>> {
     return Result.ok([
       {

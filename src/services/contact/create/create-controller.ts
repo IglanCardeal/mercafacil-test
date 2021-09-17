@@ -1,5 +1,5 @@
 import { Contact } from '@src/domain/models/contact';
-import { CreateContactService } from '@src/domain/services/contact';
+import { CreateContactsService } from '@src/domain/services/contact';
 import {
   DomainError,
   InvalidParamError,
@@ -16,7 +16,7 @@ import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
 
 export class CreateController implements Controller {
-  constructor(private readonly createService: CreateContactService) {}
+  constructor(private readonly createService: CreateContactsService) {}
 
   async handle(request: Request): Promise<Response> {
     try {

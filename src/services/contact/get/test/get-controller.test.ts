@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GetContactService } from '@src/domain/services/contact';
+import { GetContactsService } from '@src/domain/services/contact';
 import { Result } from '@src/shared/result/result';
 import { GetController } from '../get-controller';
 
-class GetContactServiceStub implements GetContactService {
+class GetContactServiceStub implements GetContactsService {
   async execute(data: any): Promise<any> {
     return Result.ok([
       { id: 'any_id', name: 'Any Name', cellphone: '5541999999999' },

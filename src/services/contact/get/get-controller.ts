@@ -1,5 +1,5 @@
 import { Contact } from '@src/domain/models/contact';
-import { GetContactService } from '@src/domain/services/contact';
+import { GetContactsService } from '@src/domain/services/contact';
 import { DomainError, MissingParamError } from '@src/shared/errors';
 import { badRequest, ok, unauthorized } from '@src/shared/http';
 import { Controller } from '@src/shared/ports/controller-port';
@@ -7,7 +7,7 @@ import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
 
 export class GetController implements Controller {
-  constructor(private readonly getService: GetContactService) {}
+  constructor(private readonly getService: GetContactsService) {}
 
   async handle(request: Request): Promise<Response> {
     const requiredParams = ['key', 'type'];
