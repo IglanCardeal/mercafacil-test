@@ -45,10 +45,10 @@ export class CreateService implements CreateContactService {
       const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
         ({ name, cellphone }: Omit<Contact, 'id'>) => {
           return {
-            name: name.trim().replace(/\s\s+/g, ' ').toUpperCase(),
-            cellphone: cellphone
-              .replace(/\D/g, '')
-              .replace(/(\d{2})(\d{2})(\d{5})(\d)/, '+$1 ($2) $3-$4'),
+            name: this.macapaFormatNameAndCellPhone(name, cellphone)
+              .nameFormated,
+            cellphone: this.macapaFormatNameAndCellPhone(name, cellphone)
+              .cellphoneFormated,
           };
         }
       );
@@ -59,23 +59,46 @@ export class CreateService implements CreateContactService {
       const formatedContact: Omit<Contact, 'id'>[] = contacts.map(
         ({ name, cellphone }: Omit<Contact, 'id'>) => {
           return {
-            name: name
-              .trim()
-              .replace(/\s\s+/g, ' ')
-              .split(' ')
-              .map((word) => {
-                if (word.length > 2)
-                  return (
-                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                  );
-                return word.toLowerCase();
-              })
-              .join(' '),
-            cellphone: cellphone.replace(/\D/g, ''),
+            name: this.varejoFormatNameAndCellPhone(name, cellphone)
+              .nameFormated,
+            cellphone: this.varejoFormatNameAndCellPhone(name, cellphone)
+              .cellphoneFormated,
           };
         }
       );
       return formatedContact;
     },
   };
+
+  /**
+   * Retorna o nome do contato capitalizado e o telefone apenas com números
+   */
+  private varejoFormatNameAndCellPhone(name: string, cellphone: string) {
+    return {
+      nameFormated: name
+        .trim()
+        .replace(/\s\s+/g, ' ')
+        .split(' ')
+        .map((word) => {
+          if (word.length > 2)
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          return word.toLowerCase();
+        })
+        .join(' '),
+      cellphoneFormated: cellphone.replace(/\D/g, ''),
+    };
+  }
+
+  /**
+   * Retorna o nome do contato em letra maiúscula e o telefone com números
+   * no padrão `'+00 (00) 00000-0000'`
+   */
+  private macapaFormatNameAndCellPhone(name: string, cellphone: string) {
+    return {
+      nameFormated: name.trim().replace(/\s\s+/g, ' ').toUpperCase(),
+      cellphoneFormated: cellphone
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d{2})(\d{5})(\d)/, '+$1 ($2) $3-$4'),
+    };
+  }
 }
