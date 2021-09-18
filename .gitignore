@@ -153,3 +153,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.\*
+requirements/contacts-macapa.json
+requirements/contacts-varejao.json
+requirements/create-table-macapa.sql
+requirements/create-table-varejao.sql
+requirements/instrucoes back end.md
+requirements/docker-compose.yml
