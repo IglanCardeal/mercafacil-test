@@ -28,6 +28,10 @@ const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
     await Databases.mysqlConnect();
     await Databases.postgresConnect();
 
+    // const client =
+    //   await new SequelizeClientRepository().macapa.findClientByEmail('');
+    // console.log(client);
+
     await app.listen(ENV.PORT as string);
     Logger.info('[SERVER]: Server started success');
 

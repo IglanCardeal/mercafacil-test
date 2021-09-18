@@ -61,7 +61,7 @@ export class Databases {
           password VARCHAR ( 512 ) NOT NULL
         );
       `);
-      Logger.info('[DATABASE] MySQL table clients created with success');
+      Logger.info('[DATABASE] MySQL table Clients created with success');
     } catch (error) {
       throw new Error(`[DATABASE]: ${error}`);
     }
@@ -89,7 +89,7 @@ export class Databases {
           password VARCHAR ( 512 ) NOT NULL
         );
       `);
-      Logger.info('[DATABASE] Postgres table clients created with success');
+      Logger.info('[DATABASE] Postgres table Clients created with success');
     } catch (error) {
       throw new Error(`[DATABASE]: ${error}`);
     }
