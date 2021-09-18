@@ -54,7 +54,7 @@ describe('Create Contact Service', () => {
     const { sut } = sutFactory();
     const data: CreateContactDTO = {
       contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      key: 'unique_key',
+      uuid: 'unique_key',
       type: 'invalid' as any,
     };
     const response: Result<Contact[]> = await sut.execute(data);
@@ -66,7 +66,7 @@ describe('Create Contact Service', () => {
     createContactRepositoryStub.macapa = {} as any;
     const data: CreateContactDTO = {
       contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      key: 'unique_key',
+      uuid: 'unique_key',
       type: 'macapa',
     };
     await expect(sut.execute(data)).rejects.toThrowError(
@@ -78,7 +78,7 @@ describe('Create Contact Service', () => {
     const { sut, clientRepositoryStub } = sutFactory();
     const data: CreateContactDTO = {
       contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      key: 'dont_exist_client_key',
+      uuid: 'dont_exist_client_key',
       type: 'macapa',
     };
     jest
@@ -94,7 +94,7 @@ describe('Create Contact Service', () => {
     const { sut } = sutFactory();
     const data: CreateContactDTO = {
       contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      key: 'dont_exist_client_key',
+      uuid: 'dont_exist_client_key',
       type: 'macapa',
     };
     const response: Result<Contact[]> = await sut.execute(data);
@@ -113,7 +113,7 @@ describe('Create Contact Service', () => {
         { name: '   Any       Name   ', cellphone: '5541999999999' },
         { name: '   Mrs. Any       Name   ', cellphone: '55 41 99999-9999' },
       ],
-      key: 'dont_exist_client_key',
+      uuid: 'dont_exist_client_key',
       type: 'macapa',
     };
     const response: Result<Contact[]> = await sut.execute(data);
@@ -137,7 +137,7 @@ describe('Create Contact Service', () => {
         { name: '   Msr. ANY    of   name   ', cellphone: '55419 99999999' },
         { name: '   any    of   name   ', cellphone: '+55(41) 9 9999-9999' },
       ],
-      key: 'dont_exist_client_key',
+      uuid: 'dont_exist_client_key',
       type: 'varejao',
     };
     const response: Result<Contact[]> = await sut.execute(data);

@@ -14,7 +14,7 @@ export class CreateService implements CreateContactsService {
   ) {}
 
   async execute(data: CreateContactDTO): Promise<Result<Contact[]>> {
-    const { type, key, contacts } = data;
+    const { type, uuid, contacts } = data;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
       return Result.fail(
@@ -28,7 +28,7 @@ export class CreateService implements CreateContactsService {
     ) {
       throw new Error(`Client repository not found for type: ${type}`);
     }
-    const clientFound = await this.clientRepository[type].findClientByKey(key);
+    const clientFound = await this.clientRepository[type].findClientByKey(uuid);
     if (!clientFound) {
       return Result.fail(
         'Client not found. Action not authorized',
