@@ -13,6 +13,7 @@ const baseClientStructure = {
   },
   cellphone: {
     type: DataTypes.STRING,
+    unique: true,
   },
 };
 

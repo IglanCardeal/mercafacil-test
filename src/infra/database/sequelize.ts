@@ -47,7 +47,7 @@ export class Databases {
         CREATE TABLE IF NOT EXISTS contacts (
           id serial PRIMARY KEY,
           name VARCHAR ( 200 ) NOT NULL,
-          cellphone VARCHAR ( 20 ) NOT NULL
+          cellphone VARCHAR ( 20 ) NOT NULL UNIQUE
         );
       `);
       Logger.info('[DATABASE] MySQL table contacts created with success');
@@ -75,7 +75,7 @@ export class Databases {
         CREATE TABLE IF NOT EXISTS contacts (
           id serial PRIMARY KEY,
           name VARCHAR ( 100 ) NOT NULL,
-          cellphone VARCHAR ( 13 ) NOT NULL
+          cellphone VARCHAR ( 13 ) NOT NULL UNIQUE
         );
       `);
       Logger.info('[DATABASE] Postgres table contacts created with success');
