@@ -1,5 +1,6 @@
 import { Client } from '@src/domain/models/client';
 import { ClientSignUpService } from '@src/domain/services/client';
+import { Logger } from '@src/infra/utils/logger';
 import {
   DomainError,
   InvalidParamError,
@@ -36,6 +37,7 @@ export class SignUpController implements Controller {
       }
       return created(client.getValue());
     } catch (error) {
+      Logger.error(`[ERROR]: ${error}`);
       return internalServerError();
     }
   }

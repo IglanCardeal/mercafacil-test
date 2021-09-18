@@ -37,7 +37,7 @@ export class SignUpService implements ClientSignUpService {
     const uniqueKey = this.uuidGenerator.generate();
     const hashedPassword = await this.encrypter.encrypt(password);
     const data = {
-      key: uniqueKey,
+      uuid: uniqueKey,
       password: hashedPassword,
       name,
       type,
