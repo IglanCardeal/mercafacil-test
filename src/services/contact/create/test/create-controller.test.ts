@@ -28,21 +28,21 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: '',
+        uuid: '',
         type: 'macapa',
         contacts: [{}],
       },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Missing param: key');
+    expect(response.body.error).toBe('Missing param: uuid');
   });
 
   it('Should return 400 when no client type is provided', async () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: '',
         contacts: [{}],
       },
@@ -56,7 +56,7 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: '',
       },
@@ -70,7 +70,7 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: {},
       },
@@ -86,7 +86,7 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -105,7 +105,7 @@ describe('Create Contact Controller', () => {
     const { sut } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -124,7 +124,7 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -148,7 +148,7 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -175,7 +175,7 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -194,7 +194,7 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {
@@ -217,7 +217,7 @@ describe('Create Contact Controller', () => {
     const { sut, createServiceStub } = sutFactory();
     const request = {
       body: {
-        key: 'unique_key',
+        uuid: 'unique_key',
         type: 'macapa',
         contacts: [
           {

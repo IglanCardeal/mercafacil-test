@@ -20,7 +20,7 @@ export class CreateController implements Controller {
 
   async handle(request: Request): Promise<Response> {
     try {
-      const requiredParams = ['contacts', 'type', 'key'];
+      const requiredParams = ['contacts', 'type', 'uuid'];
       for (const param of requiredParams) {
         if (!request.body[param]) {
           return badRequest(new MissingParamError(param));
@@ -30,7 +30,7 @@ export class CreateController implements Controller {
       if (!isArrayOfContacts) {
         return badRequest(new InvalidParamError('contacts must be an array'));
       }
-      const { contacts, type, key } = request.body;
+      const { contacts, type, uuid } = request.body;
       for (const contact of contacts) {
         if (!contact.name) {
           return badRequest(new MissingParamError('contact name'));
@@ -43,7 +43,7 @@ export class CreateController implements Controller {
         await this.createService.execute({
           contacts,
           type,
-          key,
+          uuid,
         });
       if (contactsCreated.isFailure) {
         const domainErrorType = contactsCreated.type;

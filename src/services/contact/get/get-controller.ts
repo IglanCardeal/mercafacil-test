@@ -37,7 +37,6 @@ export class GetController implements Controller {
       }
       return ok({ contacts: contacts.getValue() });
     } catch (error) {
-      console.log(error);
       return internalServerError();
     }
   }
