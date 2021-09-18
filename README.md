@@ -8,13 +8,11 @@
 
 ---
 
-# badges
-
-![1](https://img.shields.io/static/v1?label=tests&message=passing&color=green&style=flat)
+![1](https://img.shields.io/static/v1?label=tests&message=passing&color=green&style=flat) ![1](https://img.shields.io/static/v1?label=ci&message=passing&color=yellow&style=flat) ![1](https://img.shields.io/static/v1?label=yarn&message=v1.22.10&color=blue&style=flat) ![1](https://img.shields.io/static/v1?label=node&message=v16&color=darkgreen&style=flat) ![1](https://img.shields.io/static/v1?label=docker&message=v19.03.13&color=lightblue&style=flat) ![1](https://img.shields.io/static/v1?label=docker-compose&message=1.27.4&color=darkblue&style=flat) ![1](https://img.shields.io/static/v1?label=git&message=v2.25.1&color=red&style=flat) ![1](https://img.shields.io/static/v1?label=git&message=v2.25.1&color=red&style=flat)
 
 # Status do Projeto
 
-Finalizando...
+Concluído
 
 # Tabela de conteúdos
 
@@ -26,7 +24,6 @@ Finalizando...
    - [Arquivo `.env`](#env)
 1. [Como testar localmente](#comotestar)
    - [API](#api)
-1. [Arquitetura do sistema](#arquitetura)
 1. [Testes](#testes)
    - [Testes unitários](#unitarios)
 1. [CI - GitHub Actions](#githubactions)
@@ -148,7 +145,7 @@ logs:
 	docker-compose logs -f
 ```
 
-Execute o comando `make up` para executar o `docker-compose` e iniciar/instalar os bancos de dados.
+Execute o comando `make up` para executar o `docker-compose` e iniciar/instalar os bancos de dados. Aguarde as imagens serem baixadas e os containers serem iniciados.
 
 Por fim, execute o comando:
 
@@ -203,9 +200,133 @@ Recomendo que você use as credenciais que já estão no arquivo de exemplo, mas
 
 ### API
 
-<div id="arquitetura"></div>
+Os _endpoins_ da API são demonstrados a seguir junto com o campos de exemplo:
 
-## Arquitetura do sistema
+URL base padrão: `http://localhost:3000`
+
+- `/api/client/signup` -> cadastro de cliente.
+
+  - Método: `POST`
+
+  - Corpo da requisição:
+
+    ```json
+    {
+      "name": "any name",
+      "email": "any2@email.com",
+      "password": "any_pass",
+      "type": "macapa"
+    }
+    ```
+
+  - Retorno:
+
+    ```json
+    {
+      "statusCode": 201,
+      "body": {
+        "uuid": "cbc2dd57-e897-4c9e-bb70-4752fdd85e2d",
+        "password": "$2b$12$C82D2xKwbESoCHGU8bYyp.lVOzy1rp/CicwruV4vDqIKZgJv1a21K",
+        "name": "any name",
+        "type": "macapa",
+        "email": "any2@email.com",
+        "id": 1
+      }
+    }
+    ```
+
+- `/api/client/signin` -> login de cliente.
+
+  - Método: `POST`
+
+  - Corpo da requisição:
+
+    ```json
+    {
+      "name": "any name",
+      "email": "any2@email.com",
+      "password": "any_pass",
+      "type": "macapa"
+    }
+    ```
+
+  - Retorno:
+
+    ```json
+    {
+      "statusCode": 200,
+      "body": {
+        "token": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiY2JjMmRkNTctZTg5Ny00YzllLWJiNzAtNDc1MmZkZDg1ZTJkIiwidHlwZSI6Im1hY2FwYSIsImlhdCI6MTYzMTk3MDA1NCwiZXhwIjoxNjMxOTczNjU0LCJpc3MiOiJNZXJjYWZhY2lsIEJhY2tlbmQgQVBJIFRlc3QifQ.t7_naCB8SirW28NX3OWbOzS5nTFghfDgimGiVgiiRibRsf8lJinErMXOhjJHHNOi49mtzoePP5eU6JruVoBU9g"
+      }
+    }
+    ```
+
+- `/api/contact/create` -> cadastro de contatos do cliente.
+
+  - Método: `POST`
+
+  - Headers: `Authorization` com token `Bearer <token>`
+
+  - Corpo da requisição:
+
+    ```json
+    {
+      "contacts": [
+        {
+          "name": "Marina de  Rodrigues",
+          "cellphone": "5541996941922"
+        }
+      ]
+    }
+    ```
+
+  - Retorno:
+
+    ```json
+    {
+      "statusCode": 201,
+      "body": {
+        "contacts": [
+          {
+            "id": null,
+            "name": "MARINA DE RODRIGUES",
+            "cellphone": "+55 (41) 99694-1922"
+          }
+        ]
+      }
+    }
+    ```
+
+    <sup>`id` pode ser `null` caso o `cellphone` já exista na base e então somente o `name` será atualizado.</sup>
+
+- `/api/contact/get` -> recupera os contatos do cliente.
+
+  - Método: `GET`
+
+  - Headers: `Authorization` com token `Bearer <token>`
+
+  - Corpo da requisição:
+
+    ```json
+    none
+    ```
+
+  - Retorno:
+
+    ```json
+    {
+      "statusCode": 200,
+      "body": {
+        "contacts": [
+          {
+            "id": 1,
+            "name": "MARINA DE RODRIGUES",
+            "cellphone": "+55 (41) 99694-1922"
+          }
+        ]
+      }
+    }
+    ```
 
 <div id="testes"></div>
 
