@@ -10,9 +10,15 @@ export class SequelizeClientRepository
   implements ClientSignUpRepository, ClientSignInRepository
 {
   public varejao = {
-    findClientByEmail: async (email: string): Promise<Client | null> => {
-      const client = await VarejaoClient.findOne({ where: { email } });
-      return client;
+    findClientByEmail: async (clientEmail: string): Promise<Client | null> => {
+      const client = await VarejaoClient.findOne({
+        where: { email: clientEmail },
+      });
+      if (!client) {
+        return null;
+      }
+      const { id, uuid, name, email, type, password } = client;
+      return { id, uuid, name, email, type, password };
     },
 
     createClient: async (client: Omit<Client, 'id'>): Promise<Client> => {
@@ -28,9 +34,15 @@ export class SequelizeClientRepository
   };
 
   public macapa = {
-    findClientByEmail: async (email: string): Promise<Client | null> => {
-      const client = await MacapaClient.findOne({ where: { email } });
-      return client;
+    findClientByEmail: async (clientEmail: string): Promise<Client | null> => {
+      const client = await MacapaClient.findOne({
+        where: { email: clientEmail },
+      });
+      if (!client) {
+        return null;
+      }
+      const { id, uuid, name, email, type, password } = client;
+      return { id, uuid, name, email, type, password };
     },
 
     createClient: async (client: any): Promise<Client> => {
