@@ -143,7 +143,7 @@ describe('Client SignUp Service', () => {
       password: 'hashed_password',
       type: 'macapa',
       id: 'any_id',
-      key: 'generated key',
+      uuid: 'generated key',
     });
   });
 
@@ -167,7 +167,7 @@ describe('Client SignUp Service', () => {
       password: 'hashed_password',
       type: 'varejao',
       id: 'any_id',
-      key: 'generated key',
+      uuid: 'generated key',
     });
   });
 });
