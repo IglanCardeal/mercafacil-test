@@ -135,6 +135,6 @@ describe('Client SignIn Service', () => {
     const response: Result<Client> = await sut.execute(clientData);
     expect(response.isFailure).toBe(false);
     expect(response.isSuccess).toBe(true);
-    expect(response.getValue()).toEqual({ token: 'generated_token' });
+    expect(response.getValue()).toEqual({ token: 'Bearer generated_token' });
   });
 });
