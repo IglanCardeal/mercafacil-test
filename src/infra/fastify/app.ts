@@ -6,6 +6,7 @@ import { signupFactory } from './signup-factory';
 import { signinFactory } from './signin-factory';
 import { JsonWebTokenAdapter } from '../adapters/jwt/jwt-adapter';
 import { getContactFactory } from './get-contact-factory';
+import { createContactFactory } from './create-contact-factory';
 
 const app: FastifyInstance = Fastify({
   logger: {
@@ -39,7 +40,7 @@ app.post('/api/client/signup', async (request, reply: FastifyReply) => {
   const response: Response = await signUpController.handle({
     body: clientData,
   });
-  return reply.send(response);
+  return reply.status(response.statusCode).send(response);
 });
 
 app.post('/api/client/signin', async (request, reply: FastifyReply) => {
@@ -48,7 +49,7 @@ app.post('/api/client/signin', async (request, reply: FastifyReply) => {
   const response: Response = await signInController.handle({
     body: clientData,
   });
-  return reply.send(response);
+  return reply.status(response.statusCode).send(response);
 });
 
 app.get('/api/contact/get', async (request, reply: FastifyReply) => {
@@ -64,7 +65,24 @@ app.get('/api/contact/get', async (request, reply: FastifyReply) => {
   const response = await getContactsController.handle({
     body: { uuid: clientData.uuid, type: clientData.type },
   });
-  return reply.send(response);
+  return reply.status(response.statusCode).send(response);
+});
+
+app.post('/api/contact/create', async (request, reply: FastifyReply) => {
+  const token = request.headers['authorization'];
+  const { contacts } = request.body as any;
+  if (!token) {
+    return reply.send({
+      statusCode: 400,
+      body: { error: 'Missing authentication token' },
+    });
+  }
+  const clientData = AuthService.verify(token, reply);
+  const createContactsController = createContactFactory();
+  const response = await createContactsController.handle({
+    body: { uuid: clientData.uuid, type: clientData.type, contacts },
+  });
+  return reply.status(response.statusCode).send(response);
 });
 
 export { app };
