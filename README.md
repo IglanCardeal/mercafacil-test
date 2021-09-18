@@ -430,6 +430,6 @@ Estou na busca por desafios e resolvê-los através dos meus conhecimentos e tei
 
 <div align="center">
 
-Projeto feito com :heart:, dedicação e profissionalismo. Gostou? então deixe uma :star: neste repositório :).
+Projeto feito com :heart: e dedicação. Gostou? então deixe uma :star: neste repositório :).
 
 </div>
