@@ -11,7 +11,7 @@ import { SignInService } from '../singin-service';
 
 class SignInRepositoryStub implements ClientSignInRepository {
   public macapa = {
-    async findClientByEmailAndType(email: string): Promise<Client | null> {
+    async findClientByEmail(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -24,7 +24,7 @@ class SignInRepositoryStub implements ClientSignInRepository {
   };
 
   public varejao = {
-    async findClientByEmailAndType(email: string): Promise<Client | null> {
+    async findClientByEmail(email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -96,7 +96,7 @@ describe('Client SignIn Service', () => {
   it('Should return failure when email was not found', async () => {
     const { sut, signInRepositoryStub } = sutFactory();
     jest
-      .spyOn(signInRepositoryStub.macapa, 'findClientByEmailAndType')
+      .spyOn(signInRepositoryStub.macapa, 'findClientByEmail')
       .mockResolvedValueOnce(null);
     const clientData: ClientSignInDTO = {
       email: 'ane@email.com',

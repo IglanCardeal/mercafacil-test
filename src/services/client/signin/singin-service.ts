@@ -28,13 +28,13 @@ export class SignInService implements ClientSignInService {
     // verificação de segurança para garantir que o repositório existe
     if (
       !this.clientRepository[type] ||
-      typeof this.clientRepository[type].findClientByEmailAndType !== 'function'
+      typeof this.clientRepository[type].findClientByEmail !== 'function'
     ) {
       throw new Error(`Client repository not found for type: ${type}`);
     }
-    const clientFound = await this.clientRepository[
-      type
-    ].findClientByEmailAndType(email);
+    const clientFound = await this.clientRepository[type].findClientByEmail(
+      email
+    );
     if (!clientFound) {
       return Result.fail('Invalid param: email or password is incorrect');
     }
