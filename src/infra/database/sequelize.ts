@@ -17,6 +17,7 @@ const databases = {
     {
       dialect: mysql.dialect as Dialect,
       host: mysql.host,
+      logging: false,
     }
   ),
   postgresConnection: new Sequelize(
@@ -26,6 +27,7 @@ const databases = {
     {
       dialect: postgres.dialect as Dialect,
       host: postgres.host,
+      logging: false,
     }
   ),
 };
