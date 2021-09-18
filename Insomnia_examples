@@ -1,0 +1,156 @@
+_type: export
+__export_format: 4
+__export_date: 2021-09-18T12:42:11.976Z
+__export_source: insomnia.desktop.app:v2020.4.2
+resources:
+  - _id: req_f12016bbaf714a04b4458b5dc92ba7e4
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631968723393
+    created: 1631936095500
+    url: http://localhost:3000/api/contact/create
+    name: Contacts Creation
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"contacts": [{"name": "Marina de  Rodrigues",
+                    "cellphone": "5541996941919"}]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      prefix: ""
+      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZDI0YzZiOWMtMmQzOS00ZmZiLThkM2QtY2QyZmQ5OTZlYTczIiwidHlwZSI6InZhcmVqYW8iLCJpYXQiOjE2MzE5Njg3MDYsImV4cCI6MTYzMTk3MjMwNiwiaXNzIjoiTWVyY2FmYWNpbCBCYWNrZW5kIEFQSSBUZXN0In0.HYke8S6kW-jOP-fIK3um60TaVGzqmL8a3azx-a5-eY1FLhn7wwmPwDymx9VtPDgEIGelv2Vfmfnk2NQ96nhF8g
+    metaSortKey: -1631936095500
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_dd007d7d983244feae09f013f4ec9cb2
+    parentId: null
+    modified: 1631914364652
+    created: 1631914364652
+    name: mercafacil-backend-test
+    description: ""
+    scope: null
+    _type: workspace
+  - _id: req_93caff65fbfc44e8b3057f73056ecda9
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631968813640
+    created: 1631962502822
+    url: http://localhost:3000/api/contact/get
+    name: Contacts Get
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      prefix: ""
+      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZDI0YzZiOWMtMmQzOS00ZmZiLThkM2QtY2QyZmQ5OTZlYTczIiwidHlwZSI6InZhcmVqYW8iLCJpYXQiOjE2MzE5Njg3MDYsImV4cCI6MTYzMTk3MjMwNiwiaXNzIjoiTWVyY2FmYWNpbCBCYWNrZW5kIEFQSSBUZXN0In0.HYke8S6kW-jOP-fIK3um60TaVGzqmL8a3azx-a5-eY1FLhn7wwmPwDymx9VtPDgEIGelv2Vfmfnk2NQ96nhF8g
+    metaSortKey: -1631925242457
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2bc07871fab84cfcae2911c544c9deb5
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631936643922
+    created: 1631914389414
+    url: http://localhost:3000/api/client/signup
+    name: Client SignUp
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name":"any name",
+        	"email":"any2@email.com",
+        	"password":"any_pass",
+        	"type":"macapa"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1631914389414
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_52d7f91bdd334844b593d0c417089070
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631968704411
+    created: 1631933996332
+    url: http://localhost:3000/api/client/signin
+    name: Client SignIn
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email":"any2@email.com",
+        	"password":"any_pass",
+        	"type":"varejao"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1631728506223.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_6854e347b1569559d895911acec14ae421e76d04
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631914365095
+    created: 1631914365095
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1631914365095
+    _type: environment
+  - _id: jar_6854e347b1569559d895911acec14ae421e76d04
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631914365099
+    created: 1631914365099
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_c0266fabddc249268e859839e6b6fdb7
+    parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
+    modified: 1631914364668
+    created: 1631914364668
+    fileName: mercafacil-backend-test
+    contents: ""
+    contentType: yaml
+    _type: api_spec
