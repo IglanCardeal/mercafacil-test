@@ -8,7 +8,7 @@ export class SequelizeContactRepository implements CreateContactRepository {
       contacts: Omit<Contact, 'id'>[]
     ): Promise<Contact[]> => {
       const contactsCreated = await VarejaoContact.bulkCreate(contacts, {
-        updateOnDuplicate: ['cellphone'], // evita duplicados e apenas atualiza nome
+        updateOnDuplicate: ['name'], // evita duplicados e apenas atualiza nome
       });
       return contactsCreated.map((contact) => {
         return {
