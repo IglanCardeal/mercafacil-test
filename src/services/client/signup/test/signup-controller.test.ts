@@ -4,7 +4,7 @@ import { SignUpController } from '../signup-controller';
 
 class SignUpServiceStub implements ClientSignUpService {
   async execute(data: any): Promise<any> {
-    return Result.ok<any>({ key: 'unique_key', id: 'unique_id', ...data });
+    return Result.ok<any>({ uuid: 'unique_key', id: 'unique_id', ...data });
   }
 }
 
@@ -154,7 +154,7 @@ describe('Client SignUp Controller', () => {
     expect(response.statusCode).toBe(201);
     expect(response.body).toEqual({
       ...request.body,
-      key: 'unique_key',
+      uuid: 'unique_key',
       id: 'unique_id',
     });
   });

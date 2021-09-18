@@ -1,4 +1,3 @@
-import { Client } from '@src/domain/models/client';
 import { ClientSignInService } from '@src/domain/services/client';
 import {
   DomainError,
@@ -26,7 +25,7 @@ export class SignInController implements Controller {
       if (!email.includes('@')) {
         return badRequest(new InvalidParamError('email'));
       }
-      const client: Result<Client> = await this.signinService.execute({
+      const client: Result<any> = await this.signinService.execute({
         email,
         name,
         type,
@@ -34,7 +33,7 @@ export class SignInController implements Controller {
       if (client.isFailure) {
         return badRequest(new DomainError(client.error));
       }
-      return ok({ token: client.getValue().key });
+      return ok({ token: client.getValue().token });
     } catch (error) {
       return internalServerError();
     }

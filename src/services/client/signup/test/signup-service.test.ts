@@ -14,7 +14,7 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
         password: 'any_pass',
         type: 'macapa',
         id: 'any_id',
-        key: 'any_key',
+        uuid: 'any_key',
       };
     },
 
@@ -34,7 +34,7 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
         password: 'any_pass',
         type: 'varejao',
         id: 'any_id',
-        key: 'any_key',
+        uuid: 'any_key',
       };
     },
 

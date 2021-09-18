@@ -4,7 +4,7 @@ export const clientTypesArray = Object.freeze(['varejao', 'macapa']);
 
 export interface Client {
   id: string;
-  key: string;
+  uuid: string;
   name: string;
   type: ClientTypes;
   password: string;

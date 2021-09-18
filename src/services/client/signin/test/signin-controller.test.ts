@@ -4,7 +4,12 @@ import { SignInController } from '../signin-controller';
 
 class SignInServiceStub implements ClientSignInService {
   async execute(data: any): Promise<any> {
-    return Result.ok<any>({ key: 'unique_key', id: 'unique_id', ...data });
+    return Result.ok<any>({
+      uuid: 'unique_key',
+      id: 'unique_id',
+      ...data,
+      token: 'any_token',
+    });
   }
 }
 
