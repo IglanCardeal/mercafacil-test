@@ -6,12 +6,6 @@ import * as JWTAdapter from './jwt-adapter';
 
 const { JsonWebTokenAdapter } = JWTAdapter;
 
-const signSpy = jest
-  .spyOn(jsonwebtoken, 'sign')
-  .mockImplementation((payload: any): string => {
-    return 'generate-token';
-  });
-
 const makeSut = () => {
   return new JsonWebTokenAdapter();
 };
@@ -19,13 +13,23 @@ const makeSut = () => {
 describe('JWT Adapter', () => {
   it('Should call jwt sign', () => {
     const sut = makeSut();
-    sut.generate({ key: 'any data' });
+    const signSpy = jest
+      .spyOn(jsonwebtoken, 'sign')
+      .mockImplementationOnce((payload: any): string => {
+        return 'generate-token';
+      });
+    sut.generate({ uuid: 'any data' });
     expect(signSpy).toHaveBeenCalled();
   });
 
-  it('Should return a token', () => {
+  it('Should return a production token', () => {
     const sut = makeSut();
-    const token = sut.generate({ key: 'any data' });
+    jest
+      .spyOn(jsonwebtoken, 'sign')
+      .mockImplementationOnce((payload: any): string => {
+        return 'generate-token';
+      });
+    const token = sut.generate({ uuid: 'any data' });
     expect(token).toBe('generate-token');
   });
 
@@ -37,5 +41,17 @@ describe('JWT Adapter', () => {
         throw new Error();
       });
     expect(() => sut.generate(null)).toThrow();
+  });
+
+  it('Should return a production client data', () => {
+    const sut = makeSut();
+    const clientToken = sut.generate({ uuid: 'any data', type: 'macapa' });
+    const clientData = sut.verify(clientToken);
+    expect(clientData).toEqual(
+      expect.objectContaining({
+        uuid: 'any data',
+        type: 'macapa',
+      })
+    );
   });
 });
