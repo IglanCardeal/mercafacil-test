@@ -42,7 +42,7 @@ export class SequelizeClientRepository
         email: client.email,
       });
 
-      return { ...client, id: clientCreated._attributes.id };
+      return { ...client, id: clientCreated.id };
     },
   };
 }
