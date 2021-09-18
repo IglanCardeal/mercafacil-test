@@ -399,7 +399,7 @@ Dentro do arquivo `package.json`, temos os scripts que podem ser executados no p
 
 Este projeto faz o uso do [GitHub Actions](https://docs.github.com/pt/get-started) para garantir a qualidade de código do projeto devido ao fato de eu gerar muitos commits e integrá-los frequentementes a este repositório. Durante a esteira de CI, os teste unitário são executados com o comando `yarn test:ci`. Caso tenha interesse, consulte o arquivo [`node.js.yml`](https://github.com/IglanCardeal/mercafacil-test/blob/main/.github/workflows/node.js.yml).
 
-<div id="#tecnologias"></div>
+<div id="tecnologias"></div>
 
 ## Tecnologias usadas
 
@@ -430,6 +430,6 @@ Estou na busca por desafios e resolvê-los através dos meus conhecimentos e tei
 
 <div align="center">
 
-Projeto feito com :heart: e dedicação. Gostou? então deixe uma :star: neste repositório :).
+Projeto feito com :heart: e dedicação por Iglan Cardeal. Gostou? então deixe uma :star: neste repositório :).
 
 </div>
