@@ -20,21 +20,22 @@ export class SignInController implements Controller {
           return badRequest(new MissingParamError(field));
         }
       }
-      const { email, name, type } = request.body;
+      const { email, type, password } = request.body;
       // simples validação de email
       if (!email.includes('@')) {
         return badRequest(new InvalidParamError('email'));
       }
       const client: Result<any> = await this.signinService.execute({
         email,
-        name,
         type,
+        password,
       });
       if (client.isFailure) {
         return badRequest(new DomainError(client.error));
       }
       return ok({ token: client.getValue().token });
     } catch (error) {
+      console.log(error);
       return internalServerError();
     }
   }

@@ -3,6 +3,7 @@ import '../utils/module-alias';
 import { Response } from '@src/shared/ports/http-port';
 import Fastify, { FastifyInstance, FastifyReply } from 'fastify';
 import { signupFactory } from './signup-factory';
+import { signinFactory } from './signin-factory';
 
 const app: FastifyInstance = Fastify({
   logger: {
@@ -15,6 +16,15 @@ app.post('/api/client/signup', async (request, reply: FastifyReply) => {
   const clientData = request.body;
   const signUpController = signupFactory();
   const response: Response = await signUpController.handle({
+    body: clientData,
+  });
+  return reply.send(response);
+});
+
+app.post('/api/client/signin', async (request, reply: FastifyReply) => {
+  const clientData = request.body;
+  const signInController = signinFactory();
+  const response: Response = await signInController.handle({
     body: clientData,
   });
   return reply.send(response);
