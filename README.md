@@ -8,7 +8,7 @@
 
 ---
 
-![1](https://img.shields.io/static/v1?label=tests&message=passing&color=green&style=flat) ![1](https://img.shields.io/static/v1?label=ci&message=passing&color=yellow&style=flat) ![1](https://img.shields.io/static/v1?label=yarn&message=v1.22.10&color=blue&style=flat) ![1](https://img.shields.io/static/v1?label=node&message=v16&color=darkgreen&style=flat) ![1](https://img.shields.io/static/v1?label=docker&message=v19.03.13&color=lightblue&style=flat) ![1](https://img.shields.io/static/v1?label=docker-compose&message=1.27.4&color=darkblue&style=flat) ![1](https://img.shields.io/static/v1?label=git&message=v2.25.1&color=red&style=flat) ![1](https://img.shields.io/static/v1?label=git&message=v2.25.1&color=red&style=flat)
+![1](https://img.shields.io/static/v1?label=tests&message=passing&color=green&style=flat) ![1](https://img.shields.io/static/v1?label=ci&message=passing&color=yellow&style=flat) ![1](https://img.shields.io/static/v1?label=yarn&message=v1.22.10&color=blue&style=flat) ![1](https://img.shields.io/static/v1?label=node&message=v16&color=darkgreen&style=flat) ![1](https://img.shields.io/static/v1?label=docker&message=v19.03.13&color=lightblue&style=flat) ![1](https://img.shields.io/static/v1?label=docker-compose&message=1.27.4&color=darkblue&style=flat) ![1](https://img.shields.io/static/v1?label=git&message=v2.25.1&color=red&style=flat) ![1](https://img.shields.io/static/v1?label=fastify&message=v3.21.3&color=white&style=flat)
 
 # Status do Projeto
 
