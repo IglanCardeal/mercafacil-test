@@ -10,25 +10,21 @@ const makeSut = () => {
   return new JsonWebTokenAdapter();
 };
 
+const signSpy = jest
+  .spyOn(jsonwebtoken, 'sign')
+  .mockImplementation((payload: any): string => {
+    return 'generate-token';
+  });
+
 describe('JWT Adapter', () => {
   it('Should call jwt sign', () => {
     const sut = makeSut();
-    const signSpy = jest
-      .spyOn(jsonwebtoken, 'sign')
-      .mockImplementationOnce((payload: any): string => {
-        return 'generate-token';
-      });
     sut.generate({ uuid: 'any data' });
     expect(signSpy).toHaveBeenCalled();
   });
 
   it('Should return a production token', () => {
     const sut = makeSut();
-    jest
-      .spyOn(jsonwebtoken, 'sign')
-      .mockImplementationOnce((payload: any): string => {
-        return 'generate-token';
-      });
     const token = sut.generate({ uuid: 'any data' });
     expect(token).toBe('generate-token');
   });
@@ -48,7 +44,7 @@ describe('JWT Adapter', () => {
     const clientToken = sut.generate({ uuid: 'any data', type: 'macapa' });
     jest
       .spyOn(jsonwebtoken, 'verify')
-      .mockImplementationOnce((payload: any): any => {
+      .mockImplementation((payload: any): any => {
         return { uuid: 'any data', type: 'macapa' };
       });
     const clientData = sut.verify(clientToken);
