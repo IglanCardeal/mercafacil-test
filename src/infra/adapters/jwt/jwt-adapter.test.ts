@@ -46,7 +46,7 @@ describe('JWT Adapter', () => {
   it('Should return a production client data', () => {
     const sut = makeSut();
     const clientToken = sut.generate({ uuid: 'any data', type: 'macapa' });
-    const signSpy = jest
+    jest
       .spyOn(jsonwebtoken, 'verify')
       .mockImplementationOnce((payload: any): any => {
         return { uuid: 'any data', type: 'macapa' };
