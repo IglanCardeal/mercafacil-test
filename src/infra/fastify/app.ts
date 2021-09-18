@@ -12,6 +12,25 @@ const app: FastifyInstance = Fastify({
   },
 });
 
+app.setNotFoundHandler(
+  {
+    preValidation: (req, reply, done) => {
+      done();
+    },
+    preHandler: (req, reply, done) => {
+      done();
+    },
+  },
+  function (request, reply) {
+    reply.code(404).send({
+      statusCode: 404,
+      body: {
+        error: 'Resource not found',
+      },
+    });
+  }
+);
+
 app.post('/api/client/signup', async (request, reply: FastifyReply) => {
   const clientData = request.body;
   const signUpController = signupFactory();
@@ -30,8 +49,10 @@ app.post('/api/client/signin', async (request, reply: FastifyReply) => {
   return reply.send(response);
 });
 
-// app.get('/ping', async (request, reply: FastifyReply) => {
-//   return reply.send({ pong: 'it worked!' });
-// });
+app.get('/api/contact/get', async (request, reply: FastifyReply) => {
+  const token = request.headers['authorization'];
+  request.log.info(`[TOKEN]: ${token}`);
+  return reply.send({ pong: 'it worked!' });
+});
 
 export { app };
