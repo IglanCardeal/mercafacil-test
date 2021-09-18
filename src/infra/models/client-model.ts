@@ -66,9 +66,3 @@ VarejaoClient.init(baseClientStructure, {
 });
 
 export default { MacapaClient, VarejaoClient };
-
-// export const MacapaClient: ModelDefined<Client, ClientAttributes> =
-//   databases.mysqlConnection.define('Client', baseClientStructure);
-
-// export const VarejaoClient: ModelDefined<Client, ClientAttributes> =
-//   databases.postgresConnection.define('Client', baseClientStructure);
