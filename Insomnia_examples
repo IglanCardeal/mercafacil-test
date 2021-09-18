@@ -1,11 +1,11 @@
 _type: export
 __export_format: 4
-__export_date: 2021-09-18T12:42:11.976Z
+__export_date: 2021-09-18T13:25:38.812Z
 __export_source: insomnia.desktop.app:v2020.4.2
 resources:
   - _id: req_f12016bbaf714a04b4458b5dc92ba7e4
     parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
-    modified: 1631968723393
+    modified: 1631970170459
     created: 1631936095500
     url: http://localhost:3000/api/contact/create
     name: Contacts Creation
@@ -15,8 +15,12 @@ resources:
       mimeType: application/json
       text: |-
         {
-        	"contacts": [{"name": "Marina de  Rodrigues",
-                    "cellphone": "5541996941919"}]
+        	"contacts": [
+        		{
+        			"name": "Marina de  Rodrigues",
+              "cellphone": "5541996941922"
+        		}
+        	]
         }
     parameters: []
     headers:
@@ -25,7 +29,7 @@ resources:
     authentication:
       type: bearer
       prefix: ""
-      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZDI0YzZiOWMtMmQzOS00ZmZiLThkM2QtY2QyZmQ5OTZlYTczIiwidHlwZSI6InZhcmVqYW8iLCJpYXQiOjE2MzE5Njg3MDYsImV4cCI6MTYzMTk3MjMwNiwiaXNzIjoiTWVyY2FmYWNpbCBCYWNrZW5kIEFQSSBUZXN0In0.HYke8S6kW-jOP-fIK3um60TaVGzqmL8a3azx-a5-eY1FLhn7wwmPwDymx9VtPDgEIGelv2Vfmfnk2NQ96nhF8g
+      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiY2JjMmRkNTctZTg5Ny00YzllLWJiNzAtNDc1MmZkZDg1ZTJkIiwidHlwZSI6Im1hY2FwYSIsImlhdCI6MTYzMTk3MDA1NCwiZXhwIjoxNjMxOTczNjU0LCJpc3MiOiJNZXJjYWZhY2lsIEJhY2tlbmQgQVBJIFRlc3QifQ.t7_naCB8SirW28NX3OWbOzS5nTFghfDgimGiVgiiRibRsf8lJinErMXOhjJHHNOi49mtzoePP5eU6JruVoBU9g
     metaSortKey: -1631936095500
     isPrivate: false
     settingStoreCookies: true
@@ -45,7 +49,7 @@ resources:
     _type: workspace
   - _id: req_93caff65fbfc44e8b3057f73056ecda9
     parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
-    modified: 1631968813640
+    modified: 1631970064574
     created: 1631962502822
     url: http://localhost:3000/api/contact/get
     name: Contacts Get
@@ -57,7 +61,7 @@ resources:
     authentication:
       type: bearer
       prefix: ""
-      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZDI0YzZiOWMtMmQzOS00ZmZiLThkM2QtY2QyZmQ5OTZlYTczIiwidHlwZSI6InZhcmVqYW8iLCJpYXQiOjE2MzE5Njg3MDYsImV4cCI6MTYzMTk3MjMwNiwiaXNzIjoiTWVyY2FmYWNpbCBCYWNrZW5kIEFQSSBUZXN0In0.HYke8S6kW-jOP-fIK3um60TaVGzqmL8a3azx-a5-eY1FLhn7wwmPwDymx9VtPDgEIGelv2Vfmfnk2NQ96nhF8g
+      token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiY2JjMmRkNTctZTg5Ny00YzllLWJiNzAtNDc1MmZkZDg1ZTJkIiwidHlwZSI6Im1hY2FwYSIsImlhdCI6MTYzMTk3MDA1NCwiZXhwIjoxNjMxOTczNjU0LCJpc3MiOiJNZXJjYWZhY2lsIEJhY2tlbmQgQVBJIFRlc3QifQ.t7_naCB8SirW28NX3OWbOzS5nTFghfDgimGiVgiiRibRsf8lJinErMXOhjJHHNOi49mtzoePP5eU6JruVoBU9g
     metaSortKey: -1631925242457
     isPrivate: false
     settingStoreCookies: true
@@ -100,7 +104,7 @@ resources:
     _type: request
   - _id: req_52d7f91bdd334844b593d0c417089070
     parentId: wrk_dd007d7d983244feae09f013f4ec9cb2
-    modified: 1631968704411
+    modified: 1631969321505
     created: 1631933996332
     url: http://localhost:3000/api/client/signin
     name: Client SignIn
@@ -112,7 +116,7 @@ resources:
         {
         	"email":"any2@email.com",
         	"password":"any_pass",
-        	"type":"varejao"
+        	"type":"macapa"
         }
     parameters: []
     headers:

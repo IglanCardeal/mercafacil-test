@@ -22,8 +22,9 @@ Concluído
    - [Docker compose](#dockercompose)
    - [Makefile](#makefile)
    - [Arquivo `.env`](#env)
+1. [API](#api)
 1. [Como testar localmente](#comotestar)
-   - [API](#api)
+   - [Insomnia](#insomnia)
 1. [Testes](#testes)
    - [Testes unitários](#unitarios)
 1. [CI - GitHub Actions](#githubactions)
@@ -192,13 +193,9 @@ No mesmo, também, devem ser informadas as credenciais para acesso a banco de da
 
 Recomendo que você use as credenciais que já estão no arquivo de exemplo, mas caso queira alterá-las, não esqueça de fazer os ajustes no arquivo do [`docker-compose.yml`](#dockercompose).
 
-<div id="comotestar"></div>
-
-## Como testar localmente
-
 <div id="api"></div>
 
-### API
+## API
 
 Os _endpoins_ da API são demonstrados a seguir junto com o campos de exemplo:
 
@@ -327,6 +324,16 @@ URL base padrão: `http://localhost:3000`
       }
     }
     ```
+
+<div id="comotestar"></div>
+
+## Como testar localmente
+
+<div id="insomnia"></div>
+
+### Insomnia
+
+Este projeto possui o arquivo `Insomnia_examples` com exemplos para realizar chamadas HTTP para todas as rotas. Importe este arquivo no [Insomnia](https://insomnia.rest/download) e começe os testes.
 
 <div id="testes"></div>
 
