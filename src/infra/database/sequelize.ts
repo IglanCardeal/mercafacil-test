@@ -9,7 +9,7 @@ const env = ENV.NODE_ENV as string;
 
 const { mysql, postgres } = dbConfig[env].databases;
 
-const databases = {
+export const databases = {
   mysqlConnection: new Sequelize(
     mysql.database,
     mysql.username,
@@ -18,6 +18,9 @@ const databases = {
       dialect: mysql.dialect as Dialect,
       host: mysql.host,
       logging: false,
+      define: {
+        timestamps: false, // desativado evita uso de createdAt e updatedAt
+      },
     }
   ),
   postgresConnection: new Sequelize(
@@ -28,6 +31,9 @@ const databases = {
       dialect: postgres.dialect as Dialect,
       host: postgres.host,
       logging: false,
+      define: {
+        timestamps: false, // desativado evita uso de createdAt e updatedAt
+      },
     }
   ),
 };
@@ -46,7 +52,7 @@ export class Databases {
       `);
       Logger.info('[DATABASE] MySQL table contacts created with success');
       await databases.mysqlConnection.query(`
-        CREATE TABLE IF NOT EXISTS clients (
+        CREATE TABLE IF NOT EXISTS Clients (
           id serial PRIMARY KEY,
           name VARCHAR ( 200 ) NOT NULL,
           email VARCHAR ( 512 ) NOT NULL,
@@ -74,7 +80,7 @@ export class Databases {
       `);
       Logger.info('[DATABASE] Postgres table contacts created with success');
       await databases.postgresConnection.query(`
-        CREATE TABLE IF NOT EXISTS clients (
+        CREATE TABLE IF NOT EXISTS Clients (
           id serial PRIMARY KEY,
           name VARCHAR ( 200 ) NOT NULL,
           email VARCHAR ( 512 ) NOT NULL,
