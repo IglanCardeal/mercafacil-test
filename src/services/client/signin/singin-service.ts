@@ -49,6 +49,6 @@ export class SignInService implements ClientSignInService {
       uuid: clientFound.uuid,
       type: clientFound.type,
     });
-    return Result.ok({ token } as any);
+    return Result.ok({ token: `Bearer ${token}` } as any);
   }
 }
