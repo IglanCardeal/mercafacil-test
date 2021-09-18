@@ -44,7 +44,7 @@ describe('Get Client Contacts', () => {
   it('Should return failure when client type is not allowed', async () => {
     const { sut } = sutFactory();
     const data: GetContactsDTO = {
-      key: 'unique_key',
+      uuid: 'unique_key',
       type: 'macapas' as any,
     };
     const response = await sut.execute(data);
@@ -57,7 +57,7 @@ describe('Get Client Contacts', () => {
   it('Should return failure when client key is not found', async () => {
     const { sut, clientRepositoryStub } = sutFactory();
     const data: GetContactsDTO = {
-      key: 'dont_exist_unique_key',
+      uuid: 'dont_exist_unique_key',
       type: 'macapa',
     };
     jest
@@ -72,7 +72,7 @@ describe('Get Client Contacts', () => {
   it('Should return client contacts when success', async () => {
     const { sut } = sutFactory();
     const data: GetContactsDTO = {
-      key: 'unique_key',
+      uuid: 'unique_key',
       type: 'macapa',
     };
     const response = await sut.execute(data);

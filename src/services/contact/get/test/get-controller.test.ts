@@ -25,7 +25,7 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: '',
-        key: 'unique_key',
+        uuid: 'unique_key',
       },
     };
     const response = await sut.handle(request);
@@ -38,12 +38,12 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: 'varejao',
-        key: '',
+        uuid: '',
       },
     };
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe(`Missing param: key`);
+    expect(response.body.error).toBe(`Missing param: uuid`);
   });
 
   it('Should return 401 when client key was not found', async () => {
@@ -51,7 +51,7 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: 'varejao',
-        key: 'key_not_exist',
+        uuid: 'key_not_exist',
       },
     };
     jest
@@ -72,7 +72,7 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: 'varejao',
-        key: 'key_not_exist',
+        uuid: 'key_not_exist',
       },
     };
     jest
@@ -90,7 +90,7 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: 'varejao',
-        key: 'client_key',
+        uuid: 'client_key',
       },
     };
     jest
@@ -108,7 +108,7 @@ describe('Get Contact Controller', () => {
     const request = {
       body: {
         type: 'varejao',
-        key: 'client_key',
+        uuid: 'client_key',
       },
     };
     const response = await sut.handle(request);

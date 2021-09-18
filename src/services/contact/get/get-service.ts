@@ -18,14 +18,14 @@ export class GetContacts implements GetContactsService {
   ) {}
 
   async execute(data: GetContactsDTO): Promise<Result<Contact[]>> {
-    const { type, key } = data;
+    const { type, uuid } = data;
     const isClientTypeAllowed = this.clientTypes.includes(type);
     if (!isClientTypeAllowed) {
       return Result.fail(
         `Invalid client type: ${type}. Must be "varejao" or "macapa"`
       );
     }
-    const clientFound = await this.clientRepository[type].findClientByKey(key);
+    const clientFound = await this.clientRepository[type].findClientByKey(uuid);
     if (!clientFound) {
       return Result.fail(
         'Client not found. Action not authorized',

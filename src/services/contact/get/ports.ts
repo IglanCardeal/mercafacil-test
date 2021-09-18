@@ -3,7 +3,7 @@ import { Contact } from '@src/domain/models/contact';
 
 export interface GetContactsDTO {
   type: ClientTypes;
-  key: string;
+  uuid: string;
 }
 
 export interface ClientRepository {

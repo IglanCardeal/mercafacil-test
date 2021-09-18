@@ -16,16 +16,16 @@ export class GetController implements Controller {
 
   async handle(request: Request): Promise<Response> {
     try {
-      const requiredParams = ['key', 'type'];
+      const requiredParams = ['uuid', 'type'];
       for (const param of requiredParams) {
         if (!request.body[param]) {
           return badRequest(new MissingParamError(param));
         }
       }
-      const { type, key } = request.body;
+      const { type, uuid } = request.body;
       const contacts: Result<Contact[]> = await this.getService.execute({
         type,
-        key,
+        uuid,
       });
       if (contacts.isFailure) {
         const domainErrorType = contacts.type;
