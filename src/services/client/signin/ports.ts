@@ -1,13 +1,13 @@
 import { Client } from '@src/domain/models/client';
 
-export interface ClientSignInRepository {
-  varejao: {
-    findClientByEmail: (email: string) => Promise<Client | null>;
-  };
+type basicMethod = {
+  findClientByEmail: (email: string) => Promise<Client | null>;
+};
 
-  macapa: {
-    findClientByEmail: (email: string) => Promise<Client | null>;
-  };
+export interface ClientSignInRepository {
+  varejao: basicMethod;
+
+  macapa: basicMethod;
 }
 
 export interface PasswordCompare {

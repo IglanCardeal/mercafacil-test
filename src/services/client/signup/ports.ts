@@ -1,17 +1,15 @@
 import { Client } from '@src/domain/models/client';
 
+type basicMethods = {
+  findClientByEmail: (email: string) => Promise<Client | null>;
+
+  createClient: (client: any) => Promise<Client>;
+};
+
 export interface ClientSignUpRepository {
-  varejao: {
-    findClientByEmail: (email: string) => Promise<Client | null>;
+  varejao: basicMethods;
 
-    createClient: (client: any) => Promise<Client>;
-  };
-
-  macapa: {
-    findClientByEmail: (email: string) => Promise<Client | null>;
-
-    createClient: (client: any) => Promise<Client>;
-  };
+  macapa: basicMethods;
 }
 
 export interface Encrypter {
