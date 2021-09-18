@@ -45,7 +45,10 @@ export class SignInService implements ClientSignInService {
     if (!isValidPassword) {
       return Result.fail('Invalid param: email or password is incorrect');
     }
-    const token = this.tokenGenerator.generate({ key: clientFound.uuid });
+    const token = this.tokenGenerator.generate({
+      uuid: clientFound.uuid,
+      type: clientFound.type,
+    });
     return Result.ok({ token } as any);
   }
 }

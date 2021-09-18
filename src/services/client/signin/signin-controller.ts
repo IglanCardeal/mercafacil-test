@@ -35,7 +35,6 @@ export class SignInController implements Controller {
       }
       return ok({ token: client.getValue().token });
     } catch (error) {
-      console.log(error);
       return internalServerError();
     }
   }

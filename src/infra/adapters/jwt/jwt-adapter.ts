@@ -11,4 +11,8 @@ export class JsonWebTokenAdapter implements TokenGenerator {
   generate(payload: any): string {
     return jsonwebtoken.sign(payload, ENV.PRIVATE_KEY as string, options);
   }
+
+  verify(token: string): any {
+    return jsonwebtoken.verify(token, ENV.PUBLIC_KEY as string);
+  }
 }
