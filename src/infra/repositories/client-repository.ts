@@ -31,6 +31,17 @@ export class SequelizeClientRepository
       });
       return clientCreated;
     },
+
+    findClientByKey: async (key: string): Promise<Client | null> => {
+      const client = await VarejaoClient.findOne({
+        where: { uuid: key },
+      });
+      if (!client) {
+        return null;
+      }
+      const { id, uuid, name, email, type, password } = client;
+      return { id, uuid, name, email, type, password };
+    },
   };
 
   public macapa = {
@@ -55,6 +66,17 @@ export class SequelizeClientRepository
       });
 
       return { ...client, id: clientCreated.id };
+    },
+
+    findClientByKey: async (key: string): Promise<Client | null> => {
+      const client = await MacapaClient.findOne({
+        where: { uuid: key },
+      });
+      if (!client) {
+        return null;
+      }
+      const { id, uuid, name, email, type, password } = client;
+      return { id, uuid, name, email, type, password };
     },
   };
 }
