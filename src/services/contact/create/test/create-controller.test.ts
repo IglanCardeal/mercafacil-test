@@ -78,7 +78,7 @@ describe('Create Contact Controller', () => {
     const response = await sut.handle(request);
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe(
-      'Invalid param: contacts must be an array'
+      'Invalid param: contacts must be an array of contacts'
     );
   });
 

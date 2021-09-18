@@ -27,8 +27,10 @@ export class CreateController implements Controller {
         }
       }
       const isArrayOfContacts = Boolean(request.body.contacts instanceof Array);
-      if (!isArrayOfContacts) {
-        return badRequest(new InvalidParamError('contacts must be an array'));
+      if (!isArrayOfContacts || request.body.contacts.length === 0) {
+        return badRequest(
+          new InvalidParamError('contacts must be an array of contacts')
+        );
       }
       const { contacts, type, uuid } = request.body;
       for (const contact of contacts) {
