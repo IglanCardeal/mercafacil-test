@@ -52,7 +52,7 @@ export class Databases {
       `);
       Logger.info('[DATABASE] MySQL table contacts created with success');
       await databases.mysqlConnection.query(`
-        CREATE TABLE IF NOT EXISTS Clients (
+        CREATE TABLE IF NOT EXISTS clients (
           id serial PRIMARY KEY,
           name VARCHAR ( 200 ) NOT NULL,
           email VARCHAR ( 512 ) NOT NULL,
@@ -61,7 +61,7 @@ export class Databases {
           password VARCHAR ( 512 ) NOT NULL
         );
       `);
-      Logger.info('[DATABASE] MySQL table Clients created with success');
+      Logger.info('[DATABASE] MySQL table clients created with success');
     } catch (error) {
       throw new Error(`[DATABASE]: ${error}`);
     }
@@ -80,7 +80,7 @@ export class Databases {
       `);
       Logger.info('[DATABASE] Postgres table contacts created with success');
       await databases.postgresConnection.query(`
-        CREATE TABLE IF NOT EXISTS Clients (
+        CREATE TABLE IF NOT EXISTS clients (
           id serial PRIMARY KEY,
           name VARCHAR ( 200 ) NOT NULL,
           email VARCHAR ( 512 ) NOT NULL,
@@ -89,7 +89,7 @@ export class Databases {
           password VARCHAR ( 512 ) NOT NULL
         );
       `);
-      Logger.info('[DATABASE] Postgres table Clients created with success');
+      Logger.info('[DATABASE] Postgres table clients created with success');
     } catch (error) {
       throw new Error(`[DATABASE]: ${error}`);
     }

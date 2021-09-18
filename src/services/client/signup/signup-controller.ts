@@ -36,6 +36,7 @@ export class SignUpController implements Controller {
       }
       return created(client.getValue());
     } catch (error) {
+      console.error(error);
       return internalServerError();
     }
   }

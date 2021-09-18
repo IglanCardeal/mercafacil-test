@@ -54,14 +54,14 @@ export class VarejaoClient
 }
 
 MacapaClient.init(baseClientStructure, {
-  tableName: 'Clients',
+  tableName: 'clients',
   timestamps: false,
   sequelize: databases.mysqlConnection,
   freezeTableName: true,
 });
 
 VarejaoClient.init(baseClientStructure, {
-  tableName: 'Clients',
+  tableName: 'clients',
   timestamps: false,
   sequelize: databases.postgresConnection,
   freezeTableName: true,
