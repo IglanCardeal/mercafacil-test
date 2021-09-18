@@ -20,16 +20,18 @@ Finalizando...
 
 1. [Funcionalidades](#funcionalidades)
 1. [Pré-requisitos](#prerequisitos)
+1. [Iniciando o projeto](#iniciando)
    - [Docker compose](#dockercompose)
    - [Makefile](#makefile)
    - [Arquivo `.env`](#env)
-1. [Como executar localmente](#comotestar)
+1. [Como testar localmente](#comotestar)
    - [API](#api)
 1. [Arquitetura do sistema](#arquitetura)
 1. [Testes](#testes)
    - [Testes unitários](#unitarios)
 1. [CI - GitHub Actions](#githubactions)
 1. [Scripts](#scripts)
+1. [Tecnologias usadas](#tecnologias)
 1. [Autor](#autor)
 
 <div id="funcionalidades"></div>
@@ -48,25 +50,119 @@ Clientes cadastrados:
 - [x] Salvar seus contatos informando nome e telefone.
 - [x] Recuperar seus contatos.
 
-Todos os clientes podem realizar chamadas HTTP para os mesmos endpoints da aplicação
+Todos os clientes podem realizar chamadas HTTP para os mesmos endpoints da aplicação, a diferença está definida em um campo no token JWT que será descriptografado, validado e com base nos valores retornados, será executada determinada operação de acordo com o tipo do cliente.
 
 <div id="prerequisitos"></div>
 
 ## Pré-requisitos
 
+Para iniciar os testes localmente com este projeto, você deve ter instalado em sua máquina o [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/), [Docker](https://www.docker.com/) e [Git](https://git-scm.com/).
+
+<div id="iniciando"></div>
+
+## Iniciando o projeto
+
+Para começar, faça o clone deste repositório:
+
+```bash
+$ git clone https://github.com/IglanCardeal/mercafacil-test.git
+```
+
+e acesse a pasta do projeto:
+
+```bash
+$ cd mercafacil-test
+```
+
+Instale as dependências usando o Yarn:
+
+```bash
+$ yarn install
+```
+
+<sup>Caso você não tenha o yarn instalado, instale-o usando o npm: `$ npm install -g yarn`</sup>
+
+Renomeie o arquivo `.env.example` para `.env`. Para saber mais sobre este arquivo, [clique aqui](#env).
+
 <div id="dockercompose"></div>
 
 ### Docker compose
+
+Este projeto possui o arquivo `docker-compose.yml` que deve ser usado para iniciar os servidores de banco de dados MySQL e Postgres. O arquivo tem a seguinte estrutura:
+
+```yml
+version: '3'
+
+services:
+  mysql:
+    container_name: mercafacil-api-mysql
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker-volumes/mercafacil-api/mysql:/data/dbc
+
+  postgresql:
+    container_name: mercafacil-api-postgres
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'admin'
+      POSTGRES_USER: 'admin'
+    volumes:
+      - ./docker-volumes/mercafacil-api/postgres:/data/dbc
+```
+
+Faça os devidos ajustes de acordo com seu ambiente. Os `volumes` dos containers ficarão dentro da pasta `docker-volumes` na raiz do projeto.
 
 <div id="makefile"></div>
 
 ### Makefile
 
+Este é um arquivo [Make](<https://en.wikipedia.org/wiki/Make_(software)>) usado para simplificar os comandos do `docker-compose`, ou seja, ao invés de ter que executar o comando `docker-compose logs -f` para obter os logs, com Makefile basta executar `make logs`. O arquivo tem a seguinte estrutura:
+
+```yml
+.PHONY: up
+
+.PHONY: logs
+
+.PHONY: down
+
+up:
+	docker-compose up -d
+
+down:
+	docker-compose down
+
+logs:
+	docker-compose logs -f
+```
+
+Execute o comando `make up` para executar o `docker-compose` e iniciar/instalar os bancos de dados.
+
+Por fim, execute o comando:
+
+```bash
+$ yarn dev
+```
+
+Isto irá subir o servidor em modo `development`, mas pronto para receber as chamadas HTTP. Por padrão, o servidor escuta na URL ` http://127.0.0.1:3000` (`3000` porta definida no `.env`).
+
 <div id="env"></div>
 
 ### Arquivo `.env`
 
-O projeto usa um arquivo do tipo `.env` é utilizado pela aplicação para usar as [variáveis de ambiente](https://en.wikipedia.org/wiki/Environment_variable). Neste arquivo é definido as credenciais que será utilizada pela aplicação. Na raíz do projeto, eu coloquei um arquivo `.env.example` para que você possa se basear para configurar sua credenciais.
+O projeto usa um arquivo do tipo `.env` é utilizado pela aplicação para usar as [variáveis de ambiente](https://en.wikipedia.org/wiki/Environment_variable). Neste arquivo é definido as credenciais que será utilizada pela aplicação. Na raiz do projeto, eu coloquei um arquivo `.env.example` para que você possa se basear para configurar sua credenciais.
 
 Os valores informados e sua motivação são explicadas a seguir:
 
@@ -101,7 +197,7 @@ Recomendo que você use as credenciais que já estão no arquivo de exemplo, mas
 
 <div id="comotestar"></div>
 
-## Como executar localmente
+## Como testar localmente
 
 <div id="api"></div>
 
@@ -117,11 +213,11 @@ Recomendo que você use as credenciais que já estão no arquivo de exemplo, mas
 
 <div id="unitarios"></div>
 
-### Testes unitarios
+### Testes unitários
 
 As configuraçôes de testes unitários estão no arquivo `jest.config.js` e durante a execuçâo destes testes, será exibido o prefixo `unit-tests`, destacando que tipo de teste está sendo executado.
 
-A minha iniciativa de criar um sistema com módulos desacoplados (`controllers`,`services`, `repositories` e `adapters`) perimitiu a criaçâo de testes unitários dos principais módulos da aplicaçâo. Cada um desses módulos possuem o seu respectivo teste unitário no próprio arquivo de produçâo ou dentro da pasta `test` no mesmo diretório. Exemplo:
+A minha iniciativa de criar um sistema com módulos desacoplados (`controllers`,`services`, `repositories` e `adapters`) perimitiu a criaçâo de testes unitários dos principais módulos da aplicaçâo. Eu segui o TDD durante a criação dos principais módulos do sistemas. Cada um desses módulos possuem o seu respectivo teste unitário no próprio arquivo de produçâo ou dentro da pasta `test` no mesmo diretório. Exemplo:
 
 ```none
   |
@@ -172,6 +268,27 @@ Dentro do arquivo `package.json`, temos os scripts que podem ser executados no p
 <div id="githubactions"></div>
 
 ## CI GitHub Actions
+
+Este projeto faz o uso do [GitHub Actions](https://docs.github.com/pt/get-started) para garantir a qualidade de código do projeto devido ao fato de eu gerar muitos commits e integrá-los frequentementes a este repositório. Durante a esteira de CI, os teste unitário são executados com o comando `yarn test:ci`. Caso tenha interesse, consulte o arquivo [`node.js.yml`](https://github.com/IglanCardeal/mercafacil-test/blob/main/.github/workflows/node.js.yml).
+
+<div id="#tecnologias"></div>
+
+## Tecnologias usadas
+
+Para criar este projeto, além das tecnologias mencionadas nos requisitos, foi usado as ferramentas/bibliotecas/frameworks:
+
+- `Fastify` -> framework web com logger `pino` integrado por padrão, usado para tratar as chamadas e rotas HTTP.
+- `JEST` -> para criação de testes unitários.
+- `Bcrypt` -> para criptografia de senhas.
+- `JsonWebToken` -> para criação de tokens de autenticação.
+- `UUID` -> para criação de identificadores únicos.
+- `Sequelize` -> ORM para executar query/commands nos bancos de dados.
+- `TypeScript` -> JavaScript equipado com um foguete, ou seja, _superset_ do JavaScript.
+- `eslint` -> para definição de regras de estilos de códigos.
+- `prettier` -> formatador de código.
+- `husky` -> para executar script de acordo com os _hooks_ do Git.
+- `git-commit-msg-linter` -> forçar commits semânticos.
+- `ts-node-dev` -> executar o servidor em TS sem precisar gerar build do projeto.
 
 <div id="autor"></div>
 
