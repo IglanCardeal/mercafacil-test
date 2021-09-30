@@ -58,6 +58,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "fast-csv": "^4.3.6",
     "fastify": "^3.21.3",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
