@@ -32,32 +32,4 @@ export class SequelizeContactRepository
       });
     },
   };
-
-  // public macapa = {
-  //   createContact: async (
-  //     contacts: Omit<Contact, 'id'>[]
-  //   ): Promise<Contact[]> => {
-  //     const contactsCreated = await MacapaContact.bulkCreate(contacts, {
-  //       updateOnDuplicate: ['name'], // evita duplicados e apenas atualiza nome
-  //     });
-  //     return contactsCreated.map(contact => {
-  //       return {
-  //         id: contact.id,
-  //         name: contact.name,
-  //         cellphone: contact.cellphone,
-  //       };
-  //     });
-  //   },
-
-  //   getContacts: async (): Promise<Contact[]> => {
-  //     const contacts = await MacapaContact.findAll();
-  //     return contacts.map(contact => {
-  //       return {
-  //         id: contact.id,
-  //         name: contact.name,
-  //         cellphone: contact.cellphone,
-  //       };
-  //     });
-  //   },
-  // };
 }

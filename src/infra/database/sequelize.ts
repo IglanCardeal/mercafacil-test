@@ -39,18 +39,10 @@ export const databases = {
 };
 
 export class Databases {
-  public static async mysqlConnect() {
+  public static async mysqlConnect () {
     try {
       await databases.mysqlConnection.authenticate();
       Logger.info('[DATABASE] MySQL connection success');
-      await databases.mysqlConnection.query(`
-        CREATE TABLE IF NOT EXISTS contacts (
-          id serial PRIMARY KEY,
-          name VARCHAR ( 200 ) NOT NULL,
-          cellphone VARCHAR ( 20 ) NOT NULL UNIQUE
-        );
-      `);
-      Logger.info('[DATABASE] MySQL table contacts created with success');
       await databases.mysqlConnection.query(`
         CREATE TABLE IF NOT EXISTS clients (
           id serial PRIMARY KEY,
@@ -67,7 +59,7 @@ export class Databases {
     }
   }
 
-  public static async postgresConnect() {
+  public static async postgresConnect () {
     try {
       await databases.postgresConnection.authenticate();
       Logger.info('[DATABASE] Postgres connection success');
@@ -95,7 +87,7 @@ export class Databases {
     }
   }
 
-  public static async mysqlDisconnect() {
+  public static async mysqlDisconnect () {
     try {
       await databases.mysqlConnection.close();
       Logger.warn('[DATABASE] MySQL connection close success');
@@ -104,7 +96,7 @@ export class Databases {
     }
   }
 
-  public static async postgresDisconnect() {
+  public static async postgresDisconnect () {
     try {
       await databases.postgresConnection.close();
       Logger.info('[DATABASE] Postgres connection close success');
