@@ -1,5 +1,7 @@
-import { CreateContactRepository } from '@src/repositories/contact-repository';
-import { GetContactsRepository } from '@src/services/contact/get/ports';
+import {
+  CreateContactRepository,
+  GetContactsRepository,
+} from '@src/repositories/contact-repository';
 import { CsvContactRepository } from './csv/contact-csv-repository';
 import { SequelizeContactRepository } from './database/contact-db-repository';
 
