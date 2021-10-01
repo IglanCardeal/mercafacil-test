@@ -17,6 +17,8 @@ Concluído
 # Tabela de conteúdos
 
 1. [Funcionalidades](#funcionalidades)
+1. [Outras branchs](#branchs)
+   - [`csv`](#csv)
 1. [Pré-requisitos](#prerequisitos)
 1. [Iniciando o projeto](#iniciando)
    - [Docker compose](#dockercompose)
@@ -49,6 +51,18 @@ Clientes cadastrados:
 - [x] Recuperar seus contatos.
 
 Todos os clientes podem realizar chamadas HTTP para os mesmos endpoints da aplicação, a diferença está definida em um campo no token JWT que será descriptografado, validado e com base nos valores retornados, será executada determinada operação de acordo com o tipo do cliente.
+
+<div id="branchs"></div>
+
+## Outras branchs
+
+<div id="csv"></div>
+
+### CSV
+
+Nesta branch chamada **`csv`**, eu aplico um exemplo hipotético onde um dos clientes solicitou que os contatos fossem salvos em um arquivo **CSV** e não mais em um banco de dados. Neste caso eu fiz uma análise de o que eu teria que alterar e o quanto isso afetaria o restante do sistema para atender essa situação.
+
+Quer saber mais? Então acesse esta branch e veja o README onde eu explico mais sobre.
 
 <div id="prerequisitos"></div>
 
