@@ -15,9 +15,9 @@ export class CsvContactRepository
     createContact: async (
       contacts: Omit<Contact, 'id'>[]
     ): Promise<Contact[]> => {
-      contacts;
+      const contactsWithUuid = this.generateUuidForContacts(contacts);
       const csvAlreadyExist = existsSync(PATH_TO_CSV_FILE);
-      const shouldUseHeaders = csvAlreadyExist ? false : true;
+      const shouldUseHeaders = !csvAlreadyExist;
       const tabDelimiter = '\t';
       const csvStream = csv.format({
         headers: shouldUseHeaders,
@@ -26,7 +26,6 @@ export class CsvContactRepository
       });
 
       csvStream.pipe(createWriteStream(PATH_TO_CSV_FILE, { flags: 'a' }));
-      const contactsWithUuid = this.generateUuidForContacts(contacts);
       for (const contact of contactsWithUuid) {
         csvStream.write(contact);
       }
@@ -38,9 +37,10 @@ export class CsvContactRepository
     getContacts: async (): Promise<Contact[]> => {
       const tabDelimiter = '\t';
       const csvAlreadyExist = existsSync(PATH_TO_CSV_FILE);
-      if (!csvAlreadyExist) return [];
       const contacts: Contact[] = [];
       const csvStreamRead = createReadStream(PATH_TO_CSV_FILE);
+
+      if (!csvAlreadyExist) return [];
 
       return new Promise((resolve, reject) => {
         csvStreamRead
