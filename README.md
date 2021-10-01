@@ -20,7 +20,7 @@ Para a documentação oficial, consulte a branch [`main`](https://github.com/Igl
 
 **Criei esta branch como uma prova de conceito**. Pelo fato de eu ter seguido uma estratégia mais voltada para arquitetura em camadas e seguindo os princípios SOLID na construção do sistema, facilitou eu aplicar uma mudança em uma parte específica do projeto sem afetar os outros componentes do sistema.
 
-Imaginei uma situação hipotética em que fosse necessário adapatar parte do sistema para atender essa situação. Na situação hipotética, o cliente **Macapá** decidiu que os contatos não seriam mais salvos no banco MySQL. Ao invés disso, todos os contatos seriam salvos em um arquivo **CSV** e que essa mudança devesse ser aplicada o quanto antes.
+Imaginei uma situação hipotética em que fosse necessário adaptar parte do sistema para atender essa situação. Na situação hipotética, o cliente **Macapá** decidiu que os contatos não seriam mais salvos no banco MySQL. Ao invés disso, todos os contatos seriam salvos em um arquivo **CSV** e que essa mudança devesse ser aplicada o quanto antes.
 
 Pelo fato de ter seguido uma abordagem de arquitetura em camadas, poucas partes do sistema teve que ser alterada. Somente a pasta de `infra` teve arquivos alterados. Como agora eu não iria mais usar MySQL para salvar contatos do cliente **Macapá**, eu resolvi criar duas pastas para deixar explicito que eu teria duas implementações de repositórios. Um chamado `CSV` e outro `database`.
 
@@ -34,23 +34,23 @@ export class CsvContactRepository
   }
 ```
 
-E na hora de implementar a classe `ContactRepository` que será injetada na camada de serviço, usei composição de objetos e consegui respeitar a interface esperada pela camada se serviço:
+E na hora de implementar a classe `ContactRepository` que será injetada na camada de serviço, usei composição de objetos e consegui respeitar a interface esperada pela camada de serviço:
 
 ```js
-import { CreateContactRepository } from '@src/repositories/contact-repository';
-import { GetContactsRepository } from '@src/services/contact/get/ports';
+// src/infra/repositories/contact-repository.ts
+import {
+  CreateContactRepository,
+  GetContactsRepository,
+} from '@src/repositories/contact-repository';
 import { CsvContactRepository } from './csv/contact-csv-repository';
 import { SequelizeContactRepository } from './database/contact-db-repository';
 
 export class ContactRepository
   implements CreateContactRepository, GetContactsRepository {
-  public varejao: any;
-  public macapa: any;
-
-  constructor () {
-    this.varejao = new SequelizeContactRepository().varejao;
-    this.macapa = new CsvContactRepository().macapa;
-  }
+  constructor (
+    public varejao = new SequelizeContactRepository().varejao,
+    public macapa = new CsvContactRepository().macapa
+  ) {}
 }
 ```
 
@@ -61,7 +61,7 @@ Todo o código da implementação está abaixo para facilitar a consulta:
 
 ```js
 import * as csv from 'fast-csv';
-import { createWriteStream, createReadStream, existsSync } from 'fs';
+import { createWriteStream, createReadStream, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 
 import { Contact } from '@src/domain/models/contact';
@@ -70,6 +70,7 @@ import { GetContactsRepository } from '@src/services/contact/get/ports';
 import { UuidAdapter } from '../../adapters/uuidv4/uuid-adapter';
 
 const PATH_TO_CSV_FILE = path.join(__dirname, 'store', 'macapa-contacts.csv');
+const PATH_TO_STORE_FOLDER = path.join(__dirname, 'store');
 
 export class CsvContactRepository
   implements Partial<CreateContactRepository>, Partial<GetContactsRepository> {
@@ -79,6 +80,10 @@ export class CsvContactRepository
     ): Promise<Contact[]> => {
       const contactsWithUuid = this.generateUuidForContacts(contacts);
       const csvAlreadyExist = existsSync(PATH_TO_CSV_FILE);
+      const storeFolderExist = existsSync(PATH_TO_STORE_FOLDER);
+
+      if (!storeFolderExist) mkdirSync(PATH_TO_STORE_FOLDER);
+
       const shouldUseHeaders = !csvAlreadyExist;
       const tabDelimiter = '\t';
       const csvStream = csv.format({
@@ -97,12 +102,14 @@ export class CsvContactRepository
     },
 
     getContacts: async (): Promise<Contact[]> => {
-      const tabDelimiter = '\t';
-      const csvAlreadyExist = existsSync(PATH_TO_CSV_FILE);
-      const contacts: Contact[] = [];
-      const csvStreamRead = createReadStream(PATH_TO_CSV_FILE);
+      const storeFolderExist = existsSync(path.join(__dirname, 'store'));
+      const csvAlreadyExist = existsSync(PATH_TO_CSV_FILE) && storeFolderExist;
 
       if (!csvAlreadyExist) return [];
+
+      const tabDelimiter = '\t';
+      const contacts: Contact[] = [];
+      const csvStreamRead = createReadStream(PATH_TO_CSV_FILE);
 
       return new Promise((resolve, reject) => {
         csvStreamRead

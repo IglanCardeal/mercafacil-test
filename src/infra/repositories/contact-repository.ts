@@ -1,3 +1,4 @@
+// src/infra/repositories/contact-repository.ts
 import {
   CreateContactRepository,
   GetContactsRepository,
@@ -7,11 +8,8 @@ import { SequelizeContactRepository } from './database/contact-db-repository';
 
 export class ContactRepository
   implements CreateContactRepository, GetContactsRepository {
-  public varejao: any;
-  public macapa: any;
-
-  constructor () {
-    this.varejao = new SequelizeContactRepository().varejao;
-    this.macapa = new CsvContactRepository().macapa;
-  }
+  constructor (
+    public varejao = new SequelizeContactRepository().varejao,
+    public macapa = new CsvContactRepository().macapa
+  ) {}
 }
