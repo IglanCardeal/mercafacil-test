@@ -121,6 +121,10 @@ describe('Create Contact Service', () => {
     const { sut } = sutFactory();
     const response: Result<Contact[]> = await sut.execute({
       ...makeContactData(),
+      contacts: [
+        ...makeContactData().contacts,
+        { name: '   Any    of   Name   ', cellphone: '55 41 97777 8888' },
+      ],
       type: 'varejao',
     });
     expect(response.isSuccess).toBe(true);
@@ -132,6 +136,11 @@ describe('Create Contact Service', () => {
     expect(response.getValue()[1]).toEqual({
       name: 'Mrs. Any Name',
       cellphone: '5541999999999',
+      id: expect.any(String),
+    });
+    expect(response.getValue()[2]).toEqual({
+      name: 'Any of Name',
+      cellphone: '5541977778888',
       id: expect.any(String),
     });
   });
