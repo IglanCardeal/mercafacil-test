@@ -4,11 +4,10 @@ import {
   ClientSignInRepository,
   ClientSignUpRepository,
 } from '@src/repositories/client-repository';
-import { MacapaClient, VarejaoClient } from '../models/client-model';
+import { MacapaClient, VarejaoClient } from '../../models/client-model';
 
 export class SequelizeClientRepository
-  implements ClientSignUpRepository, ClientSignInRepository
-{
+  implements ClientSignUpRepository, ClientSignInRepository {
   public varejao = {
     findClientByEmail: async (clientEmail: string): Promise<Client | null> => {
       const client = await VarejaoClient.findOne({

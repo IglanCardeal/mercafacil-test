@@ -1,5 +1,5 @@
-import { SequelizeClientRepository } from '@src/infra/repositories/client-repository';
-import { SequelizeContactRepository } from '@src/infra/repositories/contact-repository';
+import { SequelizeClientRepository } from '@src/infra/repositories/database/client-repository';
+import { SequelizeContactRepository } from '@src/infra/repositories/database/contact-repository';
 import { CreateController } from '@src/services/contact/create/create-controller';
 import { CreateService } from '@src/services/contact/create/create-service';
 

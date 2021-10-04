@@ -2,7 +2,7 @@ import { SignInController } from '@src/services/client/signin/signin-controller'
 import { SignInService } from '@src/services/client/signin/singin-service';
 import { BcryptAdapter } from '../../adapters/bcrypt/bcrypt-adapter';
 import { JsonWebTokenAdapter } from '../../adapters/jwt/jwt-adapter';
-import { SequelizeClientRepository } from '../../repositories/client-repository';
+import { SequelizeClientRepository } from '../../repositories/database/client-repository';
 
 export const signinFactory = () => {
   const clientRepository = new SequelizeClientRepository();
