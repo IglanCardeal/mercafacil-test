@@ -5,20 +5,22 @@ import { ClientSignUpDTO } from '../client-signup-dto';
 import { ClientSignUpRepository, Encrypter, UUIDGenerator } from '../ports';
 import { SignUpService } from '../signup-service';
 
+const clientData: Client = {
+  name: 'any name',
+  email: 'any@email.com',
+  password: 'hashed_password',
+  type: 'macapa',
+  id: 'any_id',
+  uuid: 'generated key',
+};
+
 class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   public macapa = {
-    async findClientByEmail(email: string): Promise<Client | null> {
-      return {
-        name: 'any name',
-        email: 'any@email.com',
-        password: 'any_pass',
-        type: 'macapa',
-        id: 'any_id',
-        uuid: 'any_key',
-      };
+    async findClientByEmail (email: string): Promise<Client | null> {
+      return clientData;
     },
 
-    async createClient(client: any): Promise<Client> {
+    async createClient (client: any): Promise<Client> {
       return {
         ...client,
         id: 'any_id',
@@ -27,18 +29,14 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
   };
 
   public varejao = {
-    async findClientByEmail(email: string): Promise<Client | null> {
+    async findClientByEmail (email: string): Promise<Client | null> {
       return {
-        name: 'any name',
-        email: 'any@email.com',
-        password: 'any_pass',
+        ...clientData,
         type: 'varejao',
-        id: 'any_id',
-        uuid: 'any_key',
       };
     },
 
-    async createClient(client: any): Promise<Client> {
+    async createClient (client: any): Promise<Client> {
       return {
         ...client,
         id: 'any_id',
@@ -48,16 +46,23 @@ class ClientSignUpRepositoryStub implements ClientSignUpRepository {
 }
 
 class EncrypterStub implements Encrypter {
-  async encrypt(value: any): Promise<string> {
+  async encrypt (value: any): Promise<string> {
     return 'hashed_password';
   }
 }
 
 class UUIDGeneratorStub implements UUIDGenerator {
-  generate(): string {
+  generate (): string {
     return 'generated key';
   }
 }
+
+const makeMacapaBody = (): ClientSignUpDTO => ({
+  name: 'any name',
+  email: 'any@email.com',
+  password: 'any_pass',
+  type: 'macapa',
+});
 
 const sutFactory = () => {
   const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
@@ -78,48 +83,27 @@ const sutFactory = () => {
 describe('Client SignUp Service', () => {
   it('Should return an error if the type of client is not allowed', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientSignUpDTO = {
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'any_pass',
+    const response: Result<any> = await sut.execute({
+      ...makeMacapaBody(),
       type: 'incorrect type' as any,
-    };
-    const response: Result<any> = await sut.execute(clientData);
+    });
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe(
-      `Invalid client type: ${clientData.type}. Must be "varejao" or "macapa"`
+      `Invalid client type: incorrect type. Must be "varejao" or "macapa"`
     );
   });
 
   it('Should an throw if the repository does not exist for the type of client', async () => {
-    const clientSignUpRepositoryStub = new ClientSignUpRepositoryStub();
-    const { encrypterStub, uuidGeneratorStub } = sutFactory();
+    const { sut, clientSignUpRepositoryStub } = sutFactory();
     clientSignUpRepositoryStub.macapa = {} as any;
-    const sut = new SignUpService(
-      clientSignUpRepositoryStub,
-      encrypterStub,
-      uuidGeneratorStub
-    );
-    const clientData: ClientSignUpDTO = {
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    await expect(sut.execute(clientData)).rejects.toThrowError(
-      `Client repository not found for type: ${clientData.type}`
+    await expect(sut.execute(makeMacapaBody())).rejects.toThrowError(
+      `Client repository not found for type: ${makeMacapaBody().type}`
     );
   });
 
   it('Should return an error if the email already exist', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientSignUpDTO = {
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    const response: Result<any> = await sut.execute(clientData);
+    const response: Result<any> = await sut.execute(makeMacapaBody());
     expect(response.isFailure).toBe(true);
   });
 
@@ -128,23 +112,9 @@ describe('Client SignUp Service', () => {
     jest
       .spyOn(clientSignUpRepositoryStub.macapa, 'findClientByEmail')
       .mockResolvedValueOnce(null);
-    const clientData: ClientSignUpDTO = {
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    const response: Result<any> = await sut.execute(clientData);
-    expect(response.isFailure).toBe(false);
+    const response: Result<any> = await sut.execute(makeMacapaBody());
     expect(response.isSuccess).toBe(true);
-    expect(response.getValue()).toEqual({
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'hashed_password',
-      type: 'macapa',
-      id: 'any_id',
-      uuid: 'generated key',
-    });
+    expect(response.getValue()).toEqual(clientData);
   });
 
   it('Should return "varejao" client data correctly when signup success', async () => {
@@ -152,22 +122,14 @@ describe('Client SignUp Service', () => {
     jest
       .spyOn(clientSignUpRepositoryStub.varejao, 'findClientByEmail')
       .mockResolvedValueOnce(null);
-    const clientData: ClientSignUpDTO = {
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'any_pass',
+    const response: Result<any> = await sut.execute({
+      ...makeMacapaBody(),
       type: 'varejao',
-    };
-    const response: Result<any> = await sut.execute(clientData);
-    expect(response.isFailure).toBe(false);
+    });
     expect(response.isSuccess).toBe(true);
     expect(response.getValue()).toEqual({
-      name: 'any name',
-      email: 'any@email.com',
-      password: 'hashed_password',
+      ...clientData,
       type: 'varejao',
-      id: 'any_id',
-      uuid: 'generated key',
     });
   });
 });
