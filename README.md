@@ -64,6 +64,10 @@ Nesta branch chamada **`csv`**, eu aplico um exemplo hipotético onde um dos cli
 
 Quer saber mais? Então acesse esta branch e veja o README onde eu explico mais sobre.
 
+---
+
+**Obs**: Refatorações futuras serão feitas somente na branch `main`.
+
 <div id="prerequisitos"></div>
 
 ## Pré-requisitos
