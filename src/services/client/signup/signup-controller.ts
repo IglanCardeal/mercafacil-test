@@ -11,9 +11,9 @@ import { Request, Response } from '@src/shared/ports/http-port';
 import { Result } from '@src/shared/result/result';
 
 export class SignUpController implements Controller {
-  constructor(private readonly signupService: ClientSignUpService) {}
+  constructor (private readonly signupService: ClientSignUpService) {}
 
-  async handle(request: Request): Promise<Response> {
+  async handle (request: Request): Promise<Response> {
     try {
       const requiredFields = ['name', 'type', 'password', 'email'];
       for (const field of requiredFields) {
@@ -36,7 +36,6 @@ export class SignUpController implements Controller {
       }
       return created(client.getValue());
     } catch (error) {
-      console.error(error);
       return internalServerError();
     }
   }
