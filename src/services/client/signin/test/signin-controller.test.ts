@@ -1,9 +1,15 @@
 import { ClientSignInService } from '@src/domain/services/client';
+import {
+  DomainError,
+  InvalidParamError,
+  MissingParamError,
+} from '@src/shared/errors';
+import { badRequest, internalServerError, ok } from '@src/shared/http';
 import { Result } from '@src/shared/result/result';
 import { SignInController } from '../signin-controller';
 
 class SignInServiceStub implements ClientSignInService {
-  async execute(data: any): Promise<any> {
+  async execute (data: any): Promise<any> {
     return Result.ok<any>({
       uuid: 'unique_key',
       id: 'unique_id',
@@ -12,6 +18,14 @@ class SignInServiceStub implements ClientSignInService {
     });
   }
 }
+
+const makeRequest = () => ({
+  body: {
+    type: 'varejao',
+    password: 'any_pass',
+    email: 'any@email.com',
+  },
+});
 
 const sutFactory = () => {
   const signInServiceStub = new SignInServiceStub();
@@ -24,44 +38,35 @@ const sutFactory = () => {
 describe('Client SignIn Controller', () => {
   it('Should return 400 if no password is provided', async () => {
     const { sut } = sutFactory();
-    const request = {
+    const response = await sut.handle({
       body: {
-        type: 'varejao',
+        ...makeRequest().body,
         password: '',
-        email: 'any@email.com',
       },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Missing param: password');
+    });
+    expect(response).toEqual(badRequest(new MissingParamError('password')));
   });
 
   it('Should return 400 if no email is provided', async () => {
     const { sut } = sutFactory();
-    const request = {
+    const response = await sut.handle({
       body: {
-        type: 'varejao',
-        password: 'any_pass',
+        ...makeRequest().body,
         email: '',
       },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Missing param: email');
+    });
+    expect(response).toEqual(badRequest(new MissingParamError('email')));
   });
 
   it('Should return 400 if no email is invalid', async () => {
     const { sut } = sutFactory();
-    const request = {
+    const response = await sut.handle({
       body: {
-        type: 'varejao',
-        password: 'any_pass',
-        email: 'anyemail.com',
+        ...makeRequest().body,
+        email: 'invalidemail.com',
       },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Invalid param: email');
+    });
+    expect(response).toEqual(badRequest(new InvalidParamError('email')));
   });
 
   it('Should return 400 if no email was found', async () => {
@@ -71,17 +76,11 @@ describe('Client SignIn Controller', () => {
       .mockImplementationOnce(async () => {
         return Result.fail('Invalid param: email or password is incorrect');
       });
-    const request = {
-      body: {
-        type: 'varejao',
-        password: 'any_pass',
-        email: 'any@email.com',
-      },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe(
-      'Invalid param: email or password is incorrect'
+    const response = await sut.handle(makeRequest());
+    expect(response).toEqual(
+      badRequest(
+        new DomainError('Invalid param: email or password is incorrect')
+      )
     );
   });
 
@@ -92,29 +91,13 @@ describe('Client SignIn Controller', () => {
       .mockImplementationOnce(async () => {
         throw new Error();
       });
-    const request = {
-      body: {
-        type: 'varejao',
-        password: 'any_pass',
-        email: 'any@email.com',
-      },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(500);
-    expect(response.body.error).toBe('Internal server error');
+    const response = await sut.handle(makeRequest());
+    expect(response).toEqual(internalServerError());
   });
 
   it('Should return 200 if singin success', async () => {
     const { sut } = sutFactory();
-    const request = {
-      body: {
-        type: 'varejao',
-        password: 'any_pass',
-        email: 'any@email.com',
-      },
-    };
-    const response = await sut.handle(request);
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ token: expect.any(String) });
+    const response = await sut.handle(makeRequest());
+    expect(response).toEqual(ok({ token: 'any_token' }));
   });
 });
