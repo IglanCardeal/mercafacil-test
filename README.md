@@ -155,24 +155,18 @@ Este é um arquivo [Make](<https://en.wikipedia.org/wiki/Make_(software)>) usado
 .PHONY: down
 
 up:
-	docker-compose up -d
+  docker-compose up -d && yarn dev
 
 down:
-	docker-compose down
+  docker-compose down
 
 logs:
-	docker-compose logs -f
+  docker-compose logs -f
 ```
 
-Execute o comando `make up` para executar o `docker-compose` e iniciar/instalar os bancos de dados. Aguarde as imagens serem baixadas e os containers serem iniciados.
+Execute o comando `make up` para executar o `docker-compose` e iniciar/instalar os bancos de dados e subir os containers. Logo em seguida, ele irá executar o comando `yarn dev`, isto irá subir o servidor em modo `development`, mas pronto para receber as chamadas HTTP. Por padrão, o servidor escuta na URL ` http://127.0.0.1:3000` (`3000` porta definida no `.env`).
 
-Por fim, execute o comando:
-
-```bash
-$ yarn dev
-```
-
-Isto irá subir o servidor em modo `development`, mas pronto para receber as chamadas HTTP. Por padrão, o servidor escuta na URL ` http://127.0.0.1:3000` (`3000` porta definida no `.env`).
+**Obs**: A inicialização do servidor possui um atraso definido pela função `delay` no arquivo `server.ts`. Esta função serve para esperar até os containers de banco de dados subirem e rodarem e assim evitar erro de inicialização do servidor. Por padrão, o atraso é de **5 segundos** e o máximo de tentativas de `5` com atraso de **2 segundos** entre cada tentativa, antes de lançar uma exceção por causa de falha de conexão com banco de dados. Se os containers de banco dados já estão rodando, você pode inicializar o servidor diretamente executando o comando `yarn dev` no terminal.
 
 <div id="env"></div>
 
