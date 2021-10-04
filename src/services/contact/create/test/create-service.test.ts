@@ -7,7 +7,7 @@ import { ClientRepository, CreateContactRepository } from '../ports';
 
 class CreateContactRepositoryStub implements CreateContactRepository {
   public varejao = {
-    async createContact(contacts: any): Promise<Contact[]> {
+    async createContact (contacts: any): Promise<Contact[]> {
       return contacts.map((contact: any) => ({
         ...contact,
         id: 'any_id',
@@ -16,7 +16,7 @@ class CreateContactRepositoryStub implements CreateContactRepository {
   };
 
   public macapa = {
-    async createContact(contacts: any): Promise<Contact[]> {
+    async createContact (contacts: any): Promise<Contact[]> {
       return contacts.map((contact: any) => ({
         ...contact,
         id: 'any_id',
@@ -27,17 +27,26 @@ class CreateContactRepositoryStub implements CreateContactRepository {
 
 class ClientRepositoryStub implements ClientRepository {
   public varejao = {
-    async findClientByKey(key: string): Promise<any> {
+    async findClientByKey (key: string): Promise<any> {
       return {};
     },
   };
 
   public macapa = {
-    async findClientByKey(key: string): Promise<any> {
+    async findClientByKey (key: string): Promise<any> {
       return {};
     },
   };
 }
+
+const makeContactData = (): CreateContactDTO => ({
+  contacts: [
+    { name: '   Any       Name   ', cellphone: '5541999999999' },
+    { name: '   Mrs. Any       Name   ', cellphone: '55 41 99999-9999' },
+  ],
+  uuid: 'any_id',
+  type: 'macapa',
+});
 
 const sutFactory = () => {
   const createContactRepositoryStub = new CreateContactRepositoryStub();
@@ -52,39 +61,30 @@ const sutFactory = () => {
 describe('Create Contact Service', () => {
   it('Should return failure when client type is not allowed', async () => {
     const { sut } = sutFactory();
-    const data: CreateContactDTO = {
-      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      uuid: 'unique_key',
+    const response: Result<Contact[]> = await sut.execute({
+      ...makeContactData(),
       type: 'invalid' as any,
-    };
-    const response: Result<Contact[]> = await sut.execute(data);
+    });
     expect(response.isFailure).toBe(true);
   });
 
   it('Should throws when client type repository does not exist', async () => {
     const { sut, createContactRepositoryStub } = sutFactory();
     createContactRepositoryStub.macapa = {} as any;
-    const data: CreateContactDTO = {
-      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      uuid: 'unique_key',
-      type: 'macapa',
-    };
-    await expect(sut.execute(data)).rejects.toThrowError(
-      `Client repository not found for type: ${data.type}`
+    await expect(sut.execute(makeContactData())).rejects.toThrowError(
+      `Client repository not found for type: ${makeContactData().type}`
     );
   });
 
   it('Should return failure when the client key does not exist', async () => {
     const { sut, clientRepositoryStub } = sutFactory();
-    const data: CreateContactDTO = {
-      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      uuid: 'dont_exist_client_key',
-      type: 'macapa',
-    };
     jest
       .spyOn(clientRepositoryStub.macapa, 'findClientByKey')
       .mockResolvedValueOnce(null);
-    const response: Result<Contact[]> = await sut.execute(data);
+    const response: Result<Contact[]> = await sut.execute({
+      ...makeContactData(),
+      uuid: 'invalid_key',
+    });
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe('Client not found. Action not authorized');
     expect(response.type).toBe('unauthorized');
@@ -92,12 +92,7 @@ describe('Create Contact Service', () => {
 
   it('Should return contact data when creation service success', async () => {
     const { sut } = sutFactory();
-    const data: CreateContactDTO = {
-      contacts: [{ name: 'Any Name', cellphone: '5541999999999' }],
-      uuid: 'dont_exist_client_key',
-      type: 'macapa',
-    };
-    const response: Result<Contact[]> = await sut.execute(data);
+    const response: Result<Contact[]> = await sut.execute(makeContactData());
     expect(response.isSuccess).toBe(true);
     expect(response.getValue()[0]).toEqual({
       name: expect.any(String),
@@ -108,15 +103,7 @@ describe('Create Contact Service', () => {
 
   it('Should return contact data with correct "macapa" domain format', async () => {
     const { sut } = sutFactory();
-    const data: CreateContactDTO = {
-      contacts: [
-        { name: '   Any       Name   ', cellphone: '5541999999999' },
-        { name: '   Mrs. Any       Name   ', cellphone: '55 41 99999-9999' },
-      ],
-      uuid: 'dont_exist_client_key',
-      type: 'macapa',
-    };
-    const response: Result<Contact[]> = await sut.execute(data);
+    const response: Result<Contact[]> = await sut.execute(makeContactData());
     expect(response.isSuccess).toBe(true);
     expect(response.getValue()[0]).toEqual({
       name: 'ANY NAME',
@@ -132,23 +119,18 @@ describe('Create Contact Service', () => {
 
   it('Should return contact data with correct "varejao" domain format', async () => {
     const { sut } = sutFactory();
-    const data: CreateContactDTO = {
-      contacts: [
-        { name: '   Msr. ANY    of   name   ', cellphone: '55419 99999999' },
-        { name: '   any    of   name   ', cellphone: '+55(41) 9 9999-9999' },
-      ],
-      uuid: 'dont_exist_client_key',
+    const response: Result<Contact[]> = await sut.execute({
+      ...makeContactData(),
       type: 'varejao',
-    };
-    const response: Result<Contact[]> = await sut.execute(data);
+    });
     expect(response.isSuccess).toBe(true);
     expect(response.getValue()[0]).toEqual({
-      name: 'Msr. Any of Name',
+      name: 'Any Name',
       cellphone: '5541999999999',
       id: expect.any(String),
     });
     expect(response.getValue()[1]).toEqual({
-      name: 'Any of Name',
+      name: 'Mrs. Any Name',
       cellphone: '5541999999999',
       id: expect.any(String),
     });
