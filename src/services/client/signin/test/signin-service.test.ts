@@ -11,7 +11,7 @@ import { SignInService } from '../singin-service';
 
 class SignInRepositoryStub implements ClientSignInRepository {
   public macapa = {
-    async findClientByEmail(email: string): Promise<Client | null> {
+    async findClientByEmail (email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -24,7 +24,7 @@ class SignInRepositoryStub implements ClientSignInRepository {
   };
 
   public varejao = {
-    async findClientByEmail(email: string): Promise<Client | null> {
+    async findClientByEmail (email: string): Promise<Client | null> {
       return {
         name: 'any name',
         email: 'any@email.com',
@@ -38,16 +38,22 @@ class SignInRepositoryStub implements ClientSignInRepository {
 }
 
 class PasswordCompareStub implements PasswordCompare {
-  async compare(password: string, hash: string): Promise<boolean> {
+  async compare (password: string, hash: string): Promise<boolean> {
     return true;
   }
 }
 
 class TokenGeneratorStub implements TokenGenerator {
-  generate(payload: string): string {
+  generate (payload: string): string {
     return 'generated_token';
   }
 }
+
+const makeBody = (): ClientSignInDTO => ({
+  email: 'ane@email.com',
+  password: 'any_pass',
+  type: 'macapa',
+});
 
 const sutFactory = () => {
   const signInRepositoryStub = new SignInRepositoryStub();
@@ -68,28 +74,21 @@ const sutFactory = () => {
 describe('Client SignIn Service', () => {
   it('Should return an error if the type of client is not allowed', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientSignInDTO = {
-      email: 'any@email.com',
-      password: 'any_pass',
+    const response: Result<any> = await sut.execute({
+      ...makeBody(),
       type: 'incorrect type' as any,
-    };
-    const response: Result<any> = await sut.execute(clientData);
+    });
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe(
-      `Invalid client type: ${clientData.type}. Must be "varejao" or "macapa"`
+      `Invalid client type: incorrect type. Must be "varejao" or "macapa"`
     );
   });
 
   it('Should throw if the repository does not exist for the client type', async () => {
     const { sut, signInRepositoryStub } = sutFactory();
     signInRepositoryStub.macapa = {} as any;
-    const clientData: ClientSignInDTO = {
-      email: 'ane@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    await expect(sut.execute(clientData)).rejects.toThrowError(
-      `Client repository not found for type: ${clientData.type}`
+    await expect(sut.execute(makeBody())).rejects.toThrowError(
+      `Client repository not found for type: ${makeBody().type}`
     );
   });
 
@@ -98,12 +97,7 @@ describe('Client SignIn Service', () => {
     jest
       .spyOn(signInRepositoryStub.macapa, 'findClientByEmail')
       .mockResolvedValueOnce(null);
-    const clientData: ClientSignInDTO = {
-      email: 'ane@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    const response: Result<Client> = await sut.execute(clientData);
+    const response: Result<Client> = await sut.execute(makeBody());
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe(
       'Invalid param: email or password is incorrect'
@@ -112,13 +106,8 @@ describe('Client SignIn Service', () => {
 
   it('Should return failure when password does not match', async () => {
     const { sut, passwordCompareStub } = sutFactory();
-    const clientData: ClientSignInDTO = {
-      email: 'ane@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
     jest.spyOn(passwordCompareStub, 'compare').mockResolvedValueOnce(false);
-    const response: Result<Client> = await sut.execute(clientData);
+    const response: Result<Client> = await sut.execute(makeBody());
     expect(response.isFailure).toBe(true);
     expect(response.error).toBe(
       'Invalid param: email or password is incorrect'
@@ -127,13 +116,7 @@ describe('Client SignIn Service', () => {
 
   it('Should return client token when signin succcess', async () => {
     const { sut } = sutFactory();
-    const clientData: ClientSignInDTO = {
-      email: 'ane@email.com',
-      password: 'any_pass',
-      type: 'macapa',
-    };
-    const response: Result<Client> = await sut.execute(clientData);
-    expect(response.isFailure).toBe(false);
+    const response: Result<Client> = await sut.execute(makeBody());
     expect(response.isSuccess).toBe(true);
     expect(response.getValue()).toEqual({ token: 'Bearer generated_token' });
   });
