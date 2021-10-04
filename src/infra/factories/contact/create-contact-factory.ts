@@ -1,7 +1,7 @@
+import { SequelizeClientRepository } from '@src/infra/repositories/client-repository';
+import { SequelizeContactRepository } from '@src/infra/repositories/contact-repository';
 import { CreateController } from '@src/services/contact/create/create-controller';
 import { CreateService } from '@src/services/contact/create/create-service';
-import { SequelizeClientRepository } from '../repositories/client-repository';
-import { SequelizeContactRepository } from '../repositories/contact-repository';
 
 export const createContactFactory = () => {
   const contactRepository = new SequelizeContactRepository();

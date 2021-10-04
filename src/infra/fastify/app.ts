@@ -2,11 +2,11 @@ import '../utils/module-alias';
 
 import { Response } from '@src/shared/ports/http-port';
 import Fastify, { FastifyInstance, FastifyReply } from 'fastify';
-import { signupFactory } from './signup-factory';
-import { signinFactory } from './signin-factory';
+import { signupFactory } from '../factories/client/signup-factory';
+import { signinFactory } from '../factories/client/signin-factory';
 import { JsonWebTokenAdapter } from '../adapters/jwt/jwt-adapter';
-import { getContactFactory } from './get-contact-factory';
-import { createContactFactory } from './create-contact-factory';
+import { getContactFactory } from '../factories/contact/get-contact-factory';
+import { createContactFactory } from '../factories/contact/create-contact-factory';
 
 const app: FastifyInstance = Fastify({
   logger: {
@@ -88,7 +88,7 @@ app.post('/api/contact/create', async (request, reply: FastifyReply) => {
 export { app };
 
 class AuthService {
-  public static verify(token: string, reply: FastifyReply): any {
+  public static verify (token: string, reply: FastifyReply): any {
     const [bearer, rawToken] = token.split(' '); // recupera o token sem o "Bearer"
     if (!bearer) {
       return reply.send({
