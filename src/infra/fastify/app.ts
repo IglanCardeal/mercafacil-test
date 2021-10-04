@@ -1,7 +1,8 @@
-import '../utils/module-alias';
+import '../utils/module-alias'; // deve ser importado no topo
 
 import { Response } from '@src/shared/ports/http-port';
 import Fastify, { FastifyInstance, FastifyReply } from 'fastify';
+
 import { signupFactory } from '../factories/client/signup-factory';
 import { signinFactory } from '../factories/client/signin-factory';
 import { JsonWebTokenAdapter } from '../adapters/jwt/jwt-adapter';
