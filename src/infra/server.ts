@@ -9,13 +9,13 @@ import { Logger } from './utils/logger';
 
 process.on('unhandledRejection', (reason, promise) => {
   Logger.error(
-    `[ERROR]: App exiting due unhandled promise: ${promise} with error: ${reason}`
+    `[ERROR] App exiting due unhandled promise: ${promise} with error: ${reason}`
   );
   throw reason;
 });
 
 process.on('uncaughtException', error => {
-  Logger.error(`[ERROR]: App exiting due uncaught handled error: ${error}`);
+  Logger.error(`[ERROR] App exiting due uncaught handled error: ${error}`);
   process.exit(ExitCode.Failure);
 });
 
@@ -24,32 +24,33 @@ enum ExitCode {
   Success = 0,
 }
 
+const DEFAULT_TEN_SECONDS = 10_000;
+
 const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
 (async () => {
   try {
     const maxAttemptsToConnectToDb = 5;
-    const tenSeconds = 10_000;
 
-    await delay(tenSeconds);
+    await delay(DEFAULT_TEN_SECONDS);
     await tryToConnectToDatabases(maxAttemptsToConnectToDb);
     await app.listen(ENV.PORT as string);
 
-    Logger.info('[SERVER]: Server started success');
+    Logger.info('[SERVER] Server started success');
 
     exitSignals.map(signal => {
       process.on(signal, async () => {
         try {
           await disconnectDatabases();
-          Logger.info('[SERVER]: Server stopped with success');
+          Logger.info('[SERVER] Server stopped with success');
           process.exit(ExitCode.Success);
         } catch (err) {
-          Logger.error(`[SERVER]: Server stopper with failure. Error: ${err}`);
+          Logger.error(`[SERVER] Server stopper with failure. Error: ${err}`);
           process.exit(ExitCode.Failure);
         }
       });
     });
   } catch (err) {
-    Logger.error(`[SERVER]: Server exit with error: ${err}`);
+    Logger.error(`[SERVER] Server exit with error: ${err}`);
     process.exit(ExitCode.Failure);
   }
 })();

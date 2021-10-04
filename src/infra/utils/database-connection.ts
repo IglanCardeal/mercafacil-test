@@ -14,7 +14,7 @@ const maxAttemptsReached = (
 ) => {
   if (attempts >= maxAttempts) {
     Logger.error(
-      `[DATABASE]: Max attempts of ${maxAttempts} to connect to databases reached. Unable to connect to databases. HTTP server will not start!`
+      `[DATABASE] Max attempts of ${maxAttempts} to connect to databases reached. Unable to connect to databases. HTTP server will not start!`
     );
     throw error;
   }
@@ -28,7 +28,7 @@ export const tryToConnectToDatabases = async (maxAttempts: number) => {
       break;
     } catch (error) {
       attempts++;
-      Logger.info(`[DATABASE]: Attempts to connect: ${attempts}`);
+      Logger.info(`[DATABASE] Attempts to connect: ${attempts}`);
       // espera mais 2 segundos antes de tentar novamente
       await delay(2_000, false);
       maxAttemptsReached(attempts, maxAttempts, error as Error);
@@ -39,4 +39,5 @@ export const tryToConnectToDatabases = async (maxAttempts: number) => {
 export const disconnectDatabases = async () => {
   await Databases.mysqlDisconnect();
   await Databases.postgresDisconnect();
+  Logger.info('[DATABASE] Databases disconnection success');
 };

@@ -12,11 +12,11 @@ export async function delay (
 ) {
   if (showLogs) {
     Logger.info(
-      `[PRE START]: Waiting ${timeInMs /
+      `[PRE START] Waiting ${timeInMs /
         1000} seconds before start to trying connect to databases and start the HTTP server.`
     );
     Logger.info(
-      `[PRE START]: Set a higher number of seconds on 'delay' function call on 'server.ts' if the server did not start correctly due container initialization delay, causing database connection fail.`
+      `[PRE START] Set a higher number of seconds on 'delay' function call on 'server.ts' if the server did not start correctly due container initialization delay, causing database connection fail.`
     );
   }
   return new Promise(resolve => {
